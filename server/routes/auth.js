@@ -1,0 +1,12 @@
+const router = require("express").Router();
+const authCtrl = require("../controller/authCtrl");
+router.post("/register_sms", authCtrl.registerSms);
+router.get("/refresh_token", authCtrl.refreshToken);
+router.post("/login_sms", authCtrl.loginSms);
+router.post("/verify_otp", authCtrl.verifyOTP);
+router.post("/update_infor", authCtrl.updateInfor);
+router.post("/register_other", authCtrl.registerOther);
+router.post("/active_email", authCtrl.activeAccount);
+router.post("/login_other", authCtrl.loginAuthOther);
+router.get("/logout", authCtrl.logout);
+module.exports = router;

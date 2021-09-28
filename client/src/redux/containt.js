@@ -1,0 +1,22 @@
+export const ALERT = "ALERT";
+export const AUTH = "AUTH";
+
+export const GET_VACCINE = "GET_VACCINE";
+export const ADD_VACCINE = "ADD_VACCINE";
+export const EDIT_VACCINE = "EDIT_VACCINE";
+export const DELETE_VACCINE = "DELETE_VACCINE";
+
+export const GET_QH = "GET_QH";
+export const ADD_QH = "ADD_QH";
+export const EDIT_QH = "EDIT_QH";
+export const DELETE_QH = "DELETE_QH";
+
+export const GET_ROLE = "GET_ROLE";
+export const ADD_ROLE = "ADD_ROLE";
+export const EDIT_ROLE = "EDIT_ROLE";
+export const DELETE_ROLE = "DELETE_ROLE";
+
+export const GET_USER = "GET_USER";
+export const ADD_USER = "ADD_USER";
+export const EDIT_USER = "EDIT_USER";
+export const DELETE_USER = "DELETE_USER";

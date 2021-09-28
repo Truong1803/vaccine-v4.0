@@ -1,0 +1,62 @@
+:root {
+  --violet: rgb(69, 20, 90);
+  --gradient: linear-gradient(
+    90deg,
+    rgba(69, 20, 90, 1) 0%,
+    rgba(204, 87, 31, 1) 94%
+  );
+  --white: #ffffff;
+}
+.bgTopBar {
+  background: var(--violet);
+  background: var(--gradient);
+  width: 100%;
+}
+.titleHome {
+  font-weight: medium;
+  font-size: 1.5rem;
+}
+.itemNavbar {
+  color: #fff !important;
+}
+
+ul {
+  list-style: none;
+}
+ul li:hover {
+  background-color: rgba(225, 225, 225, 0.5);
+}
+
+.rightbar {
+  background: var(--violet);
+  background: linear-gradient(
+    180deg,
+    rgba(69, 20, 90, 1) 0%,
+    rgba(204, 87, 31, 1) 94%
+  );
+  height: 100vh;
+}
+ul > li > a {
+  color: #fff;
+  margin-left: 1rem;
+}
+
+.nav-item > div {
+  color: #fff;
+}
+.nav-link {
+  font-size: 1rem;
+}
+.nav-item {
+  padding-left: 1rem;
+  padding-right: 2rem;
+}
+button:focus{
+ box-shadow: unset;
+}
+button{
+  box-shadow: none;
+ }
+ .btn-primary{
+   border-color: transparent;
+ }
