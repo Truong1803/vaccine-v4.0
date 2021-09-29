@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteVaccine,
   getDataVaccine,
 } from "../../redux/actions/vaccineAction";
+import Modal from "../alert/Modal";
+import Paginate from "../Paginate/Paginate";
 import VaccineModal from "./VaccineModal";
 
 function ListVaccine() {
@@ -13,24 +15,49 @@ function ListVaccine() {
   const dispatch = useDispatch();
 
   const [item, setItem] = useState("");
-
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  // const searchItem = useRef();
   const { vaccine } = useSelector((state) => state);
+
+  const [openModal, setOpenModal] = useState(false);
+  const [vaccineId, setVacineId] = useState("");
 
   const handleOnClickUpdate = (item, text) => {
     setAction(text);
     setItem(item);
   };
 
-  const handleOnClickDelete = (vaccineId) => {
+  const handleOnChangeSearch = (e) => {
+    e.preventDefault();
+    // setTimeout(() => {
+    //   setSearch(e.target.value);
+    // }, 5000);
+    setSearch(e.target.value);
+  };
+
+  // const handleSubmitSearch = (e) => {
+  //   if (e.key === "Enter") {
+  //     e.preventDefault();
+  //     setSearch(searchItem.current.value);
+  //   }
+  // };
+  // const handleOnClickDelete = (vaccineId) => {
+  //   setAction("");
+
+  //   // dispatch(deleteVaccine(vaccineId, auth.access_token));
+  //   // setOpenModal(!openModal);
+  // };
+
+  const handleOpenModal = (vaccineId) => {
     setAction("");
-    dispatch(deleteVaccine(vaccineId, auth.access_token));
+    setVacineId(vaccineId);
+    setOpenModal(!openModal);
   };
 
   useEffect(() => {
     dispatch(getDataVaccine(page, search));
-  }, []);
+  }, [page, search]);
   return (
     <div className="row">
       <div className="col-12 justify-content-center align-items-center">
@@ -42,6 +69,9 @@ function ListVaccine() {
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                value={search}
+                onChange={handleOnChangeSearch}
+                //onKeyDown={handleSubmitSearch}
               />
             </form>
           </div>
@@ -87,43 +117,64 @@ function ListVaccine() {
             </tr>
           </thead>
           <tbody>
-            {vaccine.map((item) => (
-              <tr className="text-center" key={item._id}>
-                <td>{item._id}</td>
-                <td>{item.name_vaccine}</td>
-                <td>{item.production_unit}</td>
-                <td>{item.country}</td>
-                <td>{item.use_obj}</td>
-                <td>{item.num_ijection}</td>
-                <td>{item.time_step}</td>
-                <td>
-                  <div className="row">
-                    <button
-                      type="button"
-                      className="btn btn-danger  mr-2 "
-                      data-toggle="modal"
-                      data-target="#exampleModal"
-                      onClick={() => handleOnClickDelete(item._id)}
-                    >
-                      <i className="fas fa-trash"></i> Xoá
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-warning  mr-2"
-                      data-toggle="modal"
-                      data-target="#exampleModal"
-                      onClick={() => handleOnClickUpdate(item, "Sửa")}
-                    >
-                      <i className="fas fa-edit"></i> Sửa
-                    </button>
-                  </div>
-                </td>
+            {vaccine.length === 0 ? (
+              <tr>
+                <td>Chưa có dữ liệu vắc xin</td>
               </tr>
-            ))}
+            ) : (
+              vaccine.map((item) => (
+                <tr className="text-center" key={item._id}>
+                  <td>{item._id}</td>
+                  <td>{item.name_vaccine}</td>
+                  <td>{item.production_unit}</td>
+                  <td>{item.country}</td>
+                  <td>
+                    {">"}= {item.use_obj}
+                  </td>
+                  <td>{item.num_ijection}</td>
+                  <td>{item.time_step}</td>
+                  <td>
+                    <div className="row">
+                      <button
+                        type="button"
+                        className="btn btn-danger  mr-2 "
+                        data-toggle="modal"
+                        data-target="#exampleModal"
+                        // onClick={() => handleOnClickDelete(item._id)}
+                        onClick={() => handleOpenModal(item._id)}
+                      >
+                        <i className="fas fa-trash"></i> Xoá
+                      </button>
+
+                      <button
+                        type="button"
+                        className="btn btn-warning  mr-2"
+                        data-toggle="modal"
+                        data-target="#exampleModal"
+                        onClick={() => handleOnClickUpdate(item, "Sửa")}
+                      >
+                        <i className="fas fa-edit"></i> Sửa
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
+
       {action !== "" && <VaccineModal action={action} item={item} />}
+      {openModal && (
+        <Modal
+          body="vắc xin"
+          handleOpenModal={handleOpenModal}
+          itemId={vaccineId}
+          functDelete={deleteVaccine}
+          auth={auth}
+        />
+      )}
+      <Paginate page={page} setPage={setPage} />
     </div>
   );
 }

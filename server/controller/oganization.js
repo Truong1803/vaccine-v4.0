@@ -1,5 +1,6 @@
 const authOthers = require("../model/authOther");
 const bcrypt = require("bcrypt");
+const sendEmailRegister = require("../config/sendEmailOrgan");
 class APIfeature {
   constructor(query, queryString) {
     this.query = query;
@@ -115,6 +116,7 @@ const organizationCtrl = {
         role: 4,
       });
       newUser.save();
+      sendEmailRegister(email, email, password);
       return res.json({
         msg: "Tạo mói sở y tế quận huyện thành công",
         data: newUser,
@@ -229,8 +231,9 @@ const organizationCtrl = {
         num_table,
       });
       newUser.save();
+      sendEmailRegister(email, email, password);
       return res.json({
-        msg: "Tạo mói đơn vị tiêm chủng thành công",
+        msg: "Tạo mới đơn vị tiêm chủng thành công",
         data: newUser,
       });
     } catch (error) {
@@ -314,6 +317,7 @@ const organizationCtrl = {
           num_table: 1,
         });
         newUser.save();
+        sendEmailRegister(email, email, password);
         return res.json({ data: newUser, msg: "Tạo mới tổ chức thành công" });
       }
       const newUser = new authOthers({
@@ -328,6 +332,7 @@ const organizationCtrl = {
         role,
       });
       newUser.save();
+      sendEmailRegister(email, email, password);
       return res.json({ data: newUser, msg: "Tạo mới tổ chức thành công" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });

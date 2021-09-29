@@ -5,6 +5,7 @@ import vaccine from "./vaccineReducer";
 import organization from "./organizationReducer";
 import role from "./roleReducer";
 import user from "./userReducer";
+import totalItem from "./totalPageReducer";
 export default combineReducers({
   auth,
   alert,
@@ -12,4 +13,5 @@ export default combineReducers({
   organization,
   role,
   user,
+  totalItem,
 });

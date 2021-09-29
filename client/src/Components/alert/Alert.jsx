@@ -1,12 +1,13 @@
 import React from "react";
-import { CircularProgress } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import Toast from "./Toast";
+import Loading from "./Loading.jsx";
+import Loading1 from "./Loading1.jsx";
 export const Alert = () => {
   const { alert } = useSelector((state) => state);
   return (
     <div>
-      {alert.loading && <CircularProgress />}
+      {alert.loading && (alert.loading ? <Loading /> : <Loading1 />)}
       {alert.errors && (
         <Toast title="Errors" body={alert.errors} bgColor="bg-danger" />
       )}

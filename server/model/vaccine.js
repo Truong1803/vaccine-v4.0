@@ -13,7 +13,7 @@ const vaccineSchema = new mongoose.Schema(
       type: String,
     },
     use_obj: {
-      type: String,
+      type: Number,
     },
     time_step: {
       type: String,

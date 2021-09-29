@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Alert } from "./Components/alert/Alert";
 import { refreshToken } from "./redux/actions/authActions";
 import { useDispatch } from "react-redux";
+import ShowModal from "./Components/alert/Modal";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -30,6 +31,7 @@ function App() {
         {/* <Footer /> */}
       </div>
     </Router>
+    // <ShowModal />
   );
 }
 

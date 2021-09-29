@@ -41,6 +41,7 @@ function VaccineModal({ action, item }) {
   const handleSubmit = () => {
     if (action === "Thêm") {
       dispatch(createVaccine(vaccine, auth.access_token));
+      setVaccine(initialState);
     } else if (action === "Sửa") {
       dispatch(updateVaccine(vaccine, auth.access_token));
     }
@@ -89,7 +90,6 @@ function VaccineModal({ action, item }) {
                   className="form-control col-12"
                   id="name"
                   name="name_vaccine"
-                  placeholder="AstraZeneca"
                   value={vaccine.name_vaccine}
                   onChange={handleOnChange}
                 />
@@ -100,7 +100,6 @@ function VaccineModal({ action, item }) {
                   type="text"
                   className="form-control col-12"
                   id="unit"
-                  placeholder="AstraZeneca"
                   name="production_unit"
                   value={vaccine.production_unit}
                   onChange={handleOnChange}
@@ -114,7 +113,6 @@ function VaccineModal({ action, item }) {
                     className="form-control col-12"
                     id="ct"
                     name="country"
-                    placeholder="Anh"
                     value={vaccine.country}
                     onChange={handleOnChange}
                   />
@@ -125,7 +123,6 @@ function VaccineModal({ action, item }) {
                     type="number"
                     className="form-control col-12"
                     id="injection"
-                    placeholder="2"
                     name="num_ijection"
                     value={vaccine.num_ijection}
                     onChange={handleOnChange}
@@ -143,6 +140,7 @@ function VaccineModal({ action, item }) {
                       onChange={handleOnChange}
                       name="time_step"
                     >
+                      <option hidden>Lựa chọn</option>
                       <option>2-4 Tuần</option>
                       <option>4-8 Tuần</option>
                       <option>8-12 Tuần</option>
@@ -155,7 +153,7 @@ function VaccineModal({ action, item }) {
                     type="text"
                     className="form-control col-12"
                     id="ct"
-                    placeholder="18-60"
+                    placeholder=">="
                     name="use_obj"
                     value={vaccine.use_obj}
                     onChange={handleOnChange}
