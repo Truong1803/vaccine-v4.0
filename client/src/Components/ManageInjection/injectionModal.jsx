@@ -39,8 +39,11 @@ function InjectionModal({ action, item, status }) {
       setWardId(item.ward.id);
     } else if (action === "Thêm") {
       setData(initialState);
-      setProvinceId("");
-      setDistrictId("");
+      if (auth.user.role === 4) {
+        setProvinceId(auth.user.province.id);
+        setDistrictId(auth.user.district.id);
+      }
+
       setWardId("");
     } else if (action === "Sửa") {
       setData(item);
@@ -240,7 +243,7 @@ function InjectionModal({ action, item, status }) {
                       className="form-control"
                       value={provinceId}
                       onChange={handleChangeProvince}
-                      disabled={status}
+                      disabled={status || auth.user.role === 4}
                     >
                       <option>Tỉnh/Thành Phố</option>
                       {tinh.map((option) => (
@@ -261,7 +264,7 @@ function InjectionModal({ action, item, status }) {
                     className="form-control"
                     value={districtId}
                     onChange={handleChangeDistrict}
-                    disabled={status}
+                    disabled={status || auth.user.role === 4}
                   >
                     <option>Quận/Huyện</option>
                     {huyen.map((option) => (

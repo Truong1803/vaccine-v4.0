@@ -1,5 +1,6 @@
 import { deleteAPI, getAPI, postAPI, putAPI } from "../../api/FetchData";
 import {
+  ADD_PAGE,
   ADD_VACCINE,
   ALERT,
   DELETE_VACCINE,
@@ -28,6 +29,7 @@ export const createVaccine = (newVaccine, token) => async (dispatch) => {
     const res = await postAPI("/vaccine", newVaccine, token);
     dispatch({ type: ADD_VACCINE, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
+    dispatch({ type: ADD_PAGE, payload: 1 });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }

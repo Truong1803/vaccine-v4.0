@@ -1,6 +1,7 @@
 const authOthers = require("../model/authOther");
 const bcrypt = require("bcrypt");
 const sendEmailRegister = require("../config/sendEmailOrgan");
+const Users = require("../model/user");
 class APIfeature {
   constructor(query, queryString) {
     this.query = query;
@@ -38,35 +39,51 @@ const organizationCtrl = {
   getAll: async (req, res) => {
     try {
       const userCurrent = await authOthers.findById({ _id: req.user.id });
-      if (userCurrent.role === 6) {
-        const total = await authOthers.countDocuments({});
-        const features = new APIfeature(authOthers.find(), req.query)
-          .filtering()
-          .paginating();
-        const data = await features.query;
-        return res.json({ data, total });
-      } else if (userCurrent.role === 5) {
-        const total = await authOthers.countDocuments({
-          provinceId: userCurrent.provinceId,
-          role: 4,
-        });
+      if (userCurrent) {
+        if (userCurrent.role === 6) {
+          const total = await authOthers.countDocuments({});
+          const features = new APIfeature(authOthers.find(), req.query)
+            .filtering()
+            .paginating();
+          const data = await features.query;
+          return res.json({ data, total });
+        } else if (userCurrent.role === 5) {
+          const total = await authOthers.countDocuments({
+            provinceId: userCurrent.provinceId,
+            role: 4,
+          });
 
-        const features = new APIfeature(
-          authOthers.find({ provinceId: userCurrent.provinceId, role: 4 }),
-          req.query
-        )
-          .filtering()
-          .paginating();
-        const data = await features.query;
+          const features = new APIfeature(
+            authOthers.find({ province: userCurrent.province, role: 4 }),
+            req.query
+          )
+            .filtering()
+            .paginating();
+          const data = await features.query;
 
-        return res.json({ data, total });
-      } else if (userCurrent.role === 4) {
+          return res.json({ data, total });
+        } else if (userCurrent.role === 4) {
+          const total = await authOthers.countDocuments({
+            district: userCurrent.district,
+            role: 3,
+          });
+          const features = new APIfeature(
+            authOthers.find({ district: userCurrent.district, role: 3 }),
+            req.query
+          )
+            .filtering()
+            .paginating();
+          const data = await features.query;
+          return res.json({ data, total });
+        }
+      } else {
+        const userCurrent = await Users.findById({ _id: req.user.id });
         const total = await authOthers.countDocuments({
-          districtId: userCurrent.districtId,
+          district: userCurrent.district,
           role: 3,
         });
         const features = new APIfeature(
-          authOthers.find({ districtId: userCurrent.districtId, role: 3 }),
+          authOthers.find({ district: userCurrent.district, role: 3 }),
           req.query
         )
           .filtering()

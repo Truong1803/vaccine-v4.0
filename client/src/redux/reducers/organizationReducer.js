@@ -5,7 +5,8 @@ export default (state = [], action) => {
     case GET_QH:
       return action.payload;
     case ADD_QH:
-      return [...state, action.payload];
+      if (state.length < 5) return [...state, action.payload];
+      else return [...state];
     case EDIT_QH:
       const newQH = state.map((qh) =>
         qh._id === action.payload._id ? action.payload : qh

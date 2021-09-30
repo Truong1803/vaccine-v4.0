@@ -51,12 +51,12 @@ ul > li > a {
   padding-left: 1rem;
   padding-right: 2rem;
 }
-button:focus{
- box-shadow: unset;
+.btn:focus {
+  box-shadow: unset;
 }
-button{
+button {
   box-shadow: none;
- }
- .btn-primary{
-   border-color: transparent;
- }
+}
+.btn-primary {
+  border-color: transparent;
+}

@@ -22,3 +22,5 @@ export const EDIT_USER = "EDIT_USER";
 export const DELETE_USER = "DELETE_USER";
 
 export const GET_PAGE = "GET_PAGE";
+export const ADD_PAGE = "ADD_PAGE";
+export const DELETE_PAGE = "DELETE_PAGE";

@@ -1,10 +1,13 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   createOrgan,
   updateOrgan,
 } from "../../redux/actions/oganizationAction";
+
 const initialState = {
   email: "",
   organization: "",
@@ -33,8 +36,10 @@ function DeptHeathModal({ action, item, status }) {
   useEffect(() => {
     if (action === "Thêm") {
       setData(initialState);
-      setProvinceId("");
-      setDistrictId("");
+      if (auth.user.role === 5) {
+        setProvinceId(auth.user.province.id);
+      }
+
       setWardId("");
     } else if (action === "Sửa") {
       setData(item);
@@ -222,6 +227,7 @@ function DeptHeathModal({ action, item, status }) {
                       className="form-control"
                       value={provinceId}
                       onChange={handleChangeProvince}
+                      disabled={auth.user.role === 5}
                     >
                       <option>Tỉnh/Thành Phố</option>
                       {tinh.map((option) => (
@@ -310,13 +316,14 @@ function DeptHeathModal({ action, item, status }) {
                 </div>
               </div>
             </div>
+
             <div className="modal-footer">
               <button
                 type="button"
                 className="btn btn-secondary"
                 data-dismiss="modal"
               >
-                huỷ
+                Huỷ
               </button>
               <button
                 type="button"

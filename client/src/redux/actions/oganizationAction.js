@@ -1,4 +1,3 @@
-import { GET_QH, ALERT, ADD_QH, EDIT_QH, DELETE_QH } from "../containt";
 import {
   deleteAPI,
   getAPI,
@@ -6,12 +5,23 @@ import {
   postAPI,
   putAPI,
 } from "../../api/FetchData";
+import {
+  ADD_PAGE,
+  ADD_QH,
+  ALERT,
+  DELETE_QH,
+  EDIT_QH,
+  GET_PAGE,
+  GET_QH,
+} from "../containt";
+
 export const getDataQH = (page, search, access_token) => async (dispatch) => {
   try {
     const res = await getAPI(
       `/organization?page=${page}&limit=${5}&organization[regex]=${search}`,
       access_token
     );
+    dispatch({ type: GET_PAGE, payload: res.data.total });
     dispatch({ type: GET_QH, payload: res.data.data });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
@@ -23,6 +33,7 @@ export const createOrgan = (newOrgan, access_token) => async (dispatch) => {
     const res = await postAPI("/organization", newOrgan, access_token);
     dispatch({ type: ADD_QH, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
+    dispatch({ type: ADD_PAGE, payload: 1 });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
@@ -47,6 +58,7 @@ export const createOrganWard = (newOrgan, access_token) => async (dispatch) => {
     const res = await postAPI("/organization/ward", newOrgan, access_token);
     dispatch({ type: ADD_QH, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
+    dispatch({ type: ADD_PAGE, payload: 1 });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
@@ -96,6 +108,7 @@ export const createOrganAdmin =
       const res = await postAPI("/organization/admin", newOrgan, access_token);
       dispatch({ type: ADD_QH, payload: res.data.data });
       dispatch({ type: ALERT, payload: { success: res.data.msg } });
+      dispatch({ type: ADD_PAGE, payload: 1 });
     } catch (error) {
       dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
     }

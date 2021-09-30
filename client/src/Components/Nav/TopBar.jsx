@@ -1,9 +1,13 @@
+import "./Nav.css";
+
 import React from "react";
+
+import { Dropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
 import { logout } from "../../redux/actions/authActions";
-import { Dropdown } from "react-bootstrap";
-import "./Nav.css";
+
 function TopBar() {
   const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -68,7 +72,7 @@ function TopBar() {
                 </div>
               </li>
               <li className="nav-item dropdown">
-                <div
+                {/* <div
                   className="nav-link dropdown-toggle itemNavbar"
                   href="#"
                   id="navbarDropdown"
@@ -82,17 +86,54 @@ function TopBar() {
                     className="dropdown-menu"
                     aria-labelledby="navbarDropdown"
                   >
-                    <Link className="dropdown-item" to="#">
+                    <Link className="dropdown-item " to="#">
                       Tra cứu kết quả đăng ký
                     </Link>
                     <Link className="dropdown-item" to="#">
                       Tra cứu hồ sơ cá nhân
                     </Link>
-                    <Link className="dropdown-item" to="#">
+                    <Link className="dropdown-item" to="/admin/manage_vaccine">
                       Tra cứu thông tin vaccine
                     </Link>
                   </div>
-                </div>
+                </div> */}
+                <Dropdown>
+                  <Dropdown.Toggle
+                    variant="interhit"
+                    id="dropdown-basic"
+                    style={{
+                      color: "#fff",
+
+                      borderColor: "none",
+                    }}
+                    className="none_outline"
+                  >
+                    Tra cứu
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item>
+                      <Link to="/" className="none_outline">
+                        Tra cứu kết quả đăng ký
+                      </Link>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                      <Link to="/" className="none_outline">
+                        Tra cứu hồ sơ cá nhân
+                      </Link>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                      <Link to="/admin/injection_unit" className="none_outline">
+                        Tra cứu thông tin đơn vị tiêm chủng
+                      </Link>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                      <Link to="/admin/manage_vaccine" className="none_outline">
+                        Tra cứu thông tin vaccine
+                      </Link>
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
               </li>
               <li className="nav-item dropdown">
                 {auth.user?.name || auth.user?.organization ? (
@@ -118,12 +159,14 @@ function TopBar() {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                      <Dropdown.Item
-                        href="/"
-                        onClick={logoutUser}
-                        className="none_outline"
-                      >
-                        Đăng Xuất
+                      <Dropdown.Item>
+                        <Link
+                          to="/"
+                          onClick={logoutUser}
+                          className="none_outline"
+                        >
+                          Đăng Xuất
+                        </Link>
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
