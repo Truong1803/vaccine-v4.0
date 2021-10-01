@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const authOtherSchema = new mongoose.Schema(
+const OrganizationSchema = new mongoose.Schema(
   {
     email: {
       type: String,
@@ -38,8 +38,15 @@ const authOtherSchema = new mongoose.Schema(
       enum: [2, 3, 4, 5],
       default: 2,
     },
+    // record
+    bhyt: {
+      type: String,
+    },
+    diseaseId: {
+      type: Array,
+    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("AuthOthers", authOtherSchema);
+module.exports = mongoose.model("AuthOthers", OrganizationSchema);

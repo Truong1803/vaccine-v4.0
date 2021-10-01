@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const Users = require("../model/user");
-const authOthers = require("../model/authOther");
+const Organization = require("../model/organization");
 
 const sms = require("../config/sendSMS");
 
@@ -28,7 +28,7 @@ const authCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
-  registerOther: async (req, res) => {
+  registerOrgan: async (req, res) => {
     const {
       email,
       password,
@@ -43,7 +43,7 @@ const authCtrl = {
     try {
       if (!valid.validateEmail(email))
         return res.status(400).json({ msg: "Email incorrect format" });
-      const user = await authOthers.findOne({ email });
+      const user = await Organization.findOne({ email });
       if (user) return res.status(400).json({ msg: "Email  already exists." });
 
       const passwordHash = await bcrypt.hash(password, 10);
@@ -81,10 +81,10 @@ const authCtrl = {
       if (!newUser)
         return res.status(400).json({ msg: "Invalid authentication." });
 
-      const user = await authOthers.findOne({ email: newUser.email });
+      const user = await Organization.findOne({ email: newUser.email });
       if (user) return res.status(400).json({ msg: "Account already exists." });
 
-      const new_user = new authOthers(newUser);
+      const new_user = new Organization(newUser);
 
       await new_user.save();
       sendToken(new_user, res, "Account has been activated!");
@@ -158,10 +158,10 @@ const authCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
-  loginAuthOther: async (req, res) => {
+  loginOrgan: async (req, res) => {
     const { email, password } = req.body;
     try {
-      const user = await authOthers.findOne({ email });
+      const user = await Organization.findOne({ email });
       if (!user) return res.status(400).json({ msg: "User does not exist" });
 
       const isMatch = await bcrypt.compare(password, user.password);
@@ -183,9 +183,9 @@ const authCtrl = {
       if (!decoded.id)
         return res.status(400).json({ msg: "Please login now!" });
       const user = await Users.findById(decoded.id).select("-password");
-      const userOther = await authOthers
-        .findById(decoded.id)
-        .select("-password");
+      const userOther = await Organization.findById(decoded.id).select(
+        "-password"
+      );
       if (!user && !userOther)
         return res.status(400).json({ msg: "This account does not exist." });
       if (user) {

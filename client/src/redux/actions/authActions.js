@@ -53,10 +53,10 @@ export const activeEmail = (active_token) => async (dispatch) => {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
 };
-export const loginOther = (userLogin) => async (dispatch) => {
+export const loginOrgan = (userLogin) => async (dispatch) => {
   try {
     // dispatch({ type: ALERT, payload: { loading: true } });
-    const res = await postAPI("/auth/login_other", userLogin);
+    const res = await postAPI("/auth/login_organ", userLogin);
     dispatch({
       type: AUTH,
       payload: res.data,
@@ -89,7 +89,7 @@ export const registerUser = (userRegister) => async (dispatch) => {
   }
 };
 
-export const registerOther = (userRegister) => async (dispatch) => {
+export const registerOrgan = (userRegister) => async (dispatch) => {
   const check = validateEmail(userRegister.email);
   if (!check)
     return dispatch({
@@ -98,7 +98,7 @@ export const registerOther = (userRegister) => async (dispatch) => {
     });
   try {
     // dispatch({ type: ALERT, payload: { loading: true } });
-    const res = await postAPI("/auth/register_other", userRegister);
+    const res = await postAPI("/auth/register_organ", userRegister);
 
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
   } catch (error) {

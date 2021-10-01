@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import "./SignIn.css";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginOther } from "../../redux/actions/authActions";
+import { loginOrgan } from "../../redux/actions/authActions";
 function Organization() {
   const dispatch = useDispatch();
 
@@ -11,7 +11,7 @@ function Organization() {
 
   const handleOnSubmit = () => {
     dispatch(
-      loginOther({
+      loginOrgan({
         email: email.current.value,
         password: password.current.value,
       })

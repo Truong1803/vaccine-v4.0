@@ -1,4 +1,4 @@
-const authOthers = require("../model/authOther");
+const Organization = require("../model/organization");
 const bcrypt = require("bcrypt");
 const sendEmailRegister = require("../config/sendEmailOrgan");
 const Users = require("../model/user");
@@ -38,23 +38,23 @@ class APIfeature {
 const organizationCtrl = {
   getAll: async (req, res) => {
     try {
-      const userCurrent = await authOthers.findById({ _id: req.user.id });
+      const userCurrent = await Organization.findById({ _id: req.user.id });
       if (userCurrent) {
         if (userCurrent.role === 6) {
-          const total = await authOthers.countDocuments({});
-          const features = new APIfeature(authOthers.find(), req.query)
+          const total = await Organization.countDocuments({});
+          const features = new APIfeature(Organization.find(), req.query)
             .filtering()
             .paginating();
           const data = await features.query;
           return res.json({ data, total });
         } else if (userCurrent.role === 5) {
-          const total = await authOthers.countDocuments({
+          const total = await Organization.countDocuments({
             provinceId: userCurrent.provinceId,
             role: 4,
           });
 
           const features = new APIfeature(
-            authOthers.find({ province: userCurrent.province, role: 4 }),
+            Organization.find({ province: userCurrent.province, role: 4 }),
             req.query
           )
             .filtering()
@@ -63,12 +63,12 @@ const organizationCtrl = {
 
           return res.json({ data, total });
         } else if (userCurrent.role === 4) {
-          const total = await authOthers.countDocuments({
+          const total = await Organization.countDocuments({
             district: userCurrent.district,
             role: 3,
           });
           const features = new APIfeature(
-            authOthers.find({ district: userCurrent.district, role: 3 }),
+            Organization.find({ district: userCurrent.district, role: 3 }),
             req.query
           )
             .filtering()
@@ -78,12 +78,12 @@ const organizationCtrl = {
         }
       } else {
         const userCurrent = await Users.findById({ _id: req.user.id });
-        const total = await authOthers.countDocuments({
+        const total = await Organization.countDocuments({
           district: userCurrent.district,
           role: 3,
         });
         const features = new APIfeature(
-          authOthers.find({ district: userCurrent.district, role: 3 }),
+          Organization.find({ district: userCurrent.district, role: 3 }),
           req.query
         )
           .filtering()
@@ -97,7 +97,7 @@ const organizationCtrl = {
   },
   getById: async (req, res) => {
     try {
-      const user = await authOthers.findById({ _id: req.params.id });
+      const user = await Organization.findById({ _id: req.params.id });
       return res.json({ data: user });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
@@ -115,12 +115,12 @@ const organizationCtrl = {
         ward,
         address,
       } = req.body;
-      const user = await authOthers.findOne({ email, organization });
+      const user = await Organization.findOne({ email, organization });
       if (user)
         return res.status(400).json("Sở ý tế quận huyện này đã tồn tại");
       const password = "123456";
       const passwordHash = await bcrypt.hash(password, 10);
-      const newUser = new authOthers({
+      const newUser = new Organization({
         email,
         organization,
         represent,
@@ -155,12 +155,12 @@ const organizationCtrl = {
   //       ward,
   //       address,
   //     } = req.body;
-  //     const user = await authOthers.findOne({ email, organization });
+  //     const user = await Organization.findOne({ email, organization });
   //     if (user)
   //       return res.status(400).json("Sở ý tế quận huyện này đã tồn tại");
   //     const password = "123456";
   //     const passwordHash = await bcrypt.hash(password, 10);
-  //     const newUser = new authOthers({
+  //     const newUser = new Organization({
   //       email,
   //       organization,
   //       represent,
@@ -195,7 +195,7 @@ const organizationCtrl = {
         address,
         role,
       } = req.body;
-      const user = await authOthers.findByIdAndUpdate(
+      const user = await Organization.findByIdAndUpdate(
         { _id: req.body._id },
         {
           email,
@@ -230,11 +230,11 @@ const organizationCtrl = {
         address,
         num_table,
       } = req.body;
-      const user = await authOthers.findOne({ email, organization });
+      const user = await Organization.findOne({ email, organization });
       if (user) return res.status(400).json("Đơn vị tiêm chủng này đã tồn tại");
       const password = "123456";
       const passwordHash = await bcrypt.hash(password, 10);
-      const newUser = new authOthers({
+      const newUser = new Organization({
         email,
         organization,
         represent,
@@ -272,7 +272,7 @@ const organizationCtrl = {
         role,
         num_table,
       } = req.body;
-      const user = await authOthers.findByIdAndUpdate(
+      const user = await Organization.findByIdAndUpdate(
         { _id: req.body._id },
         {
           email,
@@ -297,7 +297,9 @@ const organizationCtrl = {
 
   deleteOrgan: async (req, res) => {
     try {
-      const organ = await authOthers.findByIdAndDelete({ _id: req.params.id });
+      const organ = await Organization.findByIdAndDelete({
+        _id: req.params.id,
+      });
       return res.json({ msg: "Xoá một tổ chức thành công", data: organ });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
@@ -316,12 +318,12 @@ const organizationCtrl = {
         organization,
         role,
       } = req.body;
-      const user = await authOthers.findOne({ email, organization });
+      const user = await Organization.findOne({ email, organization });
       if (user) return res.status(400).json({ msg: "Tổ chức đã tồn tại" });
 
       const passwordHash = await bcrypt.hash(password, 10);
       if (role == 3) {
-        const newUser = new authOthers({
+        const newUser = new Organization({
           represent,
           phonenumber,
           email,
@@ -337,7 +339,7 @@ const organizationCtrl = {
         sendEmailRegister(email, email, password);
         return res.json({ data: newUser, msg: "Tạo mới tổ chức thành công" });
       }
-      const newUser = new authOthers({
+      const newUser = new Organization({
         represent,
         phonenumber,
         email,
@@ -369,7 +371,7 @@ const organizationCtrl = {
         role,
       } = req.body;
       const passwordHash = await bcrypt.hash(password, 10);
-      const newUser = await authOthers.findByIdAndUpdate(
+      const newUser = await Organization.findByIdAndUpdate(
         { _id: req.body._id },
         {
           represent,

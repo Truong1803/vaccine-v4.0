@@ -4,7 +4,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { registerOther } from "../../redux/actions/authActions";
+import { registerOrgan } from "../../redux/actions/authActions";
 
 function Organization() {
   const email = useRef();
@@ -100,7 +100,7 @@ function Organization() {
       }
     });
     dispatch(
-      registerOther({
+      registerOrgan({
         email: email.current.value,
         password: password.current.value,
         organization: organization.current.value,

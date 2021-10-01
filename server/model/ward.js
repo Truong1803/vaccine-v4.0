@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const wardSchema = new mongoose.Schema(
   {
@@ -15,4 +15,4 @@ const wardSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Ward', wardSchema);
+module.exports = mongoose.model("Ward", wardSchema);

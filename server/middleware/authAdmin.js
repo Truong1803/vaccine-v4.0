@@ -1,4 +1,4 @@
-const authOthers = require("../model/authOther");
+const authOthers = require("../model/organization");
 
 const authAdmin = async (req, res, next) => {
   try {
