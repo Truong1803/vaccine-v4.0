@@ -1,9 +1,9 @@
-const authOthers = require("../model/organization");
+const Organization = require("../model/organization");
 
 const authAdmin = async (req, res, next) => {
   try {
     // Get user information by id
-    const user = await authOthers.findOne({
+    const user = await Organization.findOne({
       _id: req.user.id,
     });
 
