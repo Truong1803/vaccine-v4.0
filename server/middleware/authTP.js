@@ -1,11 +1,11 @@
-const authOthers = require("../model/organization");
+const Organization = require("../model/organization");
 
 const authTP = async (req, res, next) => {
   try {
     // Get user information by id
     // console.log(req.user.id);
-    // const user = await authOthers.find();
-    const user = await authOthers.findOne({ _id: req.user.id });
+    // const user = await Organization.find();
+    const user = await Organization.findOne({ _id: req.user.id });
 
     if (user.role !== 5)
       return res.status(400).json({ msg: "TP resources access denied" });
