@@ -6,6 +6,7 @@ import organization from "./organizationReducer";
 import role from "./roleReducer";
 import user from "./userReducer";
 import totalItem from "./totalPageReducer";
+import company from "./companyReducer";
 export default combineReducers({
   auth,
   alert,
@@ -14,4 +15,5 @@ export default combineReducers({
   role,
   user,
   totalItem,
+  company,
 });

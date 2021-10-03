@@ -18,7 +18,7 @@ import {
 export const getDataQH = (page, search, access_token) => async (dispatch) => {
   try {
     const res = await getAPI(
-      `/organization?page=${page}&limit=${5}&organization[regex]=${search}`,
+      `/health-organization?page=${page}&limit=${5}&organization[regex]=${search}`,
       access_token
     );
     dispatch({ type: GET_PAGE, payload: res.data.total });
@@ -30,7 +30,7 @@ export const getDataQH = (page, search, access_token) => async (dispatch) => {
 
 export const createOrgan = (newOrgan, access_token) => async (dispatch) => {
   try {
-    const res = await postAPI("/organization", newOrgan, access_token);
+    const res = await postAPI("/health-organization", newOrgan, access_token);
     dispatch({ type: ADD_QH, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
     dispatch({ type: ADD_PAGE, payload: 1 });
@@ -42,7 +42,7 @@ export const createOrgan = (newOrgan, access_token) => async (dispatch) => {
 export const updateOrgan = (newOrgan, access_token) => async (dispatch) => {
   try {
     const res = await putAPI(
-      `/organization/${newOrgan._id}`,
+      `/health-organization/${newOrgan._id}`,
       newOrgan,
       access_token
     );
@@ -55,7 +55,11 @@ export const updateOrgan = (newOrgan, access_token) => async (dispatch) => {
 
 export const createOrganWard = (newOrgan, access_token) => async (dispatch) => {
   try {
-    const res = await postAPI("/organization/ward", newOrgan, access_token);
+    const res = await postAPI(
+      "/health-organization/ward",
+      newOrgan,
+      access_token
+    );
     dispatch({ type: ADD_QH, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
     dispatch({ type: ADD_PAGE, payload: 1 });
@@ -67,7 +71,7 @@ export const createOrganWard = (newOrgan, access_token) => async (dispatch) => {
 export const updateOrganWard = (newOrgan, access_token) => async (dispatch) => {
   try {
     const res = await putAPI(
-      `/organization/ward/${newOrgan._id}`,
+      `/health-organization/ward/${newOrgan._id}`,
       newOrgan,
       access_token
     );
@@ -80,7 +84,7 @@ export const updateOrganWard = (newOrgan, access_token) => async (dispatch) => {
 
 export const deleteOrgan = (organId, token) => async (dispatch) => {
   try {
-    const res = await deleteAPI(`/organization/${organId}`, token);
+    const res = await deleteAPI(`/health-organization/${organId}`, token);
     dispatch({ type: DELETE_QH, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
   } catch (error) {
@@ -92,7 +96,7 @@ export const updateOrganAdmin =
   (newOrgan, access_token) => async (dispatch) => {
     try {
       const res = await patchAPI(
-        `/organization/admin/${newOrgan._id}`,
+        `/health-organization/admin/${newOrgan._id}`,
         newOrgan,
         access_token
       );
@@ -105,7 +109,11 @@ export const updateOrganAdmin =
 export const createOrganAdmin =
   (newOrgan, access_token) => async (dispatch) => {
     try {
-      const res = await postAPI("/organization/admin", newOrgan, access_token);
+      const res = await postAPI(
+        "/health-organization/admin",
+        newOrgan,
+        access_token
+      );
       dispatch({ type: ADD_QH, payload: res.data.data });
       dispatch({ type: ALERT, payload: { success: res.data.msg } });
       dispatch({ type: ADD_PAGE, payload: 1 });

@@ -11,6 +11,11 @@ export const ADD_QH = "ADD_QH";
 export const EDIT_QH = "EDIT_QH";
 export const DELETE_QH = "DELETE_QH";
 
+export const GET_COMPANY = "GET_QH";
+export const ADD_COMPANY = "ADD_QH";
+export const EDIT_COMPANY = "EDIT_QH";
+export const DELETE_COMPANY = "DELETE_QH";
+
 export const GET_ROLE = "GET_ROLE";
 export const ADD_ROLE = "ADD_ROLE";
 export const EDIT_ROLE = "EDIT_ROLE";

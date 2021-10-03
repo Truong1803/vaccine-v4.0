@@ -1,22 +1,24 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { createUser, updateUser } from "../../redux/actions/userAction";
+import axios from "axios";
+import {
+  createCompanyAdmin,
+  updateCompanyAdmin,
+} from "../../redux/actions/companyAction";
 const initialState = {
+  represent: "",
   phonenumber: "",
-  identification: "",
-  name: "",
-  gender: "",
-  dob: "",
+  email: "",
   province: "",
   district: "",
   ward: "",
-  address: "",
+  password: "",
+  organization: "",
+  role: 2,
 };
-
-function UserModal({ action, item, status }) {
+function OrganizationModal({ action, item, status }) {
   const [data, setData] = useState(initialState);
-  const { auth } = useSelector((state) => state);
+  const { auth, role } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [tinh, setTinh] = useState([]);
@@ -25,6 +27,7 @@ function UserModal({ action, item, status }) {
   const [provinceId, setProvinceId] = useState("");
   const [districtId, setDistrictId] = useState("");
   const [wardId, setWardId] = useState("");
+  const [roleId, setRoleId] = useState("");
 
   const isFirstRun = useRef(true);
   const isFirstRun1 = useRef(true);
@@ -35,17 +38,20 @@ function UserModal({ action, item, status }) {
       setProvinceId(item.province.id);
       setDistrictId(item.district.id);
       setWardId(item.ward.id);
+      setRoleId(item.role);
     } else if (action === "Thêm") {
       setData(initialState);
       setProvinceId("");
       setDistrictId("");
       setWardId("");
+      setRoleId("");
     } else if (action === "Sửa") {
       setData(item);
 
       setProvinceId(item.province.id);
       setDistrictId(item.district.id);
       setWardId(item.ward.id);
+      setRoleId(item.role);
     }
   }, [action, item]);
 
@@ -79,6 +85,9 @@ function UserModal({ action, item, status }) {
   const handleChangeWard = (event) => {
     setWardId(event.target.value);
   };
+  const handleChangeRole = (event) => {
+    setRoleId(event.target.value);
+  };
 
   useEffect(() => {
     const getProvince = async () => {
@@ -108,7 +117,13 @@ function UserModal({ action, item, status }) {
   };
 
   const handleSubmit = () => {
-    if (action === "Thêm") {
+    if (action === "Xem") {
+      setData(item);
+      setProvinceId(item.province.id);
+      setDistrictId(item.district.id);
+      setWardId(item.ward.id);
+      setRoleId(item.role);
+    } else if (action === "Thêm") {
       let province1, district1, ward1;
       tinh.forEach((item) => {
         if (item.ProvinceID == provinceId) {
@@ -128,9 +143,8 @@ function UserModal({ action, item, status }) {
           return;
         }
       });
-
       dispatch(
-        createUser(
+        createCompanyAdmin(
           {
             ...data,
             province: province1,
@@ -165,7 +179,7 @@ function UserModal({ action, item, status }) {
         }
       });
       dispatch(
-        updateUser(
+        updateCompanyAdmin(
           {
             ...data,
             province: province2,
@@ -179,6 +193,7 @@ function UserModal({ action, item, status }) {
       setProvinceId("");
       setDistrictId("");
       setWardId("");
+      setRoleId("");
     }
   };
   return (
@@ -207,37 +222,24 @@ function UserModal({ action, item, status }) {
             </div>
             <div className="modal-body">
               <div className="row">
-                <div className="col-7">
+                <div className="col-5">
                   <div className="row align-items-center mb-2">
-                    <label for="name" className="col-4">
-                      Họ và tên:
+                    <label for="name1" className="col-4">
+                      Tên đại diện:
                     </label>
                     <input
                       type="text"
                       className="form-control col-8"
-                      id="name"
-                      name="name"
-                      disabled={status}
-                      value={data.name}
-                      onChange={handleOnChange}
-                    />
-                  </div>
-                  <div className="row align-items-center mb-2">
-                    <label for="name" className="col-4">
-                      CCCD/CMND:
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control col-8"
-                      id="name"
-                      name="identification"
-                      value={data.identification}
+                      id="name1"
+                      name="represent"
+                      value={data.represent}
                       onChange={handleOnChange}
                       disabled={status}
                     />
                   </div>
+
                   <div className="row align-items-center mb-2">
-                    <label for="name" className="col-4">
+                    <label htmlFor="inputState" className="col-4">
                       Tỉnh/Thành phố
                     </label>
                     <select
@@ -300,66 +302,66 @@ function UserModal({ action, item, status }) {
                     </select>
                   </div>
                 </div>
-                <div className="col-5">
+                <div className="col-6">
                   <div className="row align-items-center mb-2">
-                    <label for="name" className="col-4">
-                      Giới tính
-                    </label>
-                    <select
-                      id="inputState"
-                      className="form-control col-8"
-                      value={data.gender}
-                      name="gender"
-                      onChange={handleOnChange}
-                      disabled={status}
-                    >
-                      <option selected>Nam</option>
-                      <option>Nữ</option>
-                      <option>Khác</option>
-                    </select>
-                  </div>
-                  <div className="row align-items-center mb-2">
-                    <label for="name" className="col-4">
-                      Ngày sinh:
+                    <label htmlFor="name4" className="col-4">
+                      Tên tổ chức:
                     </label>
                     <input
-                      type="date"
+                      type="text"
                       className="form-control col-8"
-                      id="name"
-                      name="dob"
-                      value={data.dob}
+                      id="name4"
+                      name="organization"
+                      value={data.organization}
                       onChange={handleOnChange}
                       disabled={status}
                     />
                   </div>
                   <div className="row align-items-center mb-2">
-                    <label for="name" className="col-4">
+                    <label htmlFor="name2" className="col-4">
                       SĐT:
                     </label>
                     <input
                       type="text"
                       className="form-control col-8"
-                      id="name"
+                      id="name2"
                       name="phonenumber"
                       value={data.phonenumber}
                       onChange={handleOnChange}
                       disabled={status}
                     />
                   </div>
+
                   <div className="row align-items-center mb-2">
-                    <label for="name" className="col-4">
-                      Địa chỉ:
+                    <label htmlFor="name3" className="col-4">
+                      Email:
                     </label>
                     <input
-                      type="text"
+                      type="email"
                       className="form-control col-8"
-                      id="name"
-                      name="address"
-                      value={data.address}
+                      id="name3"
+                      name="email"
+                      value={data.email}
                       onChange={handleOnChange}
                       disabled={status}
                     />
                   </div>
+
+                  <div className="row align-items-center mb-2">
+                    <label for="name" className="col-4">
+                      Mật khẩu:
+                    </label>
+                    <input
+                      type="password"
+                      className="form-control col-8"
+                      id="name"
+                      name="password"
+                      value={data.password}
+                      onChange={handleOnChange}
+                      disabled={status}
+                    />
+                  </div>
+
                   <div className="row align-items-center mb-2">
                     <label for="name" className="col-4">
                       Nhóm quyền
@@ -367,9 +369,11 @@ function UserModal({ action, item, status }) {
                     <select
                       id="inputState"
                       className="form-control col-8"
+                      value={roleId}
+                      onChange={handleChangeRole}
                       disabled={true}
                     >
-                      <option selected>Người dân</option>
+                      <option selected>Tổ chức</option>
                     </select>
                   </div>
                 </div>
@@ -381,16 +385,18 @@ function UserModal({ action, item, status }) {
                 className="btn btn-secondary"
                 data-dismiss="modal"
               >
-                Huỷ
+                {action === "Xem" ? "Quay Lại" : "Huỷ"}
               </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={handleSubmit}
-                data-dismiss="modal"
-              >
-                {action}
-              </button>
+              {action !== "Xem" && (
+                <button
+                  type="button"
+                  className="btn btn-primary "
+                  data-dismiss="modal"
+                  onClick={handleSubmit}
+                >
+                  {action}
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -399,4 +405,4 @@ function UserModal({ action, item, status }) {
   );
 }
 
-export default UserModal;
+export default OrganizationModal;
