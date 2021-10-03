@@ -64,44 +64,25 @@ function TopBar() {
 
                   <Dropdown.Menu>
                     <Dropdown.Item>
-                      <Link to='register_injection_user' className='none_outline'>
+                      <Link
+                        to='register_injection_user'
+                        className='none_outline'
+                      >
                         Đăng ký tiêm chủng cá nhân
                       </Link>
                     </Dropdown.Item>
                     <Dropdown.Item>
-                      <Link to='register_injection_organization' className='none_outline'>
-                      Đăng ký tiêm chủng tổ chức
+                      <Link
+                        to='register_injection_organization'
+                        className='none_outline'
+                      >
+                        Đăng ký tiêm chủng tổ chức
                       </Link>
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </li>
               <li className='nav-item dropdown'>
-                {/* <div
-                  className="nav-link dropdown-toggle itemNavbar"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  Tra cứu
-                  <div
-                    className="dropdown-menu"
-                    aria-labelledby="navbarDropdown"
-                  >
-                    <Link className="dropdown-item " to="#">
-                      Tra cứu kết quả đăng ký
-                    </Link>
-                    <Link className="dropdown-item" to="#">
-                      Tra cứu hồ sơ cá nhân
-                    </Link>
-                    <Link className="dropdown-item" to="/admin/manage_vaccine">
-                      Tra cứu thông tin vaccine
-                    </Link>
-                  </div>
-                </div> */}
                 <Dropdown>
                   <Dropdown.Toggle
                     variant='interhit'
@@ -118,7 +99,7 @@ function TopBar() {
 
                   <Dropdown.Menu>
                     <Dropdown.Item>
-                      <Link to='/' className='none_outline'>
+                      <Link to='/look_up' className='none_outline'>
                         Tra cứu kết quả đăng ký
                       </Link>
                     </Dropdown.Item>

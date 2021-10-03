@@ -15,7 +15,10 @@ import Home from "./Home";
 import { useSelector } from "react-redux";
 import RegisterInjectionUser from "../../Components/RegisterInjection/RegisterInjectionUser";
 import RegisterInjectionOrganization from "../../Components/RegisterInjection/RegisterInjectionOrganization";
-
+import List from "../../Components/ManageUser/List";
+import LookUpUser from "../../Components/LookUp/LookUp";
+import ListUserInjection from "../../Components/ManageinjectionPlan/ListUser";
+import ListOrganizationInjection from "../../Components/ManageinjectionPlan/ListOrganization";
 function Content() {
   const { auth } = useSelector((state) => state);
   return (
@@ -35,8 +38,17 @@ function Content() {
       <Route path='/register_injection_organization'>
         <RegisterInjectionOrganization />
       </Route>
+      <Route path='/look_up'>
+        <LookUpUser />
+      </Route>
       <Route path='/admin/dashboard'>
         <Dashboard />
+      </Route>
+      <Route path='/admin/list_user_injection'>
+        <ListUserInjection />
+      </Route>
+      <Route path='/admin/list_organization_injection'>
+        <ListOrganizationInjection />
       </Route>
       <Route path='/admin/manage_vaccine'>
         <ManageVaccine />
@@ -58,6 +70,9 @@ function Content() {
       </Route>
       <Route path='/admin/tochuc'>
         <ListOrganization />
+      </Route>
+      <Route path='/admin/tochuc2'>
+        <List />
       </Route>
       <Route exact path='/:page/:slug'>
         <Home />
