@@ -41,6 +41,14 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 1,
     },
+    organizationId: { type: String },
+    // record
+    bhyt: {
+      type: String,
+    },
+    diseaseId: {
+      type: Array,
+    },
   },
   { timestamps: true }
 );

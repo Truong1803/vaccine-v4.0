@@ -7,10 +7,17 @@ const sms = require("../config/sendSMS");
 
 const valid = require("../middleware/valid");
 const sendEmail = require("../config/sendEmail");
+const healthOrganization = require("../model/healthOrganization");
 
 const CLIENT_URL = `${process.env.BASE_URL}`;
 
 const authCtrl = {
+  /**
+   *
+   * @param {*} phonenumber
+   * @param {*} identification
+   * @returns {phonenumber,identification}
+   */
   async registerSms(req, res) {
     const { phonenumber, identification } = req.body;
     if (!valid.validPhone(phonenumber))
@@ -28,6 +35,19 @@ const authCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  /**
+   *
+   * @param email,
+   * @param  password,
+   * @param  organization,
+   * @param  represent,
+   * @param  phonenumber,
+   * @param  province,
+   * @param  district,
+   * @param  ward,
+   * @param  address,
+   * @returns message
+   */
   registerOrgan: async (req, res) => {
     const {
       email,
@@ -69,6 +89,11 @@ const authCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  /**
+   *
+   * @param {*} active_token
+   * @returns {message,user,access_token}
+   */
   activeAccount: async (req, res) => {
     try {
       const { active_token } = req.body;
@@ -92,6 +117,12 @@ const authCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  /**
+   *
+   * @param {*} phonenumber
+   * @param {*} code
+   * @returns {message}
+   */
   async verifyOTP(req, res) {
     try {
       const { phonenumber, code } = req.body;
@@ -115,6 +146,19 @@ const authCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  /**
+   *
+   * @param {*}  phonenumber,
+   * @param {*}   identification,
+   * @param {*}   name,
+   * @param {*}   gender,
+   * @param {*}    dob,
+   * @param {*}    province,
+   * @param {*}   district,
+   * @param {*}  ward,
+   * @param {*}   address,
+   * @returns {message,user,access_token}
+   */
   updateInfor: async (req, res) => {
     const {
       phonenumber,
@@ -146,6 +190,11 @@ const authCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  /**
+   *
+   * @param {*} phonenumber
+   * @returns {message}
+   */
   loginSms: async (req, res) => {
     try {
       const { phonenumber } = req.body;
@@ -158,11 +207,27 @@ const authCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  /**
+   *
+   * @param {*} email
+   * @param {*} password
+   * @returns {message, user, access_token}
+   */
   loginOrgan: async (req, res) => {
     const { email, password } = req.body;
     try {
       const user = await Organization.findOne({ email });
-      if (!user) return res.status(400).json({ msg: "User does not exist" });
+      if (!user) {
+        const organ = await healthOrganization.findOne({ email });
+        if (!organ) {
+          return res.status(400).json({ msg: "User does not exist" });
+        }
+        const isMatch = await bcrypt.compare(password, organ.password);
+
+        if (!isMatch)
+          return res.status(400).json({ msg: "Password is incorrect" });
+        sendToken(organ, res, "Loggin success");
+      }
 
       const isMatch = await bcrypt.compare(password, user.password);
 
@@ -172,6 +237,11 @@ const authCtrl = {
     } catch (error) {}
   },
   // async register_email
+  /**
+   *
+   * @param {*} access_token
+   * @returns {user,access_token}
+   */
   refreshToken: async (req, res) => {
     try {
       const rf_token = req.cookies.refreshtoken;
@@ -186,7 +256,10 @@ const authCtrl = {
       const userOther = await Organization.findById(decoded.id).select(
         "-password"
       );
-      if (!user && !userOther)
+      const health = await healthOrganization
+        .findById(decoded.id)
+        .select("-password");
+      if (!user && !userOther && !health)
         return res.status(400).json({ msg: "This account does not exist." });
       if (user) {
         const access_token = createAccessToken({ id: user._id });
@@ -194,11 +267,18 @@ const authCtrl = {
       } else if (userOther) {
         const access_token = createAccessToken({ id: userOther._id });
         res.json({ access_token, user: userOther });
+      } else if (health) {
+        const access_token = createAccessToken({ id: health._id });
+        res.json({ access_token, user: health });
       }
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
+  /**
+   *
+   * @returns {message}
+   */
   logout: async (req, res) => {
     try {
       res.clearCookie("refreshtoken", { path: `/api/refresh_token` });

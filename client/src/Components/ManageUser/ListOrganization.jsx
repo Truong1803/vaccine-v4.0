@@ -45,7 +45,7 @@ function ListOrganization() {
             </form>
           </div>
           <div className="col-6 d-flex justify-content-center">
-            <h3>Quản lý thông tin tài khoản tổ chức</h3>
+            <h3>Quản lý thông tin tài khoản tổ chức y tế</h3>
           </div>
           <div className="col-3">
             <div className="action ">

@@ -1,9 +1,9 @@
-const Organization = require("../model/organization");
+const HealthOrganization = require("../model/healthOrganization");
 
 const authDVT = async (req, res, next) => {
   try {
     // Get user information by id
-    const user = await Organization.findOne({
+    const user = await HealthOrganization.findOne({
       _id: req.user.id,
     });
     if (user.role !== 3)

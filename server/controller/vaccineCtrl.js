@@ -55,6 +55,17 @@ const vaccineCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
+  /**
+   * tạo mói vắc xin
+   * @param {*}  country,
+   * @param {*}     name_vaccine,
+   * @param {*}     production_unit,
+   * @param {*}     time_step,
+   * @param {*}     num_ijection,
+   * @param {*}     use_obj,
+   * @returns {message, newVaccine}
+   */
   createItem: async (req, res) => {
     try {
       const {
@@ -79,6 +90,11 @@ const vaccineCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  /**
+   * xoá vắc xin
+   * @param {*} id
+   * @returns {message, vaccineDeleted}
+   */
   delete: async (req, res) => {
     try {
       const vaccineDelete = await Vaccines.findByIdAndDelete({
@@ -89,6 +105,18 @@ const vaccineCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
+  /**
+   * cập nhật vắcxin
+   * @param {*} id
+   * @param {*}  country,
+   * @param {*}     name_vaccine,
+   * @param {*}     production_unit,
+   * @param {*}     time_step,
+   * @param {*}     num_ijection,
+   * @param {*}     use_obj,
+   * @returns {message, vaccineUpdated}
+   */
   update: async (req, res) => {
     try {
       const {

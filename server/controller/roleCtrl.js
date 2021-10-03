@@ -28,6 +28,10 @@ class APIfeature {
 }
 
 const roleCtrl = {
+  /**
+   *
+   * @returns  {allData}
+   */
   getAll: async (req, res) => {
     try {
       const features = new APIfeature(Roles.find(), req.query).filtering();
@@ -37,6 +41,11 @@ const roleCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  /**
+   *
+   * @param {*} id
+   * @returns {user}
+   */
   getById: async (req, res) => {
     try {
       const role = await Roles.findById({ _id: req.params.id });
@@ -45,7 +54,13 @@ const roleCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
-
+  /**
+   * tạo mới 1 quyền
+   * @param {*} name
+   * @param {*} id
+   * @param {*} description
+   * @returns {message,newUser}
+   */
   createRole: async (req, res) => {
     try {
       const { name, description, id } = req.body;
@@ -59,6 +74,11 @@ const roleCtrl = {
     }
   },
 
+  /**
+   *
+   * @param {*} id
+   * @returns {message, dataDeleted}
+   */
   deleteRole: async (req, res) => {
     try {
       const role = await Roles.findByIdAndDelete({ _id: req.params.id });
@@ -67,6 +87,15 @@ const roleCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  /**
+   * cập nhật quyền
+   *
+   * @param {*} id (id params)
+   * @param {*} name
+   * @param {*} description
+   * @param {*} id
+   * @returns
+   */
   updateRole: async (req, res) => {
     try {
       const { name, description, id } = req.body;

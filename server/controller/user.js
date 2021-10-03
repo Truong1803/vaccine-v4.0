@@ -54,6 +54,19 @@ const userCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  /**
+   * tạo mới tk người dân
+   * @param {*}phonenumber,
+   * @param {*}     identification,
+   * @param {*}     name,
+   * @param {*}     gender,
+   * @param {*}     dob,
+   * @param {*}     province,
+   * @param {*}     district,
+   * @param {*}     ward,
+   * @param {*}     address,
+   * @returns {message,newUser}
+   */
   createUser: async (req, res) => {
     try {
       const {
@@ -91,6 +104,21 @@ const userCtrl = {
     }
   },
 
+  /**
+   * cập nhật tk người dân
+   * @param {*} id
+   * @param {*}phonenumber,
+   * @param {*}     identification,
+   * @param {*}     name,
+   * @param {*}     gender,
+   * @param {*}     dob,
+   * @param {*}     province,
+   * @param {*}     district,
+   * @param {*}     ward,
+   * @param {*}     address,
+   * @returns {message,userUpdated}
+   */
+
   updateUser: async (req, res) => {
     try {
       const {
@@ -124,6 +152,11 @@ const userCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  /**
+   * xoá user
+   * @param {*} id
+   * @returns {message,userDeleted}
+   */
   deleteUser: async (req, res) => {
     try {
       const user = await Users.findByIdAndDelete({ _id: req.params.id });

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const OrganizationSchema = new mongoose.Schema(
+const HealthOrganizationSchema = new mongoose.Schema(
   {
     email: {
       type: String,
@@ -30,13 +30,16 @@ const OrganizationSchema = new mongoose.Schema(
     address: {
       type: String,
     },
-
+    num_table: {
+      type: String,
+    },
     role: {
       type: Number,
+      enum: [2, 3, 4, 5, 6],
       default: 2,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Organization", OrganizationSchema);
+module.exports = mongoose.model("HealthOrganization", HealthOrganizationSchema);

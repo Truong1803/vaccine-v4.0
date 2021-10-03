@@ -1,4 +1,4 @@
-const Organization = require("../model/organization");
+const HealthOrganization = require("../model/healthOrganization");
 const bcrypt = require("bcrypt");
 const sendEmailRegister = require("../config/sendEmailOrgan");
 const Users = require("../model/user");
@@ -35,26 +35,35 @@ class APIfeature {
     return this;
   }
 }
-const organizationCtrl = {
+const healthOganizationCtrl = {
+  /**
+   *
+   * @returns {data,totalPage}
+   */
   getAll: async (req, res) => {
     try {
-      const userCurrent = await Organization.findById({ _id: req.user.id });
+      const userCurrent = await HealthOrganization.findById({
+        _id: req.user.id,
+      });
       if (userCurrent) {
         if (userCurrent.role === 6) {
-          const total = await Organization.countDocuments({});
-          const features = new APIfeature(Organization.find(), req.query)
+          const total = await HealthOrganization.countDocuments({});
+          const features = new APIfeature(HealthOrganization.find(), req.query)
             .filtering()
             .paginating();
           const data = await features.query;
           return res.json({ data, total });
         } else if (userCurrent.role === 5) {
-          const total = await Organization.countDocuments({
+          const total = await HealthOrganization.countDocuments({
             provinceId: userCurrent.provinceId,
             role: 4,
           });
 
           const features = new APIfeature(
-            Organization.find({ province: userCurrent.province, role: 4 }),
+            HealthOrganization.find({
+              province: userCurrent.province,
+              role: 4,
+            }),
             req.query
           )
             .filtering()
@@ -63,12 +72,15 @@ const organizationCtrl = {
 
           return res.json({ data, total });
         } else if (userCurrent.role === 4) {
-          const total = await Organization.countDocuments({
+          const total = await HealthOrganization.countDocuments({
             district: userCurrent.district,
             role: 3,
           });
           const features = new APIfeature(
-            Organization.find({ district: userCurrent.district, role: 3 }),
+            HealthOrganization.find({
+              district: userCurrent.district,
+              role: 3,
+            }),
             req.query
           )
             .filtering()
@@ -78,12 +90,12 @@ const organizationCtrl = {
         }
       } else {
         const userCurrent = await Users.findById({ _id: req.user.id });
-        const total = await Organization.countDocuments({
+        const total = await HealthOrganization.countDocuments({
           district: userCurrent.district,
           role: 3,
         });
         const features = new APIfeature(
-          Organization.find({ district: userCurrent.district, role: 3 }),
+          HealthOrganization.find({ district: userCurrent.district, role: 3 }),
           req.query
         )
           .filtering()
@@ -95,14 +107,32 @@ const organizationCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  /**
+   *
+   * @param {*} id
+   * @returns {user}
+   */
   getById: async (req, res) => {
     try {
-      const user = await Organization.findById({ _id: req.params.id });
+      const user = await HealthOrganization.findById({ _id: req.params.id });
       return res.json({ data: user });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
   },
+  /**
+   * tạo mói tổ chức y tế
+  * @param {*}email,
+  * @param {*}     organization,
+  * @param {*}    represent,
+  * @param {*}    phonenumber,
+  * @param {*}    province,
+  * @param {*}    district,
+  * @param {*}    ward,
+  * @param {*}    address,
+  
+   * @returns {message, newUser}
+   */
   createOrgan: async (req, res) => {
     try {
       const {
@@ -115,12 +145,12 @@ const organizationCtrl = {
         ward,
         address,
       } = req.body;
-      const user = await Organization.findOne({ email, organization });
+      const user = await HealthOrganization.findOne({ email, organization });
       if (user)
         return res.status(400).json("Sở ý tế quận huyện này đã tồn tại");
       const password = "123456";
       const passwordHash = await bcrypt.hash(password, 10);
-      const newUser = new Organization({
+      const newUser = new HealthOrganization({
         email,
         organization,
         represent,
@@ -155,12 +185,12 @@ const organizationCtrl = {
   //       ward,
   //       address,
   //     } = req.body;
-  //     const user = await Organization.findOne({ email, organization });
+  //     const user = await HealthOrganization.findOne({ email, organization });
   //     if (user)
   //       return res.status(400).json("Sở ý tế quận huyện này đã tồn tại");
   //     const password = "123456";
   //     const passwordHash = await bcrypt.hash(password, 10);
-  //     const newUser = new Organization({
+  //     const newUser = new HealthOrganization({
   //       email,
   //       organization,
   //       represent,
@@ -181,6 +211,21 @@ const organizationCtrl = {
   //     return res.status(500).json({ msg: error.message });
   //   }
   // },
+  /**
+   *cập nhật 1 tổ chức y tế
+   *
+   * @param {*} email,
+   * @param {*}     password,
+   * @param {*}    organization,
+   * @param {*}     represent,
+   * @param {*}     phonenumber,
+   * @param {*}     province,
+   * @param {*}     district,
+   * @param {*}     ward,
+   * @param {*}     address,
+   * @param {*}     role,
+   * @returns {message, userUpdate}
+   */
   updateOrgan: async (req, res) => {
     try {
       const {
@@ -195,7 +240,7 @@ const organizationCtrl = {
         address,
         role,
       } = req.body;
-      const user = await Organization.findByIdAndUpdate(
+      const user = await HealthOrganization.findByIdAndUpdate(
         { _id: req.body._id },
         {
           email,
@@ -217,6 +262,20 @@ const organizationCtrl = {
     }
   },
 
+  /**
+   * tạo mới đơn vị tiêm chủng
+   *
+   * @param {*} email,
+   * @param {*}     organization,
+   * @param {*}     represent,
+   * @param {*}     phonenumber,
+   * @param {*}     province,
+   * @param {*}     district,
+   * @param {*}     ward,
+   * @param {*}     address,
+   * @param {*}     num_table,
+   * @returns {message,newUser}
+   */
   createOrganWard: async (req, res) => {
     try {
       const {
@@ -230,11 +289,11 @@ const organizationCtrl = {
         address,
         num_table,
       } = req.body;
-      const user = await Organization.findOne({ email, organization });
+      const user = await HealthOrganization.findOne({ email, organization });
       if (user) return res.status(400).json("Đơn vị tiêm chủng này đã tồn tại");
       const password = "123456";
       const passwordHash = await bcrypt.hash(password, 10);
-      const newUser = new Organization({
+      const newUser = new HealthOrganization({
         email,
         organization,
         represent,
@@ -257,6 +316,20 @@ const organizationCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
+  /**
+   * cập nhật 1 đơnv ị tiêm
+   * @param {*} email,
+   * @param {*}     organization,
+   * @param {*}     represent,
+   * @param {*}     phonenumber,
+   * @param {*}     province,
+   * @param {*}     district,
+   * @param {*}     ward,
+   * @param {*}     address,
+   * @param {*}     num_table,
+   * @returns {message,userUpdate}
+   */
   updateOrganWard: async (req, res) => {
     try {
       const {
@@ -272,7 +345,7 @@ const organizationCtrl = {
         role,
         num_table,
       } = req.body;
-      const user = await Organization.findByIdAndUpdate(
+      const user = await HealthOrganization.findByIdAndUpdate(
         { _id: req.body._id },
         {
           email,
@@ -294,10 +367,14 @@ const organizationCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
-
+  /**
+   * xoá tổ chức y tế
+   * @param {*} id
+   * @returns {message}
+   */
   deleteOrgan: async (req, res) => {
     try {
-      const organ = await Organization.findByIdAndDelete({
+      const organ = await HealthOrganization.findByIdAndDelete({
         _id: req.params.id,
       });
       return res.json({ msg: "Xoá một tổ chức thành công", data: organ });
@@ -305,6 +382,19 @@ const organizationCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  /**
+   * tạo mới tổ chức y tế (của admin)
+   * @param {*}  represent,
+   * @param {*}    phonenumber,
+   * @param {*}     email,
+   * @param {*}     province,
+   * @param {*}      district,
+   * @param {*}     ward,
+   * @param {*}     password,
+   * @param {*}     organization,
+   * @param {*}    role,
+   * @returns {message,newUser}
+   */
   createAdmin: async (req, res) => {
     try {
       const {
@@ -318,12 +408,13 @@ const organizationCtrl = {
         organization,
         role,
       } = req.body;
-      const user = await Organization.findOne({ email, organization });
+      console.log(req.body);
+      const user = await HealthOrganization.findOne({ email, organization });
       if (user) return res.status(400).json({ msg: "Tổ chức đã tồn tại" });
 
       const passwordHash = await bcrypt.hash(password, 10);
       if (role == 3) {
-        const newUser = new Organization({
+        const newUser = new HealthOrganization({
           represent,
           phonenumber,
           email,
@@ -339,7 +430,7 @@ const organizationCtrl = {
         sendEmailRegister(email, email, password);
         return res.json({ data: newUser, msg: "Tạo mới tổ chức thành công" });
       }
-      const newUser = new Organization({
+      const newUser = new HealthOrganization({
         represent,
         phonenumber,
         email,
@@ -357,6 +448,21 @@ const organizationCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
+  /**
+   * cập nhật tổ chức y tế (của admin)
+   * @param {*} id
+   * @param {*}  represent,
+   * @param {*}    phonenumber,
+   * @param {*}     email,
+   * @param {*}     province,
+   * @param {*}      district,
+   * @param {*}     ward,
+   * @param {*}     password,
+   * @param {*}     organization,
+   * @param {*}    role,
+   * @returns {message,newUser}
+   */
   updateAdmin: async (req, res) => {
     try {
       const {
@@ -371,7 +477,7 @@ const organizationCtrl = {
         role,
       } = req.body;
       const passwordHash = await bcrypt.hash(password, 10);
-      const newUser = await Organization.findByIdAndUpdate(
+      const newUser = await HealthOrganization.findByIdAndUpdate(
         { _id: req.body._id },
         {
           represent,
@@ -393,4 +499,4 @@ const organizationCtrl = {
   },
 };
 
-module.exports = organizationCtrl;
+module.exports = healthOganizationCtrl;
