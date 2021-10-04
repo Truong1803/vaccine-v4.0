@@ -91,11 +91,10 @@ const healthOganizationCtrl = {
       } else {
         const userCurrent = await Users.findById({ _id: req.user.id });
         const total = await HealthOrganization.countDocuments({
-          district: userCurrent.district,
           role: 3,
         });
         const features = new APIfeature(
-          HealthOrganization.find({ district: userCurrent.district, role: 3 }),
+          HealthOrganization.find({ role: 3 }),
           req.query
         )
           .filtering()

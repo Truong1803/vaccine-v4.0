@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import RoleModal from "./RoleModal";
 import { getDataRole, deleteRole } from "../../redux/actions/roleAction";
-
+import Modal from "../alert/Modal";
 function ListRole() {
   const { auth, role } = useSelector((state) => state);
   const [action, setAction] = useState("");
@@ -14,18 +14,30 @@ function ListRole() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
+  const [openModal, setOpenModal] = useState(false);
+  const [roleId, setRoleId] = useState("");
+
   const handleOnClickUpdate = (item, text) => {
     setAction(text);
     setItem(item);
   };
 
-  const handleOnClickDelete = (roleId) => {
+  const handleOnChangeSearch = (e) => {
+    e.preventDefault();
+    // setTimeout(() => {
+    //   setSearch(e.target.value);
+    // }, 5000);
+    setSearch(e.target.value);
+  };
+
+  const handleOpenModal = (roleId) => {
     setAction("");
-    dispatch(deleteRole(roleId, auth.access_token));
+    setRoleId(roleId);
+    setOpenModal(!openModal);
   };
   useEffect(() => {
     dispatch(getDataRole(page, search, auth.access_token));
-  }, []);
+  }, [page, search]);
 
   return (
     <div className="row">
@@ -43,6 +55,8 @@ function ListRole() {
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                value={search}
+                onChange={handleOnChangeSearch}
               />
             </form>
           </div>
@@ -97,7 +111,7 @@ function ListRole() {
                       data-toggle="modal"
                       data-target="#exampleModal"
                       onClick={() => {
-                        handleOnClickDelete(item._id);
+                        handleOpenModal(item._id);
                       }}
                     >
                       <i className="fas fa-trash"></i>
@@ -119,6 +133,15 @@ function ListRole() {
         </table>
       </div>
       {action !== "" && <RoleModal action={action} item={item} />}
+      {openModal && (
+        <Modal
+          body="nhóm quyền"
+          handleOpenModal={handleOpenModal}
+          itemId={roleId}
+          functDelete={deleteRole}
+          auth={auth}
+        />
+      )}
     </div>
   );
 }

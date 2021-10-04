@@ -376,11 +376,14 @@ function OrganizationModal({ action, item, status }) {
                       disabled={status}
                     >
                       <option>Lựa chọn nhóm quyền</option>
-                      {role.map((option) => (
-                        <option key={option._id} value={option.id}>
-                          {option.name}
-                        </option>
-                      ))}
+                      {role.map(
+                        (option) =>
+                          option.id !== 2 && (
+                            <option key={option._id} value={option.id}>
+                              {option.name}
+                            </option>
+                          )
+                      )}
                     </select>
                   </div>
                 </div>
