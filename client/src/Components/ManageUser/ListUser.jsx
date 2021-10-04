@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { getDataUser, deleteUser } from "../../redux/actions/userAction";
 import UserModal from "./Usermodal";
 import { useDispatch, useSelector } from "react-redux";
-
+import Modal from "../alert/Modal";
+import Paginate from "../Paginate/Paginate";
 function ListUser() {
   const [action, setAction] = useState("");
   const [item, setItem] = useState("");
@@ -11,16 +12,28 @@ function ListUser() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
+  const [openModal, setOpenModal] = useState(false);
+  const [userId, setUserId] = useState("");
+
   const dispatch = useDispatch();
 
-  const { user, auth } = useSelector((state) => state);
+  const { user, auth, totalItem } = useSelector((state) => state);
   useEffect(() => {
     dispatch(getDataUser(page, search, auth.access_token));
-  }, []);
+  }, [page, search]);
 
-  const handleOnClickDelete = (userId) => {
+  const handleOnChangeSearch = (e) => {
+    e.preventDefault();
+    // setTimeout(() => {
+    //   setSearch(e.target.value);
+    // }, 5000);
+    setSearch(e.target.value);
+  };
+
+  const handleOpenModal = (userId) => {
     setAction("");
-    dispatch(deleteUser(userId, auth.access_token));
+    setUserId(userId);
+    setOpenModal(!openModal);
   };
 
   const handleOnClick = (item, text, status) => {
@@ -44,6 +57,8 @@ function ListUser() {
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                value={search}
+                onChange={handleOnChangeSearch}
               />
             </form>
           </div>
@@ -113,7 +128,7 @@ function ListUser() {
                       data-toggle="modal"
                       data-target="#exampleModal"
                       onClick={() => {
-                        handleOnClickDelete(item._id);
+                        handleOpenModal(item._id);
                       }}
                     >
                       <i className="fas fa-trash"></i>
@@ -139,6 +154,16 @@ function ListUser() {
       {action !== "" && (
         <UserModal action={action} item={item} status={status} />
       )}
+      {openModal && (
+        <Modal
+          body="người dân"
+          handleOpenModal={handleOpenModal}
+          itemId={userId}
+          functDelete={deleteUser}
+          auth={auth}
+        />
+      )}
+      {totalItem > 5 && <Paginate page={page} setPage={setPage} />}
     </div>
   );
 }

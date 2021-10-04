@@ -1,6 +1,12 @@
-import React from "react";
-
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getDataVaccine } from "../../redux/actions/vaccineAction";
 function FormInfoUser() {
+  const dispatch = useDispatch();
+  const { auth, vaccine } = useSelector((state) => state);
+  useEffect(() => {
+    dispatch(getDataVaccine());
+  }, []);
   return (
     <div>
       <div className="row justify-content-center mt-4">
@@ -20,11 +26,12 @@ function FormInfoUser() {
           <div class="form-group">
             <label for="exampleFormControlSelect1">Loại vaccine:</label>
             <select class="form-control" id="exampleFormControlSelect1">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+              <option>Lựa chọn vắc xin</option>
+              {vaccine.map((option) => (
+                <option key={option._id} value={option._id}>
+                  {option.name_vaccine}
+                </option>
+              ))}
             </select>
           </div>
         </div>

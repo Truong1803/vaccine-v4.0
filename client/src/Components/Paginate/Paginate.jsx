@@ -14,37 +14,6 @@ function Paginate({ page, setPage }) {
     pageNumbers.push(i);
   }
   return (
-    // <div className="Page navigation">
-    //   <button
-    //     className={`btn-pagination ${page <= 1 ? "btn-disable" : ""}`}
-    //     disabled={page <= 1}
-    //     onClick={() => handlePageChange(page - 1)}
-    //   >
-    //     Prev
-    //   </button>
-    //   <ul className=" pagination">
-    //     {pageNumbers.map((number) => {
-    //       return (
-    //         <li
-    //           className={` page-item ${
-    //             pageCurrent === number ? "pagination-active" : ""
-    //           }`}
-    //           key={number}
-    //           onClick={() => handlePageChange(number)}
-    //         >
-    //           {number}
-    //         </li>
-    //       );
-    //     })}
-    //   </ul>
-    //   <button
-    //     className={`btn-pagination ${page >= totalPage ? "btn-disable" : ""}`}
-    //     disabled={page >= totalPage}
-    //     onClick={() => handlePageChange(page + 1)}
-    //   >
-    //     Next
-    //   </button>
-    // </div>
     <nav
       aria-label="Page navigation example d-flex  "
       style={{ width: "100%" }}

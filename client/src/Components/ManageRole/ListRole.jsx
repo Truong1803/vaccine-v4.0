@@ -78,7 +78,6 @@ function ListRole() {
           <thead className="thead-dark">
             <tr className="text-center">
               <th scope="col">STT</th>
-              <th scope="col">ID</th>
               <th scope="col">Nhóm Quyền</th>
               <th scope="col">Mô tả</th>
               <th scope="col"></th>
@@ -88,7 +87,6 @@ function ListRole() {
             {role.map((item, index) => (
               <tr className="text-center " key={item._id}>
                 <td>{index + 1}</td>
-                <td>{item.id}</td>
                 <td>{item.name}</td>
                 <td>{item.description}</td>
                 <td>

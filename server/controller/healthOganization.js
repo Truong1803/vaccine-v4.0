@@ -241,7 +241,7 @@ const healthOganizationCtrl = {
         role,
       } = req.body;
       const user = await HealthOrganization.findByIdAndUpdate(
-        { _id: req.body._id },
+        { _id: req.params._id },
         {
           email,
           password,
@@ -346,7 +346,7 @@ const healthOganizationCtrl = {
         num_table,
       } = req.body;
       const user = await HealthOrganization.findByIdAndUpdate(
-        { _id: req.body._id },
+        { _id: req.params._id },
         {
           email,
           password,
@@ -478,7 +478,7 @@ const healthOganizationCtrl = {
       } = req.body;
       const passwordHash = await bcrypt.hash(password, 10);
       const newUser = await HealthOrganization.findByIdAndUpdate(
-        { _id: req.body._id },
+        { _id: req.params.id },
         {
           represent,
           phonenumber,

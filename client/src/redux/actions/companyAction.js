@@ -8,15 +8,11 @@ import {
 import {
   ADD_COMPANY,
   ADD_PAGE,
-  ADD_QH,
   ALERT,
   DELETE_COMPANY,
-  DELETE_QH,
   EDIT_COMPANY,
-  EDIT_QH,
   GET_COMPANY,
   GET_PAGE,
-  GET_QH,
 } from "../containt";
 
 export const getDataCompany =

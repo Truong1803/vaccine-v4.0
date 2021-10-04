@@ -3,6 +3,8 @@ import OrganizationModal from "./OrganizationModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getDataQH, deleteOrgan } from "../../redux/actions/oganizationAction";
 import { getDataRole } from "../../redux/actions/roleAction";
+import Modal from "../alert/Modal";
+import Paginate from "../Paginate/Paginate";
 function ListOrganization() {
   const [action, setAction] = useState("");
   const [item, setItem] = useState("");
@@ -11,19 +13,32 @@ function ListOrganization() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
+  const [openModal, setOpenModal] = useState(false);
+  const [organId, setOrganId] = useState("");
+
   const dispatch = useDispatch();
 
-  const { organization, auth, role } = useSelector((state) => state);
+  const { organization, auth, role, totalItem } = useSelector((state) => state);
   useEffect(() => {
     dispatch(getDataRole(page, search, auth.access_token));
-    dispatch(getDataQH(page, search, auth.access_token));
   }, []);
+  useEffect(() => {
+    dispatch(getDataQH(page, search, auth.access_token));
+  }, [page, search]);
 
-  const handleOnClickDelete = (userId) => {
-    setAction("");
-    dispatch(deleteOrgan(userId, auth.access_token));
+  const handleOnChangeSearch = (e) => {
+    e.preventDefault();
+    // setTimeout(() => {
+    //   setSearch(e.target.value);
+    // }, 5000);
+    setSearch(e.target.value);
   };
 
+  const handleOpenModal = (organId) => {
+    setAction("");
+    setOrganId(organId);
+    setOpenModal(!openModal);
+  };
   const handleOnClick = (item, text, status) => {
     setAction(text);
     setItem(item);
@@ -41,6 +56,8 @@ function ListOrganization() {
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                value={search}
+                onChange={handleOnChangeSearch}
               />
             </form>
           </div>
@@ -114,7 +131,7 @@ function ListOrganization() {
                       data-toggle="modal"
                       data-target="#exampleModal"
                       onClick={() => {
-                        handleOnClickDelete(item._id);
+                        handleOpenModal(item._id);
                       }}
                     >
                       <i className="fas fa-trash"></i>
@@ -140,6 +157,16 @@ function ListOrganization() {
       {action !== "" && (
         <OrganizationModal action={action} item={item} status={status} />
       )}
+      {openModal && (
+        <Modal
+          body="tổ chức y tế"
+          handleOpenModal={handleOpenModal}
+          itemId={organId}
+          functDelete={deleteOrgan}
+          auth={auth}
+        />
+      )}
+      {totalItem > 5 && <Paginate page={page} setPage={setPage} />}
     </div>
   );
 }

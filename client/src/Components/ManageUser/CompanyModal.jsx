@@ -155,6 +155,9 @@ function OrganizationModal({ action, item, status }) {
         )
       );
       setData(initialState);
+      setProvinceId("");
+      setDistrictId("");
+      setWardId("");
     } else if (action === "Sửa") {
       let province2, district2, ward2;
 

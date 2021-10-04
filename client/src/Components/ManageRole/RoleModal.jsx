@@ -67,6 +67,7 @@ function RoleModal({ action, item }) {
                   name="id"
                   value={role.id}
                   onChange={handleOnChange}
+                  disabled={true}
                 />
               </div>
               <div>

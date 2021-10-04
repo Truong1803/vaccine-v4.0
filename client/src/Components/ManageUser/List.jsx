@@ -7,6 +7,8 @@ import {
   deleteCompany,
   getDataCompany,
 } from "../../redux/actions/companyAction";
+import Modal from "../alert/Modal";
+import Paginate from "../Paginate/Paginate";
 function ListOrganization() {
   const [action, setAction] = useState("");
   const [item, setItem] = useState("");
@@ -15,17 +17,30 @@ function ListOrganization() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
+  const [openModal, setOpenModal] = useState(false);
+  const [companyId, setCompanyId] = useState("");
   const dispatch = useDispatch();
 
-  const { organization, auth, role } = useSelector((state) => state);
+  const { company, auth, role, totalItem } = useSelector((state) => state);
   useEffect(() => {
     dispatch(getDataRole(page, search, auth.access_token));
-    dispatch(getDataCompany(page, search, auth.access_token));
   }, []);
+  useEffect(() => {
+    dispatch(getDataCompany(page, search, auth.access_token));
+  }, [page, search]);
 
-  const handleOnClickDelete = (userId) => {
+  const handleOpenModal = (companyId) => {
     setAction("");
-    dispatch(deleteCompany(userId, auth.access_token));
+    setCompanyId(companyId);
+    setOpenModal(!openModal);
+  };
+
+  const handleOnChangeSearch = (e) => {
+    e.preventDefault();
+    // setTimeout(() => {
+    //   setSearch(e.target.value);
+    // }, 5000);
+    setSearch(e.target.value);
   };
 
   const handleOnClick = (item, text, status) => {
@@ -45,6 +60,8 @@ function ListOrganization() {
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                value={search}
+                onChange={handleOnChangeSearch}
               />
             </form>
           </div>
@@ -90,7 +107,7 @@ function ListOrganization() {
             </tr>
           </thead>
           <tbody>
-            {organization.map((item, index) => (
+            {company.map((item, index) => (
               <tr className="text-center " key={index}>
                 <td>{index + 1}</td>
                 <td>{item.organization}</td>
@@ -118,7 +135,7 @@ function ListOrganization() {
                       data-toggle="modal"
                       data-target="#exampleModal"
                       onClick={() => {
-                        handleOnClickDelete(item._id);
+                        handleOpenModal(item._id);
                       }}
                     >
                       <i className="fas fa-trash"></i>
@@ -144,6 +161,16 @@ function ListOrganization() {
       {action !== "" && (
         <CompanyModal action={action} item={item} status={status} />
       )}
+      {openModal && (
+        <Modal
+          body="tổ chức"
+          handleOpenModal={handleOpenModal}
+          itemId={companyId}
+          functDelete={deleteCompany}
+          auth={auth}
+        />
+      )}
+      {totalItem > 5 && <Paginate page={page} setPage={setPage} />}
     </div>
   );
 }
