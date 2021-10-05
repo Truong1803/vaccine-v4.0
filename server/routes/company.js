@@ -15,7 +15,7 @@ router.delete("/:id", auth, organizationCtrl.deleteOrgan);
 /**
  * cập nhật các tổ chức theo id (admin)
  */
-router.patch("/admin/:id", auth, authAdmin, organizationCtrl.updateAdmin);
+router.patch("/admin/:id", auth, organizationCtrl.updateAdmin);
 /**
  * tạo mói 1 tổ chức (admin)
  */

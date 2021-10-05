@@ -15,18 +15,20 @@ import {
   GET_QH,
 } from "../containt";
 
-export const getDataQH = (page, search, access_token) => async (dispatch) => {
-  try {
-    const res = await getAPI(
-      `/health-organization?page=${page}&limit=${5}&organization[regex]=${search}`,
-      access_token
-    );
-    dispatch({ type: GET_PAGE, payload: res.data.total });
-    dispatch({ type: GET_QH, payload: res.data.data });
-  } catch (error) {
-    dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
-  }
-};
+export const getDataQH =
+  (page = 1, search = "", access_token) =>
+  async (dispatch) => {
+    try {
+      const res = await getAPI(
+        `/health-organization?page=${page}&limit=${5}&organization[regex]=${search}`,
+        access_token
+      );
+      dispatch({ type: GET_PAGE, payload: res.data.total });
+      dispatch({ type: GET_QH, payload: res.data.data });
+    } catch (error) {
+      dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
+    }
+  };
 
 export const createOrgan = (newOrgan, access_token) => async (dispatch) => {
   try {

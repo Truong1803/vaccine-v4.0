@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import Complete from "./Complete";
 import FormInfoUser from "./FormInfoUser";
 import HistoryOfDisease from "./HistoryOfDisease";
 import TabStep from "./TabStep";
-
+const initialState = {
+  phonenumber: "",
+  identification: "",
+  name: "",
+  gender: "",
+  dob: "",
+  province: "",
+  district: "",
+  ward: "",
+  address: "",
+  role: 1,
+  email: "",
+  bhyt: "",
+};
 function RegisterInjectionUser() {
+  const [data, setData] = useState(initialState);
   return (
     <div className="container-fluid">
       <div className="row">
@@ -20,7 +34,7 @@ function RegisterInjectionUser() {
           <TabStep />
         </div>
       </div>
-      <FormInfoUser />
+      <FormInfoUser data={data} setData={setData} />
       {/* <HistoryOfDisease /> */}
       {/* <Complete /> */}
     </div>

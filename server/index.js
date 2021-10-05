@@ -10,6 +10,7 @@ const roleRouter = require("./routes/role");
 const userRouter = require("./routes/user");
 const healthOrganizationRouter = require("./routes/healthOganization");
 const organizationRouter = require("./routes/company");
+const deseaseRouter = require("./routes/disease");
 const app = express();
 
 app.use(express.json());
@@ -27,6 +28,7 @@ app.use("/api/role", roleRouter);
 app.use("/api/user", userRouter);
 app.use("/api/health-organization", healthOrganizationRouter);
 app.use("/api/organization", organizationRouter);
+app.use("/api/desease", deseaseRouter);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

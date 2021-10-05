@@ -11,6 +11,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    email: {
+      type: String,
+    },
     name: {
       type: String,
       required: true,
@@ -42,11 +45,11 @@ const userSchema = new mongoose.Schema(
       default: 1,
     },
     organizationId: { type: String },
-    // record
     bhyt: {
       type: String,
     },
-    diseaseId: {
+    // record
+    doseInformation: {
       type: Array,
     },
   },

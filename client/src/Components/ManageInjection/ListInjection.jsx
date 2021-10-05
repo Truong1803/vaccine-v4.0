@@ -109,7 +109,7 @@ function ListInjection() {
             <thead className="thead-dark">
               <tr className="text-center">
                 <th scope="col">Tên đơn vị tiêm chủng</th>
-                <th scope="col">Địa chỉ</th>
+                <th scope="col">Tỉnh/Thành phố</th>
                 <th scope="col">Phường/Xã</th>
                 {/* <th scope="col">Quận/Huyện</th>
               <th scope="col">Tỉnh/Thành phố</th> */}
@@ -124,7 +124,7 @@ function ListInjection() {
               {organization.map((item) => (
                 <tr className="text-center  ">
                   <td>{item.organization}</td>
-                  <td>{item.address}</td>
+                  <td>{item.province.name}</td>
                   <td>{item.ward.name}</td>
                   {/* <td>{item.district.name}</td>
                 <td>{item.province.name}</td> */}

@@ -1,11 +1,92 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDataVaccine } from "../../redux/actions/vaccineAction";
-function FormInfoUser() {
+import { getDataQH } from "../../redux/actions/oganizationAction";
+import axios from "axios";
+
+function FormInfoUser({ data, setData }) {
   const dispatch = useDispatch();
-  const { auth, vaccine } = useSelector((state) => state);
+
+  const { auth, vaccine, organization } = useSelector((state) => state);
+
+  const [tinh, setTinh] = useState([]);
+  const [huyen, setHuyen] = useState([]);
+  const [phuong, setPhuong] = useState([]);
+  const [provinceId, setProvinceId] = useState("");
+  const [districtId, setDistrictId] = useState("");
+  const [wardId, setWardId] = useState("");
+
+  const isFirstRun = useRef(true);
+  const isFirstRun1 = useRef(true);
+
+  useEffect(() => {
+    setData(auth.user);
+    setProvinceId(auth.user.province.id);
+    setDistrictId(auth.user.district.id);
+    setWardId(auth.user.ward.id);
+  }, []);
+
+  useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      return;
+    }
+    handleOnclickDistrict();
+  }, [provinceId]);
+
+  useEffect(() => {
+    if (isFirstRun1.current) {
+      isFirstRun1.current = false;
+      return;
+    }
+    handleOnclickWard();
+  }, [districtId]);
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setData({ ...data, [name]: value });
+  };
+
+  const handleChangeProvince = async (event) => {
+    setProvinceId(event.target.value);
+  };
+  const handleChangeDistrict = async (event) => {
+    setDistrictId(event.target.value);
+  };
+  const handleChangeWard = (event) => {
+    setWardId(event.target.value);
+  };
+
+  useEffect(() => {
+    const getProvince = async () => {
+      const res = await axios.get(
+        "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province",
+        { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
+      );
+      setTinh(res.data.data);
+    };
+    getProvince();
+  }, []);
+
+  const handleOnclickDistrict = async () => {
+    const res = await axios.get(
+      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${provinceId}`,
+      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
+    );
+    setHuyen(res.data.data);
+  };
+
+  const handleOnclickWard = async () => {
+    const res = await axios.get(
+      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${districtId}`,
+      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
+    );
+    setPhuong(res.data.data);
+  };
+
   useEffect(() => {
     dispatch(getDataVaccine());
+    dispatch(getDataQH(1, "", auth.access_token));
   }, []);
   return (
     <div>
@@ -26,7 +107,7 @@ function FormInfoUser() {
           <div class="form-group">
             <label for="exampleFormControlSelect1">Loại vaccine:</label>
             <select class="form-control" id="exampleFormControlSelect1">
-              <option>Lựa chọn vắc xin</option>
+              <option hidden={true}>Lựa chọn vắc xin</option>
               {vaccine.map((option) => (
                 <option key={option._id} value={option._id}>
                   {option.name_vaccine}
@@ -39,11 +120,12 @@ function FormInfoUser() {
           <div class="form-group">
             <label for="exampleFormControlSelect1">Đơn vị tiêm:</label>
             <select class="form-control" id="exampleFormControlSelect1">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+              <option hidden={true}>Lựa chọn đơn vị tiêm</option>
+              {organization.map((option) => (
+                <option key={option._id} value={option._id}>
+                  {option.organization}
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -62,24 +144,31 @@ function FormInfoUser() {
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Ngô Trung Sơn"
+                  value={auth.user.name}
+                  disabled={true}
                 />
               </div>
             </div>
             <div className="col-3">
               <div class="form-group">
                 <label for="exampleInputEmail1">Ngày sinh:</label>
-                <input type="date" class="form-control" />
+                <input
+                  type="date"
+                  class="form-control"
+                  value={auth.user.dob}
+                  disabled={true}
+                />
               </div>
             </div>
             <div className="col-3">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Giới tính:</label>
-                <select class="form-control" id="exampleFormControlSelect1">
-                  <option selected>Nam</option>
-                  <option>Nữ</option>
-                  <option>Khác</option>
-                </select>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={auth.user.gender}
+                  disabled={true}
+                />
               </div>
             </div>
             <div className="col-3">
@@ -88,7 +177,8 @@ function FormInfoUser() {
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="0344174212"
+                  value={auth.user.phonenumber}
+                  disabled={true}
                 />
               </div>
             </div>
@@ -104,7 +194,8 @@ function FormInfoUser() {
                 <input
                   type="email"
                   class="form-control"
-                  placeholder="ngoson285@gmail.com"
+                  value={auth.user.email}
+                  disabled={true}
                 />
               </div>
             </div>
@@ -114,7 +205,8 @@ function FormInfoUser() {
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="001200008741"
+                  value={auth.user.identification}
+                  disabled={true}
                 />
               </div>
             </div>
@@ -124,18 +216,15 @@ function FormInfoUser() {
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="123456789456"
+                  value={auth.user.bhyt}
+                  disabled={true}
                 />
               </div>
             </div>
             <div className="col-3">
               <div class="form-group">
                 <label for="exampleInputEmail1">Nghề nghiệp:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="ngoson285@gmail.com"
-                />
+                <input type="text" class="form-control" value />
               </div>
             </div>
           </div>
