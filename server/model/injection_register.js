@@ -3,11 +3,24 @@ const mongoose = require("mongoose");
 const InjectionRegisterSchema = new mongoose.Schema(
   {
     userId: { type: String },
-    vaccinationUnitId: {
+    healthOrganizationId: {
       type: { String },
+    },
+    dose: {
+      type: String,
+    },
+    injectionDate: {
+      type: String,
+    },
+    vaccineId: {
+      type: String,
     },
     diseaseId: {
       type: Array,
+    },
+    status: {
+      type: String,
+      default: "pendding",
     },
   },
   { timestamps: true }
