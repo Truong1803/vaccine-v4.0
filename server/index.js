@@ -11,6 +11,10 @@ const userRouter = require("./routes/user");
 const healthOrganizationRouter = require("./routes/healthOganization");
 const organizationRouter = require("./routes/company");
 const deseaseRouter = require("./routes/disease");
+
+const userInjectionRegisterRouter = require("./routes/userInjectionRegister");
+const scheduleInjectionRouter = require("./routes/scheduleInjection");
+
 const app = express();
 
 app.use(express.json());
@@ -26,9 +30,14 @@ app.use("/api/auth", authRouter);
 app.use("/api/vaccine", vaccineRouter);
 app.use("/api/role", roleRouter);
 app.use("/api/user", userRouter);
+
 app.use("/api/health-organization", healthOrganizationRouter);
 app.use("/api/organization", organizationRouter);
 app.use("/api/desease", deseaseRouter);
+
+app.use("/api/user-injection-register", userInjectionRegisterRouter);
+app.use("/api/schedule-injection", scheduleInjectionRouter);
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

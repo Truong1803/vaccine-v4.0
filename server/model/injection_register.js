@@ -2,12 +2,14 @@ const mongoose = require("mongoose");
 
 const InjectionRegisterSchema = new mongoose.Schema(
   {
-    userId: { type: String },
+    userId: {
+      type: String,
+    },
     healthOrganizationId: {
-      type: { String },
+      type: String,
     },
     dose: {
-      type: String,
+      type: Number,
     },
     injectionDate: {
       type: String,
@@ -17,6 +19,7 @@ const InjectionRegisterSchema = new mongoose.Schema(
     },
     diseaseId: {
       type: Array,
+      default: [],
     },
     status: {
       type: String,

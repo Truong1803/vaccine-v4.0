@@ -308,7 +308,7 @@ const sendToken = (user, res, txt) => {
 
 const createAccessToken = (userId) => {
   return jwt.sign(userId, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "11m",
+    expiresIn: "7d",
   });
 };
 const createRefreshToken = (userId) => {

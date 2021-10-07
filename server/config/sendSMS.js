@@ -2,14 +2,14 @@ const accountSid = `${process.env.TWILIO_ACCOUNT_SID}`;
 const authToken = `${process.env.TWILIO_AUTH_TOKEN}`;
 const from = `${process.env.TWILIO_PHONE_NUMBER}`;
 const serviceID = `${process.env.TWILIO_SERVICE_ID}`;
-const client = require('twilio')(accountSid, authToken);
+const client = require("twilio")(accountSid, authToken);
 
 const sms = {
-  sendSMS: (to, body, txt) => {
+  sendSMS: (to) => {
     try {
       client.messages
         .create({
-          body: `Blog ${txt} - ${body}`,
+          body: `Thông báo lịch tiêm chủng. Đơn đăng ký tiêm chủng của bạn đã được xét duyệt. Vui lòng đăng nhập vào hệ thống cổng thông tin tiêm chủng để xem chi tiết thời gian và địa điểm tiêm.`,
           from,
           to,
         })
