@@ -48,6 +48,9 @@ const userSchema = new mongoose.Schema(
     bhyt: {
       type: String,
     },
+    job: {
+      type: String,
+    },
     // record
     doseInformation: {
       type: Array,

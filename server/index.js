@@ -10,10 +10,11 @@ const roleRouter = require("./routes/role");
 const userRouter = require("./routes/user");
 const healthOrganizationRouter = require("./routes/healthOganization");
 const organizationRouter = require("./routes/company");
-const deseaseRouter = require("./routes/disease");
+const diseaseRouter = require("./routes/disease");
 
 const userInjectionRegisterRouter = require("./routes/userInjectionRegister");
 const scheduleInjectionRouter = require("./routes/scheduleInjection");
+const injectionInforRouter = require("./routes/injection_infor");
 
 const app = express();
 
@@ -33,10 +34,11 @@ app.use("/api/user", userRouter);
 
 app.use("/api/health-organization", healthOrganizationRouter);
 app.use("/api/organization", organizationRouter);
-app.use("/api/desease", deseaseRouter);
+app.use("/api/disease", diseaseRouter);
 
 app.use("/api/user-injection-register", userInjectionRegisterRouter);
 app.use("/api/schedule-injection", scheduleInjectionRouter);
+app.use("/api/injection-infor", injectionInforRouter);
 
 const PORT = process.env.PORT || 5000;
 

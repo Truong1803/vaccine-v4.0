@@ -165,6 +165,11 @@ const userCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
+  updateVaccinationRecord: async (req, res) => {
+    try {
+    } catch (error) {}
+  },
 };
 
 module.exports = userCtrl;

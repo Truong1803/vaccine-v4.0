@@ -3,6 +3,7 @@ const sms = require("../config/sendSMS");
 const Users = require("../model/user");
 const InjectionRegister = require("../model/injection_register");
 const InjectionInfor = require("../model/injection_infor");
+const { findByIdAndUpdate } = require("../model/schedule_injection");
 class APIfeature {
   constructor(query, queryString) {
     this.query = query;
@@ -58,11 +59,20 @@ const ScheduleInjectionCtrl = {
         const newData = new ScheduleInjection(item);
         await newData.save();
         const user = await Users.findById({ _id: newData.userId });
-        sms.sendSMS(user.phonenumber);
+        // sms.sendSMS(user.phonenumber);
         const history = await InjectionRegister.findOneAndDelete({
           userId: newData.userId,
         });
-        const newInjectionInfor = new InjectionInfor(history);
+        const { userId, healthOrganizationId, dose, vaccineId, diseaseId } =
+          history;
+        const newInjectionInfor = new InjectionInfor({
+          userId,
+          healthOrganizationId,
+          dose,
+          vaccineId,
+          diseaseId,
+          injectionDate: newData.injectionDate,
+        });
         await newInjectionInfor.save();
       });
       return res.json({ msg: "Thiết lập kế hoạch tiêm thành công" });

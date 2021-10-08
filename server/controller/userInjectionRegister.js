@@ -32,7 +32,7 @@ const UserInjectionRegisterCtrl = {
       const newRegister = new InjectionRegister({
         userId,
         healthOrganizationId,
-        dose,
+        dose: parseInt(dose),
         injectionDate,
         vaccineId,
         diseaseId,
