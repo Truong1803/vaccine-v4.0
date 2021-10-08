@@ -7,6 +7,7 @@ import role from "./roleReducer";
 import user from "./userReducer";
 import totalItem from "./totalPageReducer";
 import company from "./companyReducer";
+import disease from "./diseaseReducer";
 export default combineReducers({
   auth,
   alert,
@@ -16,4 +17,5 @@ export default combineReducers({
   user,
   totalItem,
   company,
+  disease,
 });

@@ -4,21 +4,16 @@ import FormInfoUser from "./FormInfoUser";
 import HistoryOfDisease from "./HistoryOfDisease";
 import TabStep from "./TabStep";
 const initialState = {
-  phonenumber: "",
-  identification: "",
-  name: "",
-  gender: "",
-  dob: "",
-  province: "",
-  district: "",
-  ward: "",
-  address: "",
-  role: 1,
-  email: "",
-  bhyt: "",
+  userId: "",
+  healthOrganizationId: "",
+  dose: "",
+  injectionDate: "",
+  vaccineId: "",
+  diseaseId: [],
 };
 function RegisterInjectionUser() {
   const [data, setData] = useState(initialState);
+  const [status, setStatus] = useState(1);
   return (
     <div className="container-fluid">
       <div className="row">
@@ -31,12 +26,19 @@ function RegisterInjectionUser() {
       </div>
       <div className="row justify-content-center">
         <div className="col-8">
-          <TabStep />
+          <TabStep status={status} />
         </div>
       </div>
-      <FormInfoUser data={data} setData={setData} />
-      {/* <HistoryOfDisease /> */}
-      {/* <Complete /> */}
+      {status === 1 && (
+        <FormInfoUser
+          data={data}
+          setData={setData}
+          setStatus={setStatus}
+          status={status}
+        />
+      )}
+      {status === 2 && <HistoryOfDisease data={data} />}
+      {status === 3 && <Complete />}
     </div>
   );
 }

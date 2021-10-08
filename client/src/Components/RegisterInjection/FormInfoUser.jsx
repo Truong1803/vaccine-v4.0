@@ -2,111 +2,61 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDataVaccine } from "../../redux/actions/vaccineAction";
 import { getDataQH } from "../../redux/actions/oganizationAction";
-import axios from "axios";
+import { getDataCompany } from "../../redux/actions/companyAction";
 
-function FormInfoUser({ data, setData }) {
+function FormInfoUser({ data, setData, setStatus, status }) {
   const dispatch = useDispatch();
 
-  const { auth, vaccine, organization } = useSelector((state) => state);
-
-  const [tinh, setTinh] = useState([]);
-  const [huyen, setHuyen] = useState([]);
-  const [phuong, setPhuong] = useState([]);
-  const [provinceId, setProvinceId] = useState("");
-  const [districtId, setDistrictId] = useState("");
-  const [wardId, setWardId] = useState("");
-
-  const isFirstRun = useRef(true);
-  const isFirstRun1 = useRef(true);
-
-  useEffect(() => {
-    setData(auth.user);
-    setProvinceId(auth.user.province.id);
-    setDistrictId(auth.user.district.id);
-    setWardId(auth.user.ward.id);
-  }, []);
-
-  useEffect(() => {
-    if (isFirstRun.current) {
-      isFirstRun.current = false;
-      return;
-    }
-    handleOnclickDistrict();
-  }, [provinceId]);
-
-  useEffect(() => {
-    if (isFirstRun1.current) {
-      isFirstRun1.current = false;
-      return;
-    }
-    handleOnclickWard();
-  }, [districtId]);
+  const { auth, vaccine, organization, company } = useSelector(
+    (state) => state
+  );
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
   };
 
-  const handleChangeProvince = async (event) => {
-    setProvinceId(event.target.value);
-  };
-  const handleChangeDistrict = async (event) => {
-    setDistrictId(event.target.value);
-  };
-  const handleChangeWard = (event) => {
-    setWardId(event.target.value);
-  };
-
-  useEffect(() => {
-    const getProvince = async () => {
-      const res = await axios.get(
-        "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province",
-        { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
-      );
-      setTinh(res.data.data);
-    };
-    getProvince();
-  }, []);
-
-  const handleOnclickDistrict = async () => {
-    const res = await axios.get(
-      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${provinceId}`,
-      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
-    );
-    setHuyen(res.data.data);
-  };
-
-  const handleOnclickWard = async () => {
-    const res = await axios.get(
-      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${districtId}`,
-      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
-    );
-    setPhuong(res.data.data);
-  };
-
   useEffect(() => {
     dispatch(getDataVaccine());
     dispatch(getDataQH(1, "", auth.access_token));
+    dispatch(getDataCompany(1, "", auth.access_token));
   }, []);
+
+  const handleNextPage = () => {
+    setStatus(status + 1);
+    setData({ ...data, userId: auth.user._id });
+  };
   return (
     <div>
       <div className="row justify-content-center mt-4">
         <div className="col-2 ">
           <div class="form-group">
             <label for="exampleFormControlSelect1">Đăng ký mũi tiêm:</label>
-            <select class="form-control" id="exampleFormControlSelect1">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+            <select
+              class="form-control"
+              id="exampleFormControlSelect1"
+              name="dose"
+              value={data.dose}
+              onChange={handleOnChange}
+            >
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
             </select>
           </div>
         </div>
         <div className="col-2 ">
           <div class="form-group">
             <label for="exampleFormControlSelect1">Loại vaccine:</label>
-            <select class="form-control" id="exampleFormControlSelect1">
+            <select
+              class="form-control"
+              id="exampleFormControlSelect1"
+              value={data.vaccineId}
+              onChange={handleOnChange}
+              name="vaccineId"
+            >
               <option hidden={true}>Lựa chọn vắc xin</option>
               {vaccine.map((option) => (
                 <option key={option._id} value={option._id}>
@@ -119,7 +69,13 @@ function FormInfoUser({ data, setData }) {
         <div className="col-4">
           <div class="form-group">
             <label for="exampleFormControlSelect1">Đơn vị tiêm:</label>
-            <select class="form-control" id="exampleFormControlSelect1">
+            <select
+              class="form-control"
+              id="exampleFormControlSelect1"
+              name="healthOrganizationId"
+              value={data.healthOrganizationId}
+              onChange={handleOnChange}
+            >
               <option hidden={true}>Lựa chọn đơn vị tiêm</option>
               {organization.map((option) => (
                 <option key={option._id} value={option._id}>
@@ -224,7 +180,12 @@ function FormInfoUser({ data, setData }) {
             <div className="col-3">
               <div class="form-group">
                 <label for="exampleInputEmail1">Nghề nghiệp:</label>
-                <input type="text" class="form-control" value />
+                <input
+                  type="text"
+                  class="form-control"
+                  value={auth.user.job}
+                  disabled={true}
+                />
               </div>
             </div>
           </div>
@@ -239,32 +200,42 @@ function FormInfoUser({ data, setData }) {
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Thanglong university"
+                  value={auth.user.job}
+                  disabled={true}
                 />
               </div>
             </div>
             <div className="col-3">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Tỉnh/Thành phố:</label>
-                <select class="form-control" id="exampleFormControlSelect1">
-                  <option selected>Hà Nội</option>
-                </select>
+                <input
+                  type="text"
+                  class="form-control"
+                  value={auth.user.province.name}
+                  disabled={true}
+                />
               </div>
             </div>
             <div className="col-3">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Quận/Huyện:</label>
-                <select class="form-control" id="exampleFormControlSelect1">
-                  <option selected>Hoàng Mai</option>
-                </select>
+                <input
+                  type="text"
+                  class="form-control"
+                  value={auth.user.district.name}
+                  disabled={true}
+                />
               </div>
             </div>
             <div className="col-3">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Phường/Xã:</label>
-                <select class="form-control" id="exampleFormControlSelect1">
-                  <option selected>Đại kim</option>
-                </select>
+                <input
+                  type="text"
+                  class="form-control"
+                  value={auth.user.ward.name}
+                  disabled={true}
+                />
               </div>
             </div>
             <div className="col">
@@ -273,7 +244,8 @@ function FormInfoUser({ data, setData }) {
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nghiêm Xuân Yêm,Đại im,Hoàng Mai,Hà Nội"
+                  value={auth.user.address}
+                  disabled={true}
                 />
               </div>
             </div>
@@ -293,16 +265,13 @@ function FormInfoUser({ data, setData }) {
             <div className="col-3">
               <div class="form-group">
                 <label for="exampleInputEmail1">Ngày tiêm dự kiến:</label>
-                <input type="date" class="form-control" />
-              </div>
-            </div>
-            <div className="col-3">
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Buổi tiêm:</label>
-                <select class="form-control" id="exampleFormControlSelect1">
-                  <option selected>Sáng</option>
-                  <option>Chiều</option>
-                </select>
+                <input
+                  type="date"
+                  class="form-control"
+                  value={data.injectionDate}
+                  onChange={handleOnChange}
+                  name="injectionDate"
+                />
               </div>
             </div>
           </div>
@@ -317,7 +286,11 @@ function FormInfoUser({ data, setData }) {
                 <button type="button" class="btn btn-danger  mr-5 col-4">
                   Huỷ
                 </button>
-                <button type="button" class="btn btn-primary  col-4">
+                <button
+                  type="button"
+                  class="btn btn-primary  col-4"
+                  onClick={handleNextPage}
+                >
                   Tiếp theo
                 </button>
               </div>
