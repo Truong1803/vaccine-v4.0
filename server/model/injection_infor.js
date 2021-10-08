@@ -22,9 +22,11 @@ const InjectionInforSchema = new mongoose.Schema(
     },
     preInjectionReaction: {
       type: Array,
+      default: [],
     },
     postInjectionReaction: {
       type: String,
+      default: "",
     },
   },
   { timestamps: true }
