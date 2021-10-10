@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const InjectionRegisterSchema = new mongoose.Schema(
   {
     userId: {
-      type: String,
+      type: mongoose.Schema.ObjectId,
     },
     healthOrganizationId: {
-      type: String,
+      type: mongoose.Schema.ObjectId,
     },
     dose: {
       type: Number,
@@ -15,7 +15,7 @@ const InjectionRegisterSchema = new mongoose.Schema(
       type: String,
     },
     vaccineId: {
-      type: String,
+      type: Number,
     },
     diseaseId: {
       type: Array,

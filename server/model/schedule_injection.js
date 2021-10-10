@@ -12,10 +12,14 @@ const ScheduleInjectionSchema = new mongoose.Schema(
       type: String,
     },
     healthOrganizationId: {
-      type: String,
+      type: mongoose.Schema.ObjectId,
     },
     vaccineId: {
+      type: Number,
+    },
+    status: {
       type: String,
+      default: "success",
     },
   },
   { timestamps: true }

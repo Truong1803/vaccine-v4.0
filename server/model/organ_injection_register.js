@@ -12,10 +12,10 @@ const OrganInjectionRegisterSchema = new mongoose.Schema(
       type: number,
     },
     healthOrganizationId: {
-      type: String,
+      type: mongoose.Schema.ObjectId,
     },
     vaccineId: {
-      type: String,
+      type: Number,
     },
     diseaseId: {
       type: Array,

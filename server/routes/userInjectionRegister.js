@@ -1,8 +1,15 @@
 const router = require("express").Router();
 const UserInjectionRegisterCtrl = require("../controller/userInjectionRegister");
 const auth = require("../middleware/auth");
+const authDVT = require("../middleware/authDVT");
+router.get(
+  "/getAll",
+  auth,
+  authDVT,
+  UserInjectionRegisterCtrl.getAllInjectionRegister
+);
 
-router.get("/", auth, UserInjectionRegisterCtrl.getInjectionRegister);
+router.get("/:id", auth, UserInjectionRegisterCtrl.getInjectionRegister);
 
 router.post("/", auth, UserInjectionRegisterCtrl.InjectionRegister);
 

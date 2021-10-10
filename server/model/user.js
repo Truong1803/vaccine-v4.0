@@ -44,7 +44,9 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 1,
     },
-    organizationId: { type: String },
+    organizationId: {
+      type: mongoose.Schema.ObjectId,
+    },
     bhyt: {
       type: String,
     },

@@ -1,4 +1,8 @@
 const Users = require("../model/user");
+const InjectionRegister = require("../model/injection_register");
+const ScheduleInjection = require("../model/schedule_injection");
+const Vaccine = require("../model/vaccine");
+const healthOrganization = require("../model/healthOrganization");
 class APIfeature {
   constructor(query, queryString) {
     this.query = query;
@@ -169,6 +173,52 @@ const userCtrl = {
   updateVaccinationRecord: async (req, res) => {
     try {
     } catch (error) {}
+  },
+
+  /**
+   * tra cuu ket qua dang ky
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
+  getResultInjectRegister: async (req, res) => {
+    try {
+      const result = await InjectionRegister.findOne({ userId: req.user.id });
+      if (result) {
+        InjectionRegister.aggregate([
+          {
+            $match: {
+              userId: req.user.id,
+            },
+          },
+          {
+            $lookup: {
+              from: "healthorganizations",
+              localField: "healthOrganizationId",
+              foreignField: "_id",
+              as: "organization",
+            },
+          },
+          {
+            $unwind: "$organization",
+          },
+        ])
+          .then((result) => {
+            res.json({ data: result[0] });
+          })
+          .catch((error) => {
+            return res.status(500).json({ msg: error.message });
+          });
+      } else {
+        const result = await ScheduleInjection.findOne({ userId: req.user.id });
+        if (result) return res.json({ data: result });
+        else {
+          return res.json({ data: "notFound" });
+        }
+      }
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
   },
 };
 

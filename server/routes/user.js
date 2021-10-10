@@ -1,6 +1,12 @@
 const router = require("express").Router();
 const userCtrl = require("../controller/user");
 const auth = require("../middleware/auth");
+
+router.get(
+  "/search-injection-register",
+  auth,
+  userCtrl.getResultInjectRegister
+);
 /**
  * lấy thông tin user qua id
  */
@@ -21,4 +27,5 @@ router.put("/:id", auth, userCtrl.updateUser);
  * xoá 1 người dân qua id
  */
 router.delete("/:id", auth, userCtrl.deleteUser);
+
 module.exports = router;
