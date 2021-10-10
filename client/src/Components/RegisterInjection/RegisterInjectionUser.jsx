@@ -37,8 +37,22 @@ function RegisterInjectionUser() {
           status={status}
         />
       )}
-      {status === 2 && <HistoryOfDisease data={data} />}
-      {status === 3 && <Complete />}
+      {status === 2 && (
+        <HistoryOfDisease
+          data={data}
+          setData={setData}
+          setStatus={setStatus}
+          status={status}
+        />
+      )}
+      {status === 3 && (
+        <Complete
+          data={data}
+          setData={setData}
+          setStatus={setStatus}
+          status={status}
+        />
+      )}
     </div>
   );
 }

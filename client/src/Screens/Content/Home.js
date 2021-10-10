@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import { postAPI } from "../../api/FetchData";
 import Toast from "../../Components/alert/Toast";
 import { activeEmail } from "../../redux/actions/authActions";
+import "./home.css";
 function Home() {
   const dispatch = useDispatch();
 
@@ -14,11 +15,7 @@ function Home() {
       dispatch(activeEmail({ active_token: slug }));
     }
   }, [slug]);
-  return (
-    <>
-      <div>Home Pages</div>
-    </>
-  );
+  return <div className="bg-home"></div>;
 }
 
 export default Home;

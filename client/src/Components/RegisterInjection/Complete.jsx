@@ -1,36 +1,58 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { InjectionRegister } from "../../redux/actions/injectionRegisterAction";
+import { Link } from "react-router-dom";
+function Complete({ data, setData, setStatus, status }) {
+  const dispatch = useDispatch();
+  const { auth } = useSelector((state) => state);
+  const handlePrePage = () => {
+    setStatus(status - 1);
+    // setData({ ...data, userId: auth.user._id });
+  };
 
-function Complete() {
+  const handleSubmit = () => {
+    dispatch(InjectionRegister(data, auth.access_token));
+  };
   return (
-    <div className='row justify-content-between mt-4'>
-      <div className='col-12'>
-        <div className='row justify-content-center '>
-          <div className='col-3 '>
-            <p className='font-weight-bold text-complete'>
+    <div className="row justify-content-between mt-4">
+      <div className="col-12">
+        <div className="row justify-content-center ">
+          <div className="col-3 ">
+            <p className="font-weight-bold text-complete">
               Cảm ơn bạn đã cung cấp thông tin cho chúng tôi, chọn xác nhận để
               hoàn thành đơn đăng ký
             </p>
           </div>
-          <div className='col-5'>
+          <div className="col-5">
             <img
-              src='https://media.discordapp.net/attachments/743851113333260361/893190927840083998/doctor-and-coronavirus-vaccine-injection-syringe-cartoon-art-illustration-free-vector.jpg?width=1130&height=904'
-              alt=''
+              src="https://media.discordapp.net/attachments/743851113333260361/893190927840083998/doctor-and-coronavirus-vaccine-injection-syringe-cartoon-art-illustration-free-vector.jpg?width=1130&height=904"
+              alt=""
               style={{ width: "100%", height: "100%" }}
             />
           </div>
         </div>
       </div>
-      <div className='col-12'>
-        <div className='row justify-content-between'>
-          <div className='col-8'></div>
-          <div className='col-4'>
-            <div className='row '>
-              <button type='button' class='btn btn-danger  mr-5 col-4'>
+      <div className="col-12">
+        <div className="row justify-content-between">
+          <div className="col-8"></div>
+          <div className="col-4">
+            <div className="row ">
+              <button
+                type="button"
+                class="btn btn-danger  mr-5 col-4"
+                onClick={handlePrePage}
+              >
                 Quay lại
               </button>
-              <button type='button' class='btn btn-primary  col-4'>
+
+              <Link
+                type="button"
+                class="btn btn-primary  col-4"
+                onClick={handleSubmit}
+                to="/"
+              >
                 Xác nhận
-              </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -17,6 +17,7 @@ function FormInfoUser({ data, setData, setStatus, status }) {
   };
 
   useEffect(() => {
+    console.log();
     dispatch(getDataVaccine());
     dispatch(getDataQH(1, "", auth.access_token));
     dispatch(getDataCompany(1, "", auth.access_token));
@@ -39,11 +40,17 @@ function FormInfoUser({ data, setData, setStatus, status }) {
               value={data.dose}
               onChange={handleOnChange}
             >
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
-              <option value={5}>5</option>
+              <option hidden={true}>Lựa chọn mũi tiêm</option>
+              {Object.keys(auth.user.doseInformation).length === 0 ? (
+                <>
+                  <option value={1}>Mũi tiêm thứ nhất</option>
+                  <option value={2}>Mũi tiêm thứ hai</option>
+                </>
+              ) : Object.keys(auth.user.doseInformation).length === 1 ? (
+                <option value={2}>Mũi tiêm thứ hai</option>
+              ) : (
+                "Bạn đã tiêm đủ"
+              )}
             </select>
           </div>
         </div>

@@ -8,6 +8,7 @@ import user from "./userReducer";
 import totalItem from "./totalPageReducer";
 import company from "./companyReducer";
 import disease from "./diseaseReducer";
+import injectionRegister from "./injectionRegisterReducer";
 export default combineReducers({
   auth,
   alert,
@@ -18,4 +19,5 @@ export default combineReducers({
   totalItem,
   company,
   disease,
+  injectionRegister,
 });

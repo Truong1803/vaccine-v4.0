@@ -1,12 +1,32 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDataDisease } from "../../redux/actions/diseaseAction";
-function HistoryOfDisease({ data }) {
+function HistoryOfDisease({ data, setData, setStatus, status }) {
   const { disease } = useSelector((state) => state);
+  let arrayData = [];
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getDataDisease());
   }, []);
+  const handleNextPage = () => {
+    setStatus(status + 1);
+    setData({ ...data, diseaseId: arrayData });
+  };
+
+  const handlePrePage = () => {
+    setStatus(status - 1);
+  };
+
+  const handleOnChange = (id, action) => {
+    // e.preventDefault();
+
+    const index = arrayData.indexOf(id);
+    if (index > -1 && action === "delete") {
+      arrayData.splice(index, 1);
+    } else if (!arrayData.includes(id) && action === "add") {
+      arrayData.push(id);
+    }
+  };
   return (
     <div className="row justify-content-center align-items-center mt-4">
       <div className="col-8 table-responsive table-hover align-items-center">
@@ -21,15 +41,17 @@ function HistoryOfDisease({ data }) {
           </thead>
           <tbody>
             {disease.map((item) => (
-              <tr>
+              <tr key={item._id}>
                 <td>{item.diseaseName}</td>
                 <td className="text-center">
                   <div className="form-check">
                     <input
                       className="form-check-input"
-                      type="checkbox"
-                      value=""
+                      type="radio"
+                      value={item._id}
                       id="defaultCheck1"
+                      name={item.diseaseName}
+                      onChange={() => handleOnChange(item._id, "add")}
                     />
                   </div>
                 </td>
@@ -37,9 +59,11 @@ function HistoryOfDisease({ data }) {
                   <div className="form-check">
                     <input
                       className="form-check-input"
-                      type="checkbox"
+                      type="radio"
                       value=""
                       id="defaultCheck1"
+                      name={item.diseaseName}
+                      onChange={() => handleOnChange(item._id, "delete")}
                     />
                   </div>
                 </td>
@@ -47,9 +71,11 @@ function HistoryOfDisease({ data }) {
                   <div className="form-check">
                     <input
                       className="form-check-input"
-                      type="checkbox"
+                      type="radio"
                       value=""
                       id="defaultCheck1"
+                      name={item.diseaseName}
+                      onChange={() => handleOnChange(item._id, "delete")}
                     />
                   </div>
                 </td>
@@ -67,6 +93,29 @@ function HistoryOfDisease({ data }) {
               </td> */}
           </tbody>
         </table>
+      </div>
+      <div className="col-12">
+        <div className="row justify-content-between">
+          <div className="col-8"></div>
+          <div className="col-4">
+            <div className="row ">
+              <button
+                type="button"
+                class="btn btn-danger  mr-5 col-4"
+                onClick={handlePrePage}
+              >
+                Quay lại
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary  col-4"
+                onClick={handleNextPage}
+              >
+                Tiếp tục
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

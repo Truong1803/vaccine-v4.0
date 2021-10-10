@@ -3,7 +3,6 @@ import { ADD_QH, DELETE_QH, EDIT_QH, GET_QH } from "../containt";
 export default (state = [], action) => {
   switch (action.type) {
     case GET_QH:
-      console.log("Organization");
       return action.payload;
     case ADD_QH:
       if (state.length < 5) return [...state, action.payload];

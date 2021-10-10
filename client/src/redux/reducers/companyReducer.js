@@ -8,7 +8,6 @@ import {
 export default (state = [], action) => {
   switch (action.type) {
     case GET_COMPANY:
-      console.log("Company");
       return action.payload;
     case ADD_COMPANY:
       if (state.length < 5) return [...state, action.payload];

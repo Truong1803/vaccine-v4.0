@@ -31,3 +31,7 @@ export const ADD_PAGE = "ADD_PAGE";
 export const DELETE_PAGE = "DELETE_PAGE";
 
 export const GET_DISEASE = "GET_DISEASE";
+
+export const INJECT_REGISTER = "INJECT_REGISTER";
+
+export const GET_INJECTION_REGISTER = "GET_INJECTION_REGISTER";
