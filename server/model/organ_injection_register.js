@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const OrganInjectionRegisterSchema = new mongoose.Schema(
   {
     organizationId: {
-      type: String,
+      type: mongoose.Schema.ObjectId,
     },
     userId: {
       type: Array,
@@ -23,6 +23,10 @@ const OrganInjectionRegisterSchema = new mongoose.Schema(
     status: {
       type: String,
       default: "pendding",
+    },
+    checked: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

@@ -8,7 +8,6 @@ router.get(
   authDVT,
   UserInjectionRegisterCtrl.getAllInjectionRegister
 );
-
 router.get("/:id", auth, UserInjectionRegisterCtrl.getInjectionRegister);
 
 router.post("/", auth, UserInjectionRegisterCtrl.InjectionRegister);

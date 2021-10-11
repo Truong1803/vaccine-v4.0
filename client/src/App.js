@@ -1,12 +1,15 @@
-import React, { useEffect } from "react";
-import "./App.css";
-import Content from "./Screens/Content/Content";
-import Menu from "../src/Screens/Header/Menu";
-import { BrowserRouter as Router } from "react-router-dom";
-import { Alert } from "./Components/alert/Alert";
-import { refreshToken } from "./redux/actions/authActions";
-import { useDispatch } from "react-redux";
-import ShowModal from "./Components/alert/Modal";
+import './App.css';
+
+import React, { useEffect } from 'react';
+
+import { useDispatch } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+import Menu from '../src/Screens/Header/Menu';
+import { Alert } from './Components/alert/Alert';
+import { refreshToken } from './redux/actions/authActions';
+import Content from './Screens/Content/Content';
+
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {

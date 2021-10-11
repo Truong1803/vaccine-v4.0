@@ -12,6 +12,7 @@ const healthOrganizationRouter = require("./routes/healthOganization");
 const organizationRouter = require("./routes/company");
 const diseaseRouter = require("./routes/disease");
 
+const organInjectionRegister = require("./routes/organInjectionRegister");
 const userInjectionRegisterRouter = require("./routes/userInjectionRegister");
 const scheduleInjectionRouter = require("./routes/scheduleInjection");
 const injectionInforRouter = require("./routes/injection_infor");
@@ -36,6 +37,7 @@ app.use("/api/health-organization", healthOrganizationRouter);
 app.use("/api/organization", organizationRouter);
 app.use("/api/disease", diseaseRouter);
 
+app.use("/api/organ-injection-register", organInjectionRegister);
 app.use("/api/user-injection-register", userInjectionRegisterRouter);
 app.use("/api/schedule-injection", scheduleInjectionRouter);
 app.use("/api/injection-infor", injectionInforRouter);
