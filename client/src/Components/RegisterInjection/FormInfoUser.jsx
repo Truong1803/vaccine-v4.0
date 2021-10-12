@@ -17,7 +17,6 @@ function FormInfoUser({ data, setData, setStatus, status }) {
   };
 
   useEffect(() => {
-    console.log();
     dispatch(getDataVaccine());
     dispatch(getDataQH(1, "", auth.access_token));
     dispatch(getDataCompany(1, "", auth.access_token));

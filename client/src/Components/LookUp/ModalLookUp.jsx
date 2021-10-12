@@ -273,7 +273,7 @@ function ModalLookUp({ auth, setShowModal }) {
                           )}
                         </div>
                       </div>
-                      <div className="col-3">
+                      <div className="col-2">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Ngày tiêm:</label>
                           <input
@@ -284,6 +284,20 @@ function ModalLookUp({ auth, setShowModal }) {
                           />
                         </div>
                       </div>
+
+                      {injectionRegister.status === "success" && (
+                        <div className="col-2">
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Thời gian:</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              value={injectionRegister.time}
+                              disabled={true}
+                            />
+                          </div>
+                        </div>
+                      )}
 
                       <div className="col-3">
                         <div class="form-group">

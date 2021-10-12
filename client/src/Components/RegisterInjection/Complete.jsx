@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { InjectionRegister } from "../../redux/actions/injectionRegisterAction";
 import { Link } from "react-router-dom";
 function Complete({ data, setData, setStatus, status }) {
   const dispatch = useDispatch();
   const { auth } = useSelector((state) => state);
+
+  const [check, setCheck] = useState(false);
+
   const handlePrePage = () => {
     setStatus(status - 1);
     // setData({ ...data, userId: auth.user._id });
@@ -20,7 +23,9 @@ function Complete({ data, setData, setStatus, status }) {
           <div className="col-3 ">
             <p className="font-weight-bold text-complete">
               Cảm ơn bạn đã cung cấp thông tin cho chúng tôi, chọn xác nhận để
-              hoàn thành đơn đăng ký
+              hoàn thành đơn đăng ký.{" "}
+              <input type="checkbox" onChange={() => setCheck(!check)} />
+              <span className="text-primary"> Xác nhận.</span>
             </p>
           </div>
           <div className="col-5">
@@ -47,7 +52,7 @@ function Complete({ data, setData, setStatus, status }) {
 
               <Link
                 type="button"
-                class="btn btn-primary  col-4"
+                className={`btn btn-primary  col-4 ${check ? "" : "disabled"} `}
                 onClick={handleSubmit}
                 to="/"
               >

@@ -15,7 +15,7 @@ function Home() {
       dispatch(activeEmail({ active_token: slug }));
     }
   }, [slug]);
-  return <div className="bg-home"></div>;
+  return <div>Home</div>;
 }
 
 export default Home;

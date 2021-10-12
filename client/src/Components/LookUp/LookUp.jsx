@@ -1,16 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ModalLookUp from "./ModalLookUp";
-import { GetInjectionRegister } from "../../redux/actions/injectionRegisterAction";
+import Modal from "../alert/Modal";
+import {
+  DeleteInjectionRegister,
+  GetInjectionRegister,
+} from "../../redux/actions/injectionRegisterAction";
 function LookUp() {
   const dispatch = useDispatch();
   const { injectionRegister, auth } = useSelector((state) => state);
   const [showModal, setShowModal] = useState(false);
+
+  const [openModal, setOpenModal] = useState(false);
+  const [itemId, setItemId] = useState("");
   useEffect(() => {
     dispatch(GetInjectionRegister(auth.access_token));
   }, []);
   const handleOnchange = () => {
     setShowModal(true);
+  };
+
+  const handleOpenModal = (itemId) => {
+    // setAction("");
+    setItemId(itemId);
+    setOpenModal(!openModal);
   };
   return (
     <div className="row justify-content-center">
@@ -70,17 +83,19 @@ function LookUp() {
                             <i className="far fa-eye"></i>
                           </button>
 
-                          <button
-                            type="button"
-                            className="btn btn-danger  "
-                            data-toggle="modal"
-                            data-target="#exampleModal"
-                            onClick={() => {
-                              // handleOnClickDelete(item._id);
-                            }}
-                          >
-                            <i className="fas fa-trash"></i>
-                          </button>
+                          {injectionRegister.status === "pendding" && (
+                            <button
+                              type="button"
+                              className="btn btn-danger  "
+                              data-toggle="modal"
+                              data-target="#exampleModal"
+                              onClick={() =>
+                                handleOpenModal(injectionRegister._id)
+                              }
+                            >
+                              <i className="fas fa-trash"></i>
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>
@@ -93,6 +108,15 @@ function LookUp() {
             )}
           </div>
         </div>
+        {openModal && (
+          <Modal
+            body="đơn đăng ký"
+            handleOpenModal={handleOpenModal}
+            itemId={itemId}
+            functDelete={DeleteInjectionRegister}
+            auth={auth}
+          />
+        )}
       </div>
     </div>
   );
