@@ -17,6 +17,9 @@ const InjectionInforSchema = new mongoose.Schema(
     diseaseId: {
       type: Array,
     },
+    time: {
+      type: String,
+    },
     healthOrganizationId: {
       type: mongoose.Schema.ObjectId,
     },

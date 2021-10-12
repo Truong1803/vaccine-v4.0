@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const ScheduleInjectionSchema = new mongoose.Schema(
   {
     userId: {
-      type: String,
+      type: mongoose.Schema.ObjectId,
     },
     injectionDate: {
       type: String,
@@ -20,6 +20,9 @@ const ScheduleInjectionSchema = new mongoose.Schema(
     status: {
       type: String,
       default: "success",
+    },
+    time: {
+      type: String,
     },
   },
   { timestamps: true }

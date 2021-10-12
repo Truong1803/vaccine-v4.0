@@ -25,6 +25,10 @@ const InjectionRegisterSchema = new mongoose.Schema(
       type: String,
       default: "pendding",
     },
+    checked: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

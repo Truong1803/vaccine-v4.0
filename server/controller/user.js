@@ -1,8 +1,7 @@
 const Users = require("../model/user");
 const InjectionRegister = require("../model/injection_register");
 const ScheduleInjection = require("../model/schedule_injection");
-const Vaccine = require("../model/vaccine");
-const healthOrganization = require("../model/healthOrganization");
+const mongoose = require("mongoose");
 class APIfeature {
   constructor(query, queryString) {
     this.query = query;
@@ -188,7 +187,7 @@ const userCtrl = {
         InjectionRegister.aggregate([
           {
             $match: {
-              userId: req.user.id,
+              userId: mongoose.Types.ObjectId(req.user.id),
             },
           },
           {
@@ -211,8 +210,32 @@ const userCtrl = {
           });
       } else {
         const result = await ScheduleInjection.findOne({ userId: req.user.id });
-        if (result) return res.json({ data: result });
-        else {
+        if (result) {
+          ScheduleInjection.aggregate([
+            {
+              $match: {
+                userId: mongoose.Types.ObjectId(req.user.id),
+              },
+            },
+            {
+              $lookup: {
+                from: "healthorganizations",
+                localField: "healthOrganizationId",
+                foreignField: "_id",
+                as: "organization",
+              },
+            },
+            {
+              $unwind: "$organization",
+            },
+          ])
+            .then((result) => {
+              res.json({ data: result[0] });
+            })
+            .catch((error) => {
+              return res.status(500).json({ msg: error.message });
+            });
+        } else {
           return res.json({ data: "notFound" });
         }
       }

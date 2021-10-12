@@ -47,47 +47,177 @@ class APIfeature {
 }
 const UserInjectionRegisterCtrl = {
   getAllInjectionRegister: async (req, res) => {
+    console.log(req.query);
     try {
-      InjectionRegister.aggregate([
-        {
-          $match: {
-            healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+      if (req.query.vaccineId !== "0" && req.query.dose === "0") {
+        InjectionRegister.aggregate([
+          {
+            $match: {
+              healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+              vaccineId: parseInt(req.query.vaccineId),
+            },
           },
-        },
-        {
-          $lookup: {
-            from: "healthorganizations",
-            localField: "healthOrganizationId",
-            foreignField: "_id",
-            as: "organization",
+          {
+            $lookup: {
+              from: "healthorganizations",
+              localField: "healthOrganizationId",
+              foreignField: "_id",
+              as: "organization",
+            },
           },
-        },
-        {
-          $lookup: {
-            from: "users",
-            localField: "userId",
-            foreignField: "_id",
-            as: "user",
+          {
+            $lookup: {
+              from: "users",
+              localField: "userId",
+              foreignField: "_id",
+              as: "user",
+            },
           },
-        },
-        {
-          $sort: {
-            injectionDate: 1,
+          {
+            $sort: {
+              injectionDate: 1,
+            },
           },
-        },
-        {
-          $unwind: "$organization",
-        },
-        {
-          $unwind: "$user",
-        },
-      ])
-        .then((result) => {
-          res.json({ data: result });
-        })
-        .catch((error) => {
-          return res.status(500).json({ msg: error.message });
-        });
+          {
+            $unwind: "$organization",
+          },
+          {
+            $unwind: "$user",
+          },
+        ])
+          .then((result) => {
+            res.json({ data: result });
+          })
+          .catch((error) => {
+            return res.status(500).json({ msg: error.message });
+          });
+      } else if (req.query.vaccineId === "0" && req.query.dose !== "0") {
+        InjectionRegister.aggregate([
+          {
+            $match: {
+              healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+              dose: parseInt(req.query.dose),
+            },
+          },
+          {
+            $lookup: {
+              from: "healthorganizations",
+              localField: "healthOrganizationId",
+              foreignField: "_id",
+              as: "organization",
+            },
+          },
+          {
+            $lookup: {
+              from: "users",
+              localField: "userId",
+              foreignField: "_id",
+              as: "user",
+            },
+          },
+          {
+            $sort: {
+              injectionDate: 1,
+            },
+          },
+          {
+            $unwind: "$organization",
+          },
+          {
+            $unwind: "$user",
+          },
+        ])
+          .then((result) => {
+            res.json({ data: result });
+          })
+          .catch((error) => {
+            return res.status(500).json({ msg: error.message });
+          });
+      } else if (req.query.vaccineId !== "0" && req.query.dose !== "0") {
+        InjectionRegister.aggregate([
+          {
+            $match: {
+              healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+              vaccineId: parseInt(req.query.vaccineId),
+              dose: parseInt(req.query.dose),
+            },
+          },
+          {
+            $lookup: {
+              from: "healthorganizations",
+              localField: "healthOrganizationId",
+              foreignField: "_id",
+              as: "organization",
+            },
+          },
+          {
+            $lookup: {
+              from: "users",
+              localField: "userId",
+              foreignField: "_id",
+              as: "user",
+            },
+          },
+          {
+            $sort: {
+              injectionDate: 1,
+            },
+          },
+          {
+            $unwind: "$organization",
+          },
+          {
+            $unwind: "$user",
+          },
+        ])
+          .then((result) => {
+            res.json({ data: result });
+          })
+          .catch((error) => {
+            return res.status(500).json({ msg: error.message });
+          });
+      } else {
+        InjectionRegister.aggregate([
+          {
+            $match: {
+              healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+            },
+          },
+          {
+            $lookup: {
+              from: "healthorganizations",
+              localField: "healthOrganizationId",
+              foreignField: "_id",
+              as: "organization",
+            },
+          },
+          {
+            $lookup: {
+              from: "users",
+              localField: "userId",
+              foreignField: "_id",
+              as: "user",
+            },
+          },
+          {
+            $sort: {
+              injectionDate: 1,
+            },
+          },
+          {
+            $unwind: "$organization",
+          },
+          {
+            $unwind: "$user",
+          },
+        ])
+          .then((result) => {
+            res.json({ data: result });
+          })
+          .catch((error) => {
+            return res.status(500).json({ msg: error.message });
+          });
+      }
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -187,8 +317,10 @@ const UserInjectionRegisterCtrl = {
 
   deleteInjectionRegister: async (req, res) => {
     try {
-      await InjectionRegister.findByIdAndDelete({ _id: req.params.id });
-      return res.json({ msg: "Huỷ đăng ký tiêm thành công" });
+      const result = await InjectionRegister.findByIdAndDelete({
+        _id: req.params.id,
+      });
+      return res.json({ data: result, msg: "Huỷ đăng ký tiêm thành công" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
