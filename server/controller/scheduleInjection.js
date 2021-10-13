@@ -4,6 +4,8 @@ const Users = require("../model/user");
 const InjectionRegister = require("../model/injection_register");
 const InjectionInfor = require("../model/injection_infor");
 const { findByIdAndUpdate } = require("../model/schedule_injection");
+
+const HealthOrganization = require("../model/healthOrganization");
 class APIfeature {
   constructor(query, queryString) {
     this.query = query;
@@ -54,11 +56,26 @@ const ScheduleInjectionCtrl = {
 
   setScheduleInjection: async (req, res) => {
     const data = req.body;
+    const organ = await HealthOrganization.findById(
+      data[0].healthOrganizationId
+    );
+    const num_table = parseInt(organ.num_table);
+    let time = 0;
+    let timeMorning = 28800; // 8h sáng
+    let timeAfternoon = 46800; // 13h chiều
+    if (data[0].time === "Sáng") {
+      time = timeMorning;
+    } else {
+      time = timeAfternoon;
+    }
     try {
-      data.map(async (item) => {
-        const newData = new ScheduleInjection(item);
+      data.map(async (item, index) => {
+        console.log(item);
+        const timeStart = convertHMS(time);
+        const newData = new ScheduleInjection({ ...item, time: timeStart });
         await newData.save();
         const user = await Users.findById({ _id: newData.userId });
+
         // sms.sendSMS(user.phonenumber);
         const history = await InjectionRegister.findOneAndDelete({
           userId: newData.userId,
@@ -72,9 +89,12 @@ const ScheduleInjectionCtrl = {
           vaccineId,
           diseaseId,
           injectionDate: newData.injectionDate,
-          time: item.time,
+          time: timeStart,
         });
         await newInjectionInfor.save();
+        if ((index + 1) % num_table === 0) {
+          time = time + 300;
+        }
       });
       return res.json({ msg: "Thiết lập kế hoạch tiêm thành công" });
     } catch (error) {

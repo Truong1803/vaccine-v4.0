@@ -24,6 +24,9 @@ const ScheduleInjectionSchema = new mongoose.Schema(
     time: {
       type: String,
     },
+    dose: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );
