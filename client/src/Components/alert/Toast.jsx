@@ -1,6 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { ALERT } from "../../redux/containt";
-import { useDispatch } from "react-redux";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
+import { useDispatch } from 'react-redux';
+
+import { ALERT } from '../../redux/containt';
+
 function Toast({ title, body, bgColor }) {
   const dispatch = useDispatch();
   const [show, setShow] = useState(true);
@@ -28,7 +34,7 @@ function Toast({ title, body, bgColor }) {
     //     /> */}
     //     <button
     //       type="button"
-    //       class="ml-2 mb-1 btn-close"
+    //       className="ml-2 mb-1 btn-close"
     //       data-dismiss="toast"
     //       aria-label="Close"
     //     ></button>
@@ -55,10 +61,10 @@ function Toast({ title, body, bgColor }) {
       // data-delay="2000"
     >
       <div className={`toast-header text-light ${bgColor}`}>
-        <strong class="mr-auto">{title}</strong>
+        <strong className="mr-auto">{title}</strong>
         <button
           type="button"
-          class="ml-2 mb-1 close"
+          className="ml-2 mb-1 close"
           data-dismiss="toast"
           aria-label="Close"
           onClick={handleClose}
@@ -66,7 +72,7 @@ function Toast({ title, body, bgColor }) {
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="toast-body">
+      <div className="toast-body">
         {typeof body === "string" ? (
           body
         ) : (

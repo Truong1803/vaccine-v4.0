@@ -1,9 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { getDataUser, deleteUser } from "../../redux/actions/userAction";
-import UserModal from "./Usermodal";
-import { useDispatch, useSelector } from "react-redux";
-import Modal from "../alert/Modal";
-import Paginate from "../Paginate/Paginate";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
+import {
+  deleteUser,
+  getDataUser,
+} from '../../redux/actions/userAction';
+import Modal from '../alert/Modal';
+import Paginate from '../Paginate/Paginate';
+import UserModal from './Usermodal';
+
 function ListUser() {
   const [action, setAction] = useState("");
   const [item, setItem] = useState("");
@@ -19,8 +31,9 @@ function ListUser() {
 
   const { user, auth, totalItem } = useSelector((state) => state);
   useEffect(() => {
-    dispatch(getDataUser(page, search, auth.access_token));
-  }, [page, search]);
+    if (auth.access_token)
+      dispatch(getDataUser(page, search, auth.access_token));
+  }, [page, search, auth.access_token]);
 
   const handleOnChangeSearch = (e) => {
     e.preventDefault();

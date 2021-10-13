@@ -1,8 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import RoleModal from "./RoleModal";
-import { getDataRole, deleteRole } from "../../redux/actions/roleAction";
-import Modal from "../alert/Modal";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
+import {
+  deleteRole,
+  getDataRole,
+} from '../../redux/actions/roleAction';
+import Modal from '../alert/Modal';
+import RoleModal from './RoleModal';
+
 function ListRole() {
   const { auth, role } = useSelector((state) => state);
   const [action, setAction] = useState("");
@@ -36,8 +48,9 @@ function ListRole() {
     setOpenModal(!openModal);
   };
   useEffect(() => {
-    dispatch(getDataRole(page, search, auth.access_token));
-  }, [page, search]);
+    if (auth.access_token)
+      dispatch(getDataRole(page, search, auth.access_token));
+  }, [page, search, auth.access_token, dispatch]);
 
   return (
     <div className="row">

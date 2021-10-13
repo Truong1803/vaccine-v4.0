@@ -1,10 +1,20 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+
+import axios from 'axios';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
 import {
   createOrganAdmin,
   updateOrganAdmin,
-} from "../../redux/actions/oganizationAction";
+} from '../../redux/actions/oganizationAction';
+
 const initialState = {
   represent: "",
   phonenumber: "",
@@ -226,7 +236,7 @@ function OrganizationModal({ action, item, status }) {
               <div className="row">
                 <div className="col-5">
                   <div className="row align-items-center mb-2">
-                    <label for="name1" className="col-4">
+                    <label htmlFor="name1" className="col-4">
                       Tên đại diện:
                     </label>
                     <input
@@ -263,7 +273,7 @@ function OrganizationModal({ action, item, status }) {
                     </select>
                   </div>
                   <div className="row align-items-center mb-2">
-                    <label for="name" className="col-4">
+                    <label htmlFor="name" className="col-4">
                       Quận/Huyện
                     </label>
                     <select
@@ -285,7 +295,7 @@ function OrganizationModal({ action, item, status }) {
                     </select>
                   </div>
                   <div className="row align-items-center mb-2">
-                    <label for="name" className="col-4">
+                    <label htmlFor="name" className="col-4">
                       Phường/Xã
                     </label>
                     <select
@@ -350,7 +360,7 @@ function OrganizationModal({ action, item, status }) {
                   </div>
 
                   <div className="row align-items-center mb-2">
-                    <label for="name" className="col-4">
+                    <label htmlFor="name" className="col-4">
                       Mật khẩu:
                     </label>
                     <input
@@ -365,7 +375,7 @@ function OrganizationModal({ action, item, status }) {
                   </div>
 
                   <div className="row align-items-center mb-2">
-                    <label for="name" className="col-4">
+                    <label htmlFor="name" className="col-4">
                       Nhóm quyền
                     </label>
                     <select

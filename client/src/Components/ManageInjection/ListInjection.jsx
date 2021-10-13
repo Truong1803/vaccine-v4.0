@@ -1,10 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import { useDispatch, useSelector } from "react-redux";
-import Modal from "../alert/Modal";
-import { deleteOrgan, getDataQH } from "../../redux/actions/oganizationAction";
-import InjectionModal from "./injectionModal";
-import Paginate from "../Paginate/Paginate";
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
+import {
+  deleteOrgan,
+  getDataQH,
+} from '../../redux/actions/oganizationAction';
+import Modal from '../alert/Modal';
+import Paginate from '../Paginate/Paginate';
+import InjectionModal from './injectionModal';
+
 function ListInjection() {
   const [action, setAction] = useState("");
   const [item, setItem] = useState("");
@@ -20,8 +31,8 @@ function ListInjection() {
 
   const { organization, auth, totalItem } = useSelector((state) => state);
   useEffect(() => {
-    dispatch(getDataQH(page, search, auth.access_token));
-  }, [page, search]);
+    if (auth.access_token) dispatch(getDataQH(page, search, auth.access_token));
+  }, [page, search, auth.access_token, dispatch]);
 
   const handleOnChangeSearch = (e) => {
     e.preventDefault();
@@ -48,7 +59,7 @@ function ListInjection() {
     setStatus(status);
   };
   return (
-    <div className={auth.user.role === 1 ? "container" : ""}>
+    <div className={auth.user?.role === 1 ? "container" : ""}>
       <div className="row">
         <div className="col-12">
           <div className="row">
@@ -70,13 +81,13 @@ function ListInjection() {
               </form>
             </div>
             <div className="col-6 d-flex justify-content-center">
-              {auth.user.role !== 1 ? (
+              {auth.user?.role !== 1 ? (
                 <h3>Quản lý đơn vị tiêm chủng</h3>
               ) : (
                 <h3>Tra cứu thông tin đơn vị tiêm chủng</h3>
               )}
             </div>
-            {auth.user.role !== 1 && (
+            {auth.user?.role !== 1 && (
               <div className="col-3">
                 <div className="action  ">
                   <button type="button" className="btn btn-outline-primary">
@@ -122,7 +133,7 @@ function ListInjection() {
             </thead>
             <tbody>
               {organization.map((item) => (
-                <tr className="text-center  ">
+                <tr className="text-center" key={item._id}>
                   <td>{item.organization}</td>
                   <td>{item.province.name}</td>
                   <td>{item.ward.name}</td>
@@ -145,7 +156,7 @@ function ListInjection() {
                       >
                         <i className="fas fa-eye"></i>
                       </button>
-                      {auth.user.role !== 1 && (
+                      {auth.user?.role !== 1 && (
                         <>
                           <button
                             type="button"

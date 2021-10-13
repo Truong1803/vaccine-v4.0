@@ -1,24 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
-import { GetInjectionRegister } from "../../redux/actions/injectionRegisterAction";
-import { getDataVaccine } from "../../redux/actions/vaccineAction";
-import { useDispatch, useSelector } from "react-redux";
-const initialState = {
-  email: "",
-  organization: "",
-  represent: "",
-  phonenumber: "",
-  province: "",
-  district: "",
-  ward: "",
-  address: "",
-};
+import React, { useEffect } from 'react';
+
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
+import {
+  GetInjectionRegister,
+} from '../../redux/actions/injectionRegisterAction';
+import { getDataVaccine } from '../../redux/actions/vaccineAction';
+
 function ModalLookUp({ auth, setShowModal }) {
   const { vaccine, injectionRegister } = useSelector((state) => state);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(GetInjectionRegister(auth.access_token));
     dispatch(getDataVaccine());
-  }, []);
+  }, [auth.access_token, dispatch]);
   const handleClick = () => {
     setShowModal(false);
   };
@@ -59,46 +57,48 @@ function ModalLookUp({ auth, setShowModal }) {
                   <div className="col">
                     <div className="row">
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Họ và tên:</label>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">Họ và tên:</label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={auth.user.name}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Ngày sinh:</label>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">Ngày sinh:</label>
                           <input
                             type="date"
-                            class="form-control"
+                            className="form-control"
                             value={auth.user.dob}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleFormControlSelect1">
+                        <div className="form-group">
+                          <label htmlFor="exampleFormControlSelect1">
                             Giới tính:
                           </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={auth.user.gender}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Số điện thoại:</label>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">
+                            Số điện thoại:
+                          </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={auth.user.phonenumber}
                             disabled={true}
                           />
@@ -111,44 +111,48 @@ function ModalLookUp({ auth, setShowModal }) {
                   <div className="col">
                     <div className="row">
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Email:</label>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">Email:</label>
                           <input
                             type="email"
-                            class="form-control"
+                            className="form-control"
                             value={auth.user.email}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">CCCD/CMND:</label>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">CCCD/CMND:</label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={auth.user.identification}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Số thẻ BHYT:</label>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">
+                            Số thẻ BHYT:
+                          </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={auth.user.bhyt}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Nghề nghiệp:</label>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">
+                            Nghề nghiệp:
+                          </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={auth.user.job}
                             disabled={true}
                           />
@@ -161,63 +165,63 @@ function ModalLookUp({ auth, setShowModal }) {
                   <div className="col">
                     <div className="row">
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">
                             Đơn vị công tác:
                           </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={auth.user.organization}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleFormControlSelect1">
+                        <div className="form-group">
+                          <label htmlFor="exampleFormControlSelect1">
                             Tỉnh/Thành phố:
                           </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={auth.user.province.name}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleFormControlSelect1">
+                        <div className="form-group">
+                          <label htmlFor="exampleFormControlSelect1">
                             Quận/Huyện:
                           </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={auth.user.district.name}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleFormControlSelect1">
+                        <div className="form-group">
+                          <label htmlFor="exampleFormControlSelect1">
                             Phường/Xã:
                           </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={auth.user.ward.name}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Địa chỉ:</label>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">Địa chỉ:</label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={auth.user.address}
                             disabled={true}
                           />
@@ -239,13 +243,13 @@ function ModalLookUp({ auth, setShowModal }) {
                   <div className="col">
                     <div className="row">
                       <div className="col-2 ">
-                        <div class="form-group">
-                          <label for="exampleFormControlSelect1">
+                        <div className="form-group">
+                          <label htmlFor="exampleFormControlSelect1">
                             Đăng ký mũi tiêm:
                           </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={
                               injectionRegister.dose === 1
                                 ? "Mũi tiêm thứ nhất"
@@ -256,16 +260,17 @@ function ModalLookUp({ auth, setShowModal }) {
                         </div>
                       </div>
                       <div className="col-2 ">
-                        <div class="form-group">
-                          <label for="exampleFormControlSelect1">
+                        <div className="form-group">
+                          <label htmlFor="exampleFormControlSelect1">
                             Loại vaccine:
                           </label>
                           {vaccine.map(
                             (item) =>
                               item._id === injectionRegister.vaccineId && (
                                 <input
+                                  key={item._id}
                                   type="text"
-                                  class="form-control"
+                                  className="form-control"
                                   value={item.name_vaccine}
                                   disabled={true}
                                 />
@@ -274,11 +279,11 @@ function ModalLookUp({ auth, setShowModal }) {
                         </div>
                       </div>
                       <div className="col-2">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Ngày tiêm:</label>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">Ngày tiêm:</label>
                           <input
                             type="date"
-                            class="form-control"
+                            className="form-control"
                             value={injectionRegister.injectionDate}
                             disabled={true}
                           />
@@ -287,11 +292,13 @@ function ModalLookUp({ auth, setShowModal }) {
 
                       {injectionRegister.status === "success" && (
                         <div className="col-2">
-                          <div class="form-group">
-                            <label for="exampleInputEmail1">Thời gian:</label>
+                          <div className="form-group">
+                            <label htmlFor="exampleInputEmail1">
+                              Thời gian:
+                            </label>
                             <input
                               type="text"
-                              class="form-control"
+                              className="form-control"
                               value={injectionRegister.time}
                               disabled={true}
                             />
@@ -300,14 +307,14 @@ function ModalLookUp({ auth, setShowModal }) {
                       )}
 
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleFormControlSelect1">
+                        <div className="form-group">
+                          <label htmlFor="exampleFormControlSelect1">
                             Đơn vị tiêm:
                           </label>
                           <input
                             type="text"
-                            class="form-control"
-                            value={injectionRegister.organization.organization}
+                            className="form-control"
+                            value={injectionRegister.organization?.organization}
                             disabled={true}
                           />
                         </div>

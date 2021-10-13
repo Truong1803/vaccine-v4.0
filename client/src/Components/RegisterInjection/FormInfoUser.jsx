@@ -1,8 +1,13 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getDataVaccine } from "../../redux/actions/vaccineAction";
-import { getDataQH } from "../../redux/actions/oganizationAction";
-import { getDataCompany } from "../../redux/actions/companyAction";
+import React, { useEffect } from 'react';
+
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
+import { getDataCompany } from '../../redux/actions/companyAction';
+import { getDataQH } from '../../redux/actions/oganizationAction';
+import { getDataVaccine } from '../../redux/actions/vaccineAction';
 
 function FormInfoUser({ data, setData, setStatus, status }) {
   const dispatch = useDispatch();
@@ -18,9 +23,11 @@ function FormInfoUser({ data, setData, setStatus, status }) {
 
   useEffect(() => {
     dispatch(getDataVaccine());
-    dispatch(getDataQH(1, "", auth.access_token));
-    dispatch(getDataCompany(1, "", auth.access_token));
-  }, []);
+    if (auth.access_token) {
+      dispatch(getDataQH(1, "", auth.access_token));
+      dispatch(getDataCompany(1, "", auth.access_token));
+    }
+  }, [auth.access_token]);
 
   const handleNextPage = () => {
     setStatus(status + 1);
@@ -30,22 +37,22 @@ function FormInfoUser({ data, setData, setStatus, status }) {
     <div>
       <div className="row justify-content-center mt-4">
         <div className="col-2 ">
-          <div class="form-group">
-            <label for="exampleFormControlSelect1">Đăng ký mũi tiêm:</label>
+          <div className="form-group">
+            <label htmlFor="exampleFormControlSelect1">Đăng ký mũi tiêm:</label>
             <select
-              class="form-control"
+              className="form-control"
               id="exampleFormControlSelect1"
               name="dose"
               value={data.dose}
               onChange={handleOnChange}
             >
               <option hidden={true}>Lựa chọn mũi tiêm</option>
-              {Object.keys(auth.user.doseInformation).length === 0 ? (
+              {auth.user?.doseInformation.length === 0 ? (
                 <>
                   <option value={1}>Mũi tiêm thứ nhất</option>
                   <option value={2}>Mũi tiêm thứ hai</option>
                 </>
-              ) : Object.keys(auth.user.doseInformation).length === 1 ? (
+              ) : auth.user?.doseInformation.length === 1 ? (
                 <option value={2}>Mũi tiêm thứ hai</option>
               ) : (
                 "Bạn đã tiêm đủ"
@@ -54,10 +61,10 @@ function FormInfoUser({ data, setData, setStatus, status }) {
           </div>
         </div>
         <div className="col-2 ">
-          <div class="form-group">
-            <label for="exampleFormControlSelect1">Loại vaccine:</label>
+          <div className="form-group">
+            <label htmlFor="exampleFormControlSelect1">Loại vaccine:</label>
             <select
-              class="form-control"
+              className="form-control"
               id="exampleFormControlSelect1"
               value={data.vaccineId}
               onChange={handleOnChange}
@@ -73,10 +80,10 @@ function FormInfoUser({ data, setData, setStatus, status }) {
           </div>
         </div>
         <div className="col-4">
-          <div class="form-group">
-            <label for="exampleFormControlSelect1">Đơn vị tiêm:</label>
+          <div className="form-group">
+            <label htmlFor="exampleFormControlSelect1">Đơn vị tiêm:</label>
             <select
-              class="form-control"
+              className="form-control"
               id="exampleFormControlSelect1"
               name="healthOrganizationId"
               value={data.healthOrganizationId}
@@ -92,7 +99,7 @@ function FormInfoUser({ data, setData, setStatus, status }) {
           </div>
         </div>
       </div>
-      <div className="row justify-content-center">
+      {/* <div className="row justify-content-center">
         <div className="col-8">
           <p className="font-weight-bold">1. Thông tin người đăng ký tiêm:</p>
         </div>
@@ -101,30 +108,30 @@ function FormInfoUser({ data, setData, setStatus, status }) {
         <div className="col-8">
           <div className="row">
             <div className="col-3">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Họ và tên:</label>
+              <div className="form-group">
+                <label htmlFor="exampleInputEmail1">Họ và tên:</label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   value={auth.user.name}
                   disabled={true}
                 />
               </div>
             </div>
             <div className="col-3">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Ngày sinh:</label>
+              <div className="form-group">
+                <label htmlFor="exampleInputEmail1">Ngày sinh:</label>
                 <input
                   type="date"
-                  class="form-control"
+                  className="form-control"
                   value={auth.user.dob}
                   disabled={true}
                 />
               </div>
             </div>
             <div className="col-3">
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Giới tính:</label>
+              <div className="form-group">
+                <label htmlFor="exampleFormControlSelect1">Giới tính:</label>
                 <input
                   type="text"
                   className="form-control"
@@ -134,11 +141,11 @@ function FormInfoUser({ data, setData, setStatus, status }) {
               </div>
             </div>
             <div className="col-3">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Số điện thoại:</label>
+              <div className="form-group">
+                <label htmlFor="exampleInputEmail1">Số điện thoại:</label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   value={auth.user.phonenumber}
                   disabled={true}
                 />
@@ -151,44 +158,44 @@ function FormInfoUser({ data, setData, setStatus, status }) {
         <div className="col-8">
           <div className="row">
             <div className="col-3">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Email:</label>
+              <div className="form-group">
+                <label htmlFor="exampleInputEmail1">Email:</label>
                 <input
                   type="email"
-                  class="form-control"
+                  className="form-control"
                   value={auth.user.email}
                   disabled={true}
                 />
               </div>
             </div>
             <div className="col-3">
-              <div class="form-group">
-                <label for="exampleInputEmail1">CCCD/CMND:</label>
+              <div className="form-group">
+                <label htmlFor="exampleInputEmail1">CCCD/CMND:</label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   value={auth.user.identification}
                   disabled={true}
                 />
               </div>
             </div>
             <div className="col-3">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Số thẻ BHYT:</label>
+              <div className="form-group">
+                <label htmlFor="exampleInputEmail1">Số thẻ BHYT:</label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   value={auth.user.bhyt}
                   disabled={true}
                 />
               </div>
             </div>
             <div className="col-3">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Nghề nghiệp:</label>
+              <div className="form-group">
+                <label htmlFor="exampleInputEmail1">Nghề nghiệp:</label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   value={auth.user.job}
                   disabled={true}
                 />
@@ -201,55 +208,57 @@ function FormInfoUser({ data, setData, setStatus, status }) {
         <div className="col-8">
           <div className="row">
             <div className="col-3">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Đơn vị công tác:</label>
+              <div className="form-group">
+                <label htmlFor="exampleInputEmail1">Đơn vị công tác:</label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   value={auth.user.job}
                   disabled={true}
                 />
               </div>
             </div>
             <div className="col-3">
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Tỉnh/Thành phố:</label>
+              <div className="form-group">
+                <label htmlFor="exampleFormControlSelect1">
+                  Tỉnh/Thành phố:
+                </label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   value={auth.user.province.name}
                   disabled={true}
                 />
               </div>
             </div>
             <div className="col-3">
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Quận/Huyện:</label>
+              <div className="form-group">
+                <label htmlFor="exampleFormControlSelect1">Quận/Huyện:</label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   value={auth.user.district.name}
                   disabled={true}
                 />
               </div>
             </div>
             <div className="col-3">
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Phường/Xã:</label>
+              <div className="form-group">
+                <label htmlFor="exampleFormControlSelect1">Phường/Xã:</label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   value={auth.user.ward.name}
                   disabled={true}
                 />
               </div>
             </div>
             <div className="col">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Địa chỉ:</label>
+              <div className="form-group">
+                <label htmlFor="exampleInputEmail1">Địa chỉ:</label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   value={auth.user.address}
                   disabled={true}
                 />
@@ -257,7 +266,7 @@ function FormInfoUser({ data, setData, setStatus, status }) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="row justify-content-center">
         <div className="col-8">
           <div className="row">
@@ -269,11 +278,11 @@ function FormInfoUser({ data, setData, setStatus, status }) {
         <div className="col-8">
           <div className="row">
             <div className="col-3">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Ngày tiêm dự kiến:</label>
+              <div className="form-group">
+                <label htmlFor="exampleInputEmail1">Ngày tiêm dự kiến:</label>
                 <input
                   type="date"
-                  class="form-control"
+                  className="form-control"
                   value={data.injectionDate}
                   onChange={handleOnChange}
                   name="injectionDate"
@@ -289,12 +298,12 @@ function FormInfoUser({ data, setData, setStatus, status }) {
             <div className="col-4"></div>
             <div className="col-4">
               <div className="row ">
-                <button type="button" class="btn btn-danger  mr-5 col-4">
+                <button type="button" className="btn btn-danger  mr-5 col-4">
                   Huỷ
                 </button>
                 <button
                   type="button"
-                  class="btn btn-primary  col-4"
+                  className="btn btn-primary  col-4"
                   onClick={handleNextPage}
                 >
                   Tiếp theo

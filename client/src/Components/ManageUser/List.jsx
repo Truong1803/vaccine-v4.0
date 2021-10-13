@@ -1,14 +1,22 @@
-import React, { useState, useEffect } from "react";
-import CompanyModal from "./CompanyModal";
-import { useDispatch, useSelector } from "react-redux";
-import { getDataQH, deleteOrgan } from "../../redux/actions/oganizationAction";
-import { getDataRole } from "../../redux/actions/roleAction";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
 import {
   deleteCompany,
   getDataCompany,
-} from "../../redux/actions/companyAction";
-import Modal from "../alert/Modal";
-import Paginate from "../Paginate/Paginate";
+} from '../../redux/actions/companyAction';
+import { getDataRole } from '../../redux/actions/roleAction';
+import Modal from '../alert/Modal';
+import Paginate from '../Paginate/Paginate';
+import CompanyModal from './CompanyModal';
+
 function ListOrganization() {
   const [action, setAction] = useState("");
   const [item, setItem] = useState("");
@@ -23,11 +31,13 @@ function ListOrganization() {
 
   const { company, auth, role, totalItem } = useSelector((state) => state);
   useEffect(() => {
-    dispatch(getDataRole(page, search, auth.access_token));
-  }, []);
+    if (auth.access_token)
+      dispatch(getDataRole(page, search, auth.access_token));
+  }, [page, search, auth.access_token, dispatch]);
   useEffect(() => {
-    dispatch(getDataCompany(page, search, auth.access_token));
-  }, [page, search]);
+    if (auth.access_token)
+      dispatch(getDataCompany(page, search, auth.access_token));
+  }, [page, search, auth.access_token, dispatch]);
 
   const handleOpenModal = (companyId) => {
     setAction("");
@@ -114,7 +124,7 @@ function ListOrganization() {
                 <td>{item.represent}</td>
                 <td>{item.phonenumber}</td>
 
-                <td>{role.filter((i) => i.id == item.role)[0].name}</td>
+                <td>{role.filter((i) => i.id == item.role)[0]?.name}</td>
                 <td>
                   <div className="row justify-content-center">
                     <button

@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { InjectionRegister } from "../../redux/actions/injectionRegisterAction";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import { InjectionRegister } from '../../redux/actions/injectionRegisterAction';
+
 function Complete({ data, setData, setStatus, status }) {
   const dispatch = useDispatch();
   const { auth } = useSelector((state) => state);
@@ -44,7 +50,7 @@ function Complete({ data, setData, setStatus, status }) {
             <div className="row ">
               <button
                 type="button"
-                class="btn btn-danger  mr-5 col-4"
+                className="btn btn-danger  mr-5 col-4"
                 onClick={handlePrePage}
               >
                 Quay lại

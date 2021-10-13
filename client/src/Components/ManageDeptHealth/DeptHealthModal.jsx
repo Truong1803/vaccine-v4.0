@@ -1,12 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import axios from 'axios';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
 import {
   createOrgan,
   updateOrgan,
-} from "../../redux/actions/oganizationAction";
+} from '../../redux/actions/oganizationAction';
 
 const initialState = {
   email: "",
@@ -48,7 +55,7 @@ function DeptHeathModal({ action, item, status }) {
       setDistrictId(item.district.id);
       setWardId(item.ward.id);
     }
-  }, [action, item]);
+  }, [action, item, auth.user.province.id, auth.user.role]);
 
   useEffect(() => {
     if (isFirstRun.current) {
@@ -207,7 +214,7 @@ function DeptHeathModal({ action, item, status }) {
             </div>
             <div className="modal-body">
               <div>
-                <label for="name">Tên cơ sở y tế:</label>
+                <label htmlFor="name">Tên cơ sở y tế:</label>
                 <input
                   type="text"
                   className="form-control col-12"
@@ -220,7 +227,7 @@ function DeptHeathModal({ action, item, status }) {
 
               <div className="row">
                 <div className="col-4">
-                  <label for="ct">Tỉnh/Thành phố:</label>
+                  <label htmlFor="ct">Tỉnh/Thành phố:</label>
                   <div className="form-group">
                     <select
                       id="inputState"
@@ -242,7 +249,7 @@ function DeptHeathModal({ action, item, status }) {
                   </div>
                 </div>
                 <div className="col-4">
-                  <label for="injection">Quận/Huyện</label>
+                  <label htmlFor="injection">Quận/Huyện</label>
                   <select
                     id="inputState"
                     className="form-control"
@@ -258,7 +265,7 @@ function DeptHeathModal({ action, item, status }) {
                   </select>
                 </div>
                 <div className="col-4">
-                  <label for="injection">Xã/Phường</label>
+                  <label htmlFor="injection">Xã/Phường</label>
                   <select
                     id="inputState"
                     className="form-control"
@@ -277,7 +284,7 @@ function DeptHeathModal({ action, item, status }) {
               <div className="row">
                 <div className="col-6">
                   <div className="form-group">
-                    <label for="name">Người đại diện:</label>
+                    <label htmlFor="name">Người đại diện:</label>
                     <input
                       type="text"
                       className="form-control col-12"
@@ -289,7 +296,7 @@ function DeptHeathModal({ action, item, status }) {
                   </div>
                 </div>
                 <div className="col-6">
-                  <label for="injection">Email:</label>
+                  <label htmlFor="injection">Email:</label>
                   <input
                     type="email"
                     className="form-control col-12"
@@ -303,7 +310,7 @@ function DeptHeathModal({ action, item, status }) {
               <div className="row">
                 <div className="col-6">
                   <div className="form-group">
-                    <label for="name">Số điện thoại:</label>
+                    <label htmlFor="name">Số điện thoại:</label>
                     <input
                       type="number"
                       className="form-control col-12"

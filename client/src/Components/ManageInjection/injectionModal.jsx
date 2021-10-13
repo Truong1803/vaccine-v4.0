@@ -1,10 +1,20 @@
-import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+
+import axios from 'axios';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
 import {
   createOrganWard,
   updateOrganWard,
-} from "../../redux/actions/oganizationAction";
+} from '../../redux/actions/oganizationAction';
+
 const initialState = {
   email: "",
   organization: "",
@@ -52,7 +62,13 @@ function InjectionModal({ action, item, status }) {
       setDistrictId(item.district.id);
       setWardId(item.ward.id);
     }
-  }, [action, item]);
+  }, [
+    action,
+    item,
+    auth.user.province.id,
+    auth.user.role,
+    auth.user.district.id,
+  ]);
 
   useEffect(() => {
     if (isFirstRun.current) {
@@ -211,7 +227,7 @@ function InjectionModal({ action, item, status }) {
             </div>
             <div className="modal-body">
               <div>
-                <label for="name">Tên đơn vị:</label>
+                <label htmlFor="name">Tên đơn vị:</label>
                 <input
                   type="text"
                   className="form-control col-12"
@@ -223,7 +239,7 @@ function InjectionModal({ action, item, status }) {
                 />
               </div>
               <div>
-                <label for="id">Địa chỉ:</label>
+                <label htmlFor="id">Địa chỉ:</label>
                 <input
                   type="text"
                   className="form-control col-12"
@@ -236,7 +252,7 @@ function InjectionModal({ action, item, status }) {
               </div>
               <div className="row">
                 <div className="col-4">
-                  <label for="ct">Tỉnh/Thành phố:</label>
+                  <label htmlFor="ct">Tỉnh/Thành phố:</label>
                   <div className="form-group">
                     <select
                       id="inputState"
@@ -258,7 +274,7 @@ function InjectionModal({ action, item, status }) {
                   </div>
                 </div>
                 <div className="col-4">
-                  <label for="injection">Quận/Huyện</label>
+                  <label htmlFor="injection">Quận/Huyện</label>
                   <select
                     id="inputState"
                     className="form-control"
@@ -275,7 +291,7 @@ function InjectionModal({ action, item, status }) {
                   </select>
                 </div>
                 <div className="col-4">
-                  <label for="injection">Phường/Xã:</label>
+                  <label htmlFor="injection">Phường/Xã:</label>
                   <select
                     id="inputState"
                     className="form-control"
@@ -295,7 +311,7 @@ function InjectionModal({ action, item, status }) {
               <div className="row">
                 <div className="col-6">
                   <div className="form-group">
-                    <label for="name">Người đại diện:</label>
+                    <label htmlFor="name">Người đại diện:</label>
                     <input
                       type="text"
                       className="form-control col-12"
@@ -308,7 +324,7 @@ function InjectionModal({ action, item, status }) {
                   </div>
                 </div>
                 <div className="col-6">
-                  <label for="injection">Email:</label>
+                  <label htmlFor="injection">Email:</label>
                   <input
                     type="email"
                     className="form-control col-12"
@@ -323,7 +339,7 @@ function InjectionModal({ action, item, status }) {
               <div className="row">
                 <div className="col-6">
                   <div className="form-group">
-                    <label for="name">Số điện thoại:</label>
+                    <label htmlFor="name">Số điện thoại:</label>
                     <input
                       type="number"
                       className="form-control col-12"
@@ -336,7 +352,7 @@ function InjectionModal({ action, item, status }) {
                   </div>
                 </div>
                 <div className="col-6">
-                  <label for="injection">Số bàn tiêm:</label>
+                  <label htmlFor="injection">Số bàn tiêm:</label>
                   <input
                     type="number"
                     className="form-control col-12"

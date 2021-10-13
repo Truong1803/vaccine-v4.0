@@ -1,6 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { createRole, updateRole } from "../../redux/actions/roleAction";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
+import {
+  createRole,
+  updateRole,
+} from '../../redux/actions/roleAction';
 
 const initialState = {
   name: "",
@@ -59,7 +70,7 @@ function RoleModal({ action, item }) {
             </div>
             <div className="modal-body">
               <div>
-                <label for="name">Mã quyền:</label>
+                <label htmlFor="name">Mã quyền:</label>
                 <input
                   type="text"
                   className="form-control col-12"
@@ -71,7 +82,7 @@ function RoleModal({ action, item }) {
                 />
               </div>
               <div>
-                <label for="name">Nhóm quyền:</label>
+                <label htmlFor="name">Nhóm quyền:</label>
                 <input
                   type="text"
                   className="form-control col-12"
@@ -82,7 +93,7 @@ function RoleModal({ action, item }) {
                 />
               </div>
               <div>
-                <label for="name">Mô tả:</label>
+                <label htmlFor="name">Mô tả:</label>
                 <input
                   type="text"
                   className="form-control col-12"

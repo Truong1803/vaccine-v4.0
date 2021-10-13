@@ -1,6 +1,12 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getDataDisease } from "../../redux/actions/diseaseAction";
+import React, { useEffect } from 'react';
+
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
+import { getDataDisease } from '../../redux/actions/diseaseAction';
+
 function HistoryOfDisease({ data, setData, setStatus, status }) {
   const { disease } = useSelector((state) => state);
   let arrayData = [];
@@ -101,14 +107,14 @@ function HistoryOfDisease({ data, setData, setStatus, status }) {
             <div className="row ">
               <button
                 type="button"
-                class="btn btn-danger  mr-5 col-4"
+                className="btn btn-danger  mr-5 col-4"
                 onClick={handlePrePage}
               >
                 Quay lại
               </button>
               <button
                 type="button"
-                class="btn btn-primary  col-4"
+                className="btn btn-primary  col-4"
                 onClick={handleNextPage}
               >
                 Tiếp tục

@@ -1,6 +1,6 @@
-import { AUTH } from "../containt";
+import { AUTH } from '../containt';
 
-const authReducer = (state = {}, action) => {
+const authReducer = (state = [], action) => {
   switch (action.type) {
     case AUTH:
       return action.payload;

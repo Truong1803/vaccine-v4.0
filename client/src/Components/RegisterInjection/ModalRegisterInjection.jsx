@@ -1,10 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect } from 'react';
 
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { getDataVaccine } from "../../redux/actions/vaccineAction";
-import { getDataDisease } from "../../redux/actions/diseaseAction";
-import { getAPI } from "../../api/FetchData";
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
+import { getDataDisease } from '../../redux/actions/diseaseAction';
+import { getDataVaccine } from '../../redux/actions/vaccineAction';
+
 function ModalRegisterInjection({ setShowModal, user }) {
   const { vaccine, disease } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -46,13 +49,13 @@ function ModalRegisterInjection({ setShowModal, user }) {
               <div className="modal-body">
                 <div className="row  mt-4">
                   <div className="col-3 ">
-                    <div class="form-group">
-                      <label for="exampleFormControlSelect1">
+                    <div className="form-group">
+                      <label htmlFor="exampleFormControlSelect1">
                         Đăng ký mũi tiêm:
                       </label>
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         value={user.dose === 1 ? "Mũi thứ nhất" : "Mũi thứ hai"}
                         disabled={true}
                       />
@@ -60,8 +63,8 @@ function ModalRegisterInjection({ setShowModal, user }) {
                   </div>
 
                   <div className="col-3 ">
-                    <div class="form-group">
-                      <label for="exampleFormControlSelect1">
+                    <div className="form-group">
+                      <label htmlFor="exampleFormControlSelect1">
                         Loại vaccine:
                       </label>
                       {vaccine.map(
@@ -69,7 +72,7 @@ function ModalRegisterInjection({ setShowModal, user }) {
                           item._id === user.vaccineId && (
                             <input
                               type="text"
-                              class="form-control"
+                              className="form-control"
                               value={item.name_vaccine}
                               disabled={true}
                             />
@@ -78,13 +81,13 @@ function ModalRegisterInjection({ setShowModal, user }) {
                     </div>
                   </div>
                   <div className="col-4">
-                    <div class="form-group">
-                      <label for="exampleFormControlSelect1">
+                    <div className="form-group">
+                      <label htmlFor="exampleFormControlSelect1">
                         Đơn vị tiêm:
                       </label>
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         value={user.organization.organization}
                         disabled={true}
                       />
@@ -103,46 +106,48 @@ function ModalRegisterInjection({ setShowModal, user }) {
                   <div className="col">
                     <div className="row">
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Họ và tên:</label>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">Họ và tên:</label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={user.user.name}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Ngày sinh:</label>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">Ngày sinh:</label>
                           <input
                             type="date"
-                            class="form-control"
+                            className="form-control"
                             value={user.user.dob}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleFormControlSelect1">
+                        <div className="form-group">
+                          <label htmlFor="exampleFormControlSelect1">
                             Giới tính:
                           </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={user.user.gender}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Số điện thoại:</label>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">
+                            Số điện thoại:
+                          </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={user.user.phonenumber}
                             disabled={true}
                           />
@@ -155,44 +160,48 @@ function ModalRegisterInjection({ setShowModal, user }) {
                   <div className="col">
                     <div className="row">
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Email:</label>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">Email:</label>
                           <input
                             type="email"
-                            class="form-control"
+                            className="form-control"
                             value={user.user.email}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">CCCD/CMND:</label>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">CCCD/CMND:</label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={user.user.identification}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Số thẻ BHYT:</label>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">
+                            Số thẻ BHYT:
+                          </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={user.user.bhyt}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Nghề nghiệp:</label>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">
+                            Nghề nghiệp:
+                          </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={user.user.job}
                             disabled={true}
                           />
@@ -205,63 +214,63 @@ function ModalRegisterInjection({ setShowModal, user }) {
                   <div className="col">
                     <div className="row">
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">
                             Đơn vị công tác:
                           </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={user.user.organization}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleFormControlSelect1">
+                        <div className="form-group">
+                          <label htmlFor="exampleFormControlSelect1">
                             Tỉnh/Thành phố:
                           </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={user.user.province.name}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleFormControlSelect1">
+                        <div className="form-group">
+                          <label htmlFor="exampleFormControlSelect1">
                             Quận/Huyện:
                           </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={user.user.district.name}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleFormControlSelect1">
+                        <div className="form-group">
+                          <label htmlFor="exampleFormControlSelect1">
                             Phường/Xã:
                           </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={user.user.ward.name}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Địa chỉ:</label>
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">Địa chỉ:</label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={user.user.address}
                             disabled={true}
                           />
@@ -283,13 +292,13 @@ function ModalRegisterInjection({ setShowModal, user }) {
                   <div className="col">
                     <div className="row">
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">
+                        <div className="form-group">
+                          <label htmlFor="exampleInputEmail1">
                             Ngày muốn tiêm:
                           </label>
                           <input
                             type="date"
-                            class="form-control"
+                            className="form-control"
                             value={user.injectionDate}
                             disabled={true}
                           />

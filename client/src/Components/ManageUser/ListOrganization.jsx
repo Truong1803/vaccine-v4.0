@@ -1,10 +1,22 @@
-import React, { useState, useEffect } from "react";
-import OrganizationModal from "./OrganizationModal";
-import { useDispatch, useSelector } from "react-redux";
-import { getDataQH, deleteOrgan } from "../../redux/actions/oganizationAction";
-import { getDataRole } from "../../redux/actions/roleAction";
-import Modal from "../alert/Modal";
-import Paginate from "../Paginate/Paginate";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
+import {
+  deleteOrgan,
+  getDataQH,
+} from '../../redux/actions/oganizationAction';
+import { getDataRole } from '../../redux/actions/roleAction';
+import Modal from '../alert/Modal';
+import Paginate from '../Paginate/Paginate';
+import OrganizationModal from './OrganizationModal';
+
 function ListOrganization() {
   const [action, setAction] = useState("");
   const [item, setItem] = useState("");
@@ -20,11 +32,12 @@ function ListOrganization() {
 
   const { organization, auth, role, totalItem } = useSelector((state) => state);
   useEffect(() => {
-    dispatch(getDataRole(page, search, auth.access_token));
-  }, []);
+    if (auth.access_token)
+      dispatch(getDataRole(page, search, auth.access_token));
+  }, [page, search, auth.access_token, dispatch]);
   useEffect(() => {
-    dispatch(getDataQH(page, search, auth.access_token));
-  }, [page, search]);
+    if (auth.access_token) dispatch(getDataQH(page, search, auth.access_token));
+  }, [page, search, auth.access_token, dispatch]);
 
   const handleOnChangeSearch = (e) => {
     e.preventDefault();

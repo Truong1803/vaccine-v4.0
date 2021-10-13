@@ -1,9 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
 import {
   createVaccine,
   updateVaccine,
-} from "../../redux/actions/vaccineAction";
+} from '../../redux/actions/vaccineAction';
 
 const initialState = {
   name_vaccine: "",
@@ -73,7 +81,7 @@ function VaccineModal({ action, item }) {
             </div>
             <div className="modal-body">
               <div>
-                <label for="id">Mã vắc xin:</label>
+                <label htmlFor="id">Mã vắc xin:</label>
                 <input
                   type="text"
                   className="form-control col-12"
@@ -84,7 +92,7 @@ function VaccineModal({ action, item }) {
                 />
               </div>
               <div>
-                <label for="name">Tên vắc xin:</label>
+                <label htmlFor="name">Tên vắc xin:</label>
                 <input
                   type="text"
                   className="form-control col-12"
@@ -95,7 +103,7 @@ function VaccineModal({ action, item }) {
                 />
               </div>
               <div>
-                <label for="unit">Hãng sản xuất:</label>
+                <label htmlFor="unit">Hãng sản xuất:</label>
                 <input
                   type="text"
                   className="form-control col-12"
@@ -107,7 +115,7 @@ function VaccineModal({ action, item }) {
               </div>
               <div className="row">
                 <div className="col-6">
-                  <label for="ct">Quốc gia sản xuất:</label>
+                  <label htmlFor="ct">Quốc gia sản xuất:</label>
                   <input
                     type="text"
                     className="form-control col-12"
@@ -118,7 +126,7 @@ function VaccineModal({ action, item }) {
                   />
                 </div>
                 <div className="col-6">
-                  <label for="injection">Số mũi tiêm:</label>
+                  <label htmlFor="injection">Số mũi tiêm:</label>
                   <input
                     type="number"
                     className="form-control col-12"
@@ -131,7 +139,7 @@ function VaccineModal({ action, item }) {
               </div>
               <div className="row">
                 <div className="col-6">
-                  <label for="ct">Khoảng cách giữa các mũi:</label>
+                  <label htmlFor="ct">Khoảng cách giữa các mũi:</label>
                   <div className="form-group">
                     <select
                       id="inputState"
@@ -148,7 +156,7 @@ function VaccineModal({ action, item }) {
                   </div>
                 </div>
                 <div className="col-6">
-                  <label for="injection">Đối tượng:</label>
+                  <label htmlFor="injection">Đối tượng:</label>
                   <input
                     type="text"
                     className="form-control col-12"

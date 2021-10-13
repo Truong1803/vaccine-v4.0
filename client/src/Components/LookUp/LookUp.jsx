@@ -1,21 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import ModalLookUp from "./ModalLookUp";
-import Modal from "../alert/Modal";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
 import {
   DeleteInjectionRegister,
   GetInjectionRegister,
-} from "../../redux/actions/injectionRegisterAction";
+} from '../../redux/actions/injectionRegisterAction';
+import { getDataVaccine } from '../../redux/actions/vaccineAction';
+import Modal from '../alert/Modal';
+import ModalLookUp from './ModalLookUp';
+
 function LookUp() {
   const dispatch = useDispatch();
-  const { injectionRegister, auth } = useSelector((state) => state);
+  const { injectionRegister, auth, vaccine } = useSelector((state) => state);
   const [showModal, setShowModal] = useState(false);
 
   const [openModal, setOpenModal] = useState(false);
   const [itemId, setItemId] = useState("");
   useEffect(() => {
-    dispatch(GetInjectionRegister(auth.access_token));
-  }, []);
+    dispatch(getDataVaccine());
+    if (auth.access_token) dispatch(GetInjectionRegister(auth.access_token));
+  }, [auth.access_token, dispatch]);
   const handleOnchange = () => {
     setShowModal(true);
   };
@@ -44,10 +55,14 @@ function LookUp() {
                     <tr className="text-center">
                       <th scope="col">STT</th>
                       <th scope="col">Họ và tên</th>
-                      <th scope="col">Ngày sinh</th>
-                      <th scope="col">Giới tính</th>
-                      <th scope="col">Số điện thoại</th>
-                      <th scope="col">Số CMND/CCCD</th>
+                      <th scope="col">Đăng ký mũi tiêm</th>
+                      <th scope="col">Loại vắc xin</th>
+                      <th scope="col">Ngày tiêm</th>
+                      {injectionRegister.status === "success" && (
+                        <th scope="col">Thời gian</th>
+                      )}
+
+                      <th scope="col">Địa điểm</th>
                       <th scope="col">Trạng thái</th>
                       <th scope="col"></th>
                     </tr>
@@ -55,11 +70,24 @@ function LookUp() {
                   <tbody>
                     <tr className="text-center ">
                       <td>1</td>
-                      <td>{auth.user.name}</td>
-                      <td>{auth.user.dob}</td>
-                      <td>{auth.user.gender}</td>
-                      <td>{auth.user.phonenumber}</td>
-                      <td>{auth.user.identification}</td>
+                      <td>{auth.user?.name}</td>
+                      <td>
+                        {injectionRegister.dose === 1
+                          ? "Mũi tiêm thứ nhất"
+                          : "Mũi tiêm thứ hai"}
+                      </td>
+                      <td>
+                        {vaccine.map(
+                          (item) =>
+                            item._id === injectionRegister.vaccineId &&
+                            item.name_vaccine
+                        )}
+                      </td>
+                      <td>{injectionRegister.injectionDate}</td>
+                      {injectionRegister.status === "success" && (
+                        <td>{injectionRegister.time}</td>
+                      )}
+                      <td>{injectionRegister.organization?.organization}</td>
                       <td
                         className={
                           injectionRegister.status === "pendding"

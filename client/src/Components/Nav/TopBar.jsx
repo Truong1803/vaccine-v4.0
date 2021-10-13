@@ -1,12 +1,15 @@
-import "./Nav.css";
+import './Nav.css';
 
-import React from "react";
+import React from 'react';
 
-import { Dropdown } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Dropdown } from 'react-bootstrap';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import { logout } from "../../redux/actions/authActions";
+import { logout } from '../../redux/actions/authActions';
 
 function TopBar() {
   const { auth } = useSelector((state) => state);
@@ -47,6 +50,7 @@ function TopBar() {
                   Trang chủ
                 </Link>
               </li>
+
               <li className="nav-item dropdown">
                 <Dropdown>
                   <Dropdown.Toggle
@@ -121,6 +125,7 @@ function TopBar() {
                   </Dropdown.Menu>
                 </Dropdown>
               </li>
+
               <li className="nav-item dropdown">
                 {auth.user?.name || auth.user?.organization ? (
                   // <Link

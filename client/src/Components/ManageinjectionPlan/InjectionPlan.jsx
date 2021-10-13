@@ -1,9 +1,15 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { postAPI } from "../../api/FetchData";
-import { setScheduleInjection } from "../../redux/actions/scheduleAction";
-import { getDataVaccine } from "../../redux/actions/vaccineAction";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
+import { setScheduleInjection } from '../../redux/actions/scheduleAction';
+import { getDataVaccine } from '../../redux/actions/vaccineAction';
 
 function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
   const [data, setData] = useState([]);
@@ -15,7 +21,7 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
 
   useEffect(() => {
     dispatch(getDataVaccine());
-  }, []);
+  }, [dispatch]);
 
   const handleOnclickPlan = () => {
     setShowPlan(false);
@@ -77,8 +83,8 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                     <p>Danh sách người đăng ký theo ngày: {injectionDate}</p>
                   </div>
                   <div className="col-4 row">
-                    <div class="form-group row align-items-center justify-content-center">
-                      <label for="exampleInputEmail1" className="col-6">
+                    <div className="form-group row align-items-center justify-content-center">
+                      <label htmlFor="exampleInputEmail1" className="col-6">
                         Chọn ngày tiêm :
                       </label>
                       <input
@@ -144,21 +150,21 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                   <div className="col">
                     <div className="row">
                       <div className="col-2 ">
-                        <div class="form-group">
-                          <label for="exampleFormControlSelect1">
+                        <div className="form-group">
+                          <label htmlFor="exampleFormControlSelect1">
                             Đăng ký mũi tiêm:
                           </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={listUser[0].dose}
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="col-2 ">
-                        <div class="form-group">
-                          <label for="exampleFormControlSelect1">
+                        <div className="form-group">
+                          <label htmlFor="exampleFormControlSelect1">
                             Loại vaccine:
                           </label>
                           {vaccine.map(
@@ -166,7 +172,7 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                               item._id === listUser[0].vaccineId && (
                                 <input
                                   type="text"
-                                  class="form-control"
+                                  className="form-control"
                                   value={item.name_vaccine}
                                   disabled={true}
                                 />
@@ -176,30 +182,30 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                       </div>
 
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleFormControlSelect1">
+                        <div className="form-group">
+                          <label htmlFor="exampleFormControlSelect1">
                             Thời gian tiêm:
                           </label>
                           <select
-                            class="form-control"
+                            className="form-control"
                             id="exampleFormControlSelect1"
                             value={time}
                             onChange={(e) => setTime(e.target.value)}
                           >
                             <option hidden={true}>Chọn thời gian</option>
-                            <option value="7:00-11:00">7:00-11:00</option>
-                            <option value="13:00-18:00">13:00-18:00</option>
+                            <option value="Sáng">8:00-11:00</option>
+                            <option value="Chiều">13:00-18:00</option>
                           </select>
                         </div>
                       </div>
                       <div className="col-3">
-                        <div class="form-group">
-                          <label for="exampleFormControlSelect1">
+                        <div className="form-group">
+                          <label htmlFor="exampleFormControlSelect1">
                             Đơn vị tiêm:
                           </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={listUser[0].organization.organization}
                             disabled={true}
                           />

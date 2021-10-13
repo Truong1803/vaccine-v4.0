@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import { useDispatch, useSelector } from "react-redux";
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
 import {
   deleteVaccine,
   getDataVaccine,
-} from "../../redux/actions/vaccineAction";
-import Modal from "../alert/Modal";
-import Paginate from "../Paginate/Paginate";
-import VaccineModal from "./VaccineModal";
+} from '../../redux/actions/vaccineAction';
+import Modal from '../alert/Modal';
+import Paginate from '../Paginate/Paginate';
+import VaccineModal from './VaccineModal';
 
 function ListVaccine() {
   const { auth, totalItem } = useSelector((state) => state);
@@ -61,7 +67,7 @@ function ListVaccine() {
     dispatch(getDataVaccine(page, search));
   }, [page, search]);
   return (
-    <div className={auth.user.role !== 1 ? "" : "container"}>
+    <div className={auth.user?.role !== 1 ? "" : "container"}>
       <div className="row">
         <div className="col-12 justify-content-center align-items-center">
           <div className="row mt-4 mb-2">
@@ -79,13 +85,13 @@ function ListVaccine() {
               </form>
             </div>
             <div className="col-6 d-flex justify-content-center">
-              {auth.user.role !== 1 ? (
+              {auth.user?.role !== 1 ? (
                 <h3>Quản lý danh mục vắc xin</h3>
               ) : (
                 <h3>Tra cứu thông tin vắc xin</h3>
               )}
             </div>
-            {auth.user.role !== 1 && (
+            {auth.user?.role !== 1 && (
               <div className="col-3">
                 <div className="action ">
                   <button type="button" className="btn btn-outline-primary">
@@ -143,7 +149,7 @@ function ListVaccine() {
                     <td>{item.num_ijection}</td>
                     <td>{item.time_step}</td>
                     <td>
-                      {auth.user.role !== 1 && (
+                      {auth.user?.role !== 1 && (
                         <div className="row">
                           <button
                             type="button"

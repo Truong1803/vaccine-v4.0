@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import { useDispatch, useSelector } from "react-redux";
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
-import { getAPI } from "../../api/FetchData";
-import { getDataVaccine } from "../../redux/actions/vaccineAction";
-import ModalRegisterInjection from "../RegisterInjection/ModalRegisterInjection";
-import InjectionPlan from "./InjectionPlan";
+import { getAPI } from '../../api/FetchData';
+import { getDataVaccine } from '../../redux/actions/vaccineAction';
+import ModalRegisterInjection
+  from '../RegisterInjection/ModalRegisterInjection';
+import InjectionPlan from './InjectionPlan';
 
 function ListUserInjection() {
   const dispatch = useDispatch();
@@ -25,16 +32,16 @@ function ListUserInjection() {
   const [user, setUser] = useState([]);
   useEffect(() => {
     dispatch(getDataVaccine());
-  }, []);
+  }, [dispatch]);
   useEffect(async () => {
-    console.log(callback);
-    const res = await getAPI(
-      `/user-injection-register/getAll?vaccineId=${vaccineId}&dose=${dose}&sort=injectionDate`,
-      auth.access_token
-    );
-    console.log(res.data.data);
-    setListUser(res.data.data);
-  }, [vaccineId, dose, callback]);
+    if (auth.access_token) {
+      const res = await getAPI(
+        `/user-injection-register/getAll?vaccineId=${vaccineId}&dose=${dose}&sort=injectionDate`,
+        auth.access_token
+      );
+      setListUser(res.data.data);
+    }
+  }, [vaccineId, dose, callback, auth.access_token]);
 
   const handleOnclickModal = (user) => {
     setUser(user);
