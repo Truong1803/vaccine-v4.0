@@ -19,6 +19,8 @@ import List from "../../Components/ManageUser/List";
 import LookUpUser from "../../Components/LookUp/LookUp";
 import ListUserInjection from "../../Components/ManageinjectionPlan/ListUser";
 import ListOrganizationInjection from "../../Components/ManageinjectionPlan/ListOrganization";
+import Info from "./Info";
+import HealthRecord from "./HealthRecord";
 function Content() {
   const { auth } = useSelector((state) => state);
   return (
@@ -32,6 +34,9 @@ function Content() {
       <Route path='/profile'>
         {auth.user?._id ? <Redirect to='/' /> : <Profile />}
       </Route>
+      <Route path='/info'>
+        <Info />
+      </Route>
       <Route path='/register_injection_user'>
         <RegisterInjectionUser />
       </Route>
@@ -40,6 +45,9 @@ function Content() {
       </Route>
       <Route path='/look_up'>
         <LookUpUser />
+      </Route>
+      <Route path='/health_record'>
+        <HealthRecord />
       </Route>
       <Route path='/admin/dashboard'>
         <Dashboard />
