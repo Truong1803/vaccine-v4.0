@@ -26,8 +26,8 @@ function ListHealthRecord() {
             <h3>Danh sách hồ sơ tiêm chủng</h3>
           </div>
           <div className='col-3'>
-            <div className='row'>
-              <div className='col-6'>
+            <div className='row '>
+              <div className='col-4 text-center'>
                 <p>Ngày tiêm:</p>
               </div>
               <div className='col-4'>
@@ -35,11 +35,7 @@ function ListHealthRecord() {
                   <input
                     className='form-control mr-sm-2'
                     type='date'
-                    placeholder='Search'
-                    aria-label='Search'
-                    value={search}
-                    onChange={handleOnChangeSearch}
-                    //onKeyDown={handleSubmitSearch}
+                    
                   />
                 </form>
               </div>

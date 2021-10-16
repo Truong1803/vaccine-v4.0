@@ -34,7 +34,7 @@ function ListOrganizationInjection() {
                 //     handleOnClick("", "Thêm", false);
                 //   }}
               >
-                Thêm
+                Thiết lập kế hoạch
               </button>
             </div>
           </div>
@@ -44,10 +44,9 @@ function ListOrganizationInjection() {
         <table className='table'>
           <thead className='thead-dark'>
             <tr className='text-center'>
-              <th scope='col'>Họ và tên</th>
-              <th scope='col'>Giới tính</th>
+              <th scope='col'>Tổ chức đăng ký</th>
+              <th scope='col'>Người đại diện</th>
               <th scope='col'>Số điện thoại</th>
-              <th scope='col'>CMT/CCCD</th>
               <th scope='col'>Ngày đăng ký</th>
               <th scope='col'>Trạng thái</th>
               <th scope='col'>Chi tiết</th>
@@ -56,10 +55,9 @@ function ListOrganizationInjection() {
           </thead>
           <tbody>
             <tr className='text-center '>
+              <td>DH Thang Long</td>
               <td>Ngô Trung Sơn</td>
-              <td>Nam</td>
               <td>0344174212</td>
-              <td>001200008471</td>
               <td>22/09/2021</td>
               <td className='text-danger'>chưa duyệt</td>
 
@@ -77,30 +75,6 @@ function ListOrganizationInjection() {
                     <i className='far fa-eye'></i>
                   </button>
                 </div>
-              </td>
-              <td>
-                <button
-                  type='button'
-                  className='btn btn-success mr-3 col-5 '
-                  //   data-toggle='modal'
-                  //   data-target='#exampleModal'
-                  //   onClick={() => {
-                  //     handleOnClick(item, "Sửa", false);
-                  //   }}
-                >
-                  <i className='fas fa-check'></i>
-                </button>
-                <button
-                  type='button'
-                  className='btn btn-danger col-5 '
-                  //   data-toggle='modal'
-                  //   data-target='#exampleModal'
-                  //   onClick={() => {
-                  //     handleOnClickDelete(item._id);
-                  //   }}
-                >
-                  <i className='fas fa-ban'></i>
-                </button>
               </td>
             </tr>
           </tbody>
