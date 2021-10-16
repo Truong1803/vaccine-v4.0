@@ -10,7 +10,7 @@ function ModalDetail() {
         aria-labelledby='exampleModalLabel'
         aria-hidden='true'
       >
-        <div className='modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl'>
+        <div className='modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg'>
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='exampleModalLabel'>
@@ -48,6 +48,16 @@ function ModalDetail() {
                           Tên vaccine:
                         </label>
                         <div className='col-8'>
+                          <input type='text' className='form-control' />
+                        </div>
+                      </div>
+                    </div>
+                    <div className='col-12'>
+                      <div className='form-group row'>
+                        <label className='col-3 col-form-label'>
+                          Đơn vị tiêm chủng:
+                        </label>
+                        <div className='col-9'>
                           <input type='text' className='form-control' />
                         </div>
                       </div>
@@ -110,7 +120,7 @@ function ModalDetail() {
                   <div className='row mt-2'>
                     <div className='col-6'>
                       <div className='row'>
-                        <div className='col-5'>Người thực hiện khám:</div>
+                        <div className='col-6'>Người thực hiện khám:</div>
                         <div className='col-6'>
                           <input type='text' className='form-control' />
                         </div>
@@ -145,7 +155,7 @@ function ModalDetail() {
                   <div className='row mt-2'>
                     <div className='col-6'>
                       <div className='row'>
-                        <div className='col-5'>Người thực hiện khám:</div>
+                        <div className='col-6'>Người thực hiện tiêm:</div>
                         <div className='col-6'>
                           <input type='text' className='form-control' />
                         </div>
