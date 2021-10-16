@@ -1,4 +1,4 @@
-const Vaccines = require("../model/vaccine");
+const Vaccines = require("../../model/vaccine");
 
 class APIfeature {
   constructor(query, queryString) {

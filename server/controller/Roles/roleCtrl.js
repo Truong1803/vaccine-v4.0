@@ -1,4 +1,4 @@
-const Roles = require("../model/role");
+const Roles = require("../../model/role");
 
 class APIfeature {
   constructor(query, queryString) {

@@ -1,4 +1,4 @@
-const Disease = require("../model/disease");
+const Disease = require("../../model/disease");
 const DiseaseCtrl = {
   getAll: async (req, res) => {
     try {

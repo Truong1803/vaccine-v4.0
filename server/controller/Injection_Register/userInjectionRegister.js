@@ -1,5 +1,5 @@
-const InjectionRegister = require("../model/injection_register");
-const ScheduleInjection = require("../model/schedule_injection");
+const InjectionRegister = require("../../model/injection_register");
+const ScheduleInjection = require("../../model/schedule_injection");
 const mongoose = require("mongoose");
 class APIfeature {
   constructor(query, queryString) {

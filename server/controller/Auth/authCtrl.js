@@ -1,13 +1,13 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const Users = require("../model/user");
-const Organization = require("../model/organization");
+const Users = require("../../model/user");
+const Organization = require("../../model/organization");
 
-const sms = require("../config/sendSMS");
+const sms = require("../../config/sendSMS");
 
-const valid = require("../middleware/valid");
-const sendEmail = require("../config/sendEmail");
-const healthOrganization = require("../model/healthOrganization");
+const valid = require("../../middleware/valid");
+const sendEmail = require("../../config/sendEmail");
+const healthOrganization = require("../../model/healthOrganization");
 
 const CLIENT_URL = `${process.env.BASE_URL}`;
 

@@ -4,18 +4,9 @@ const cors = require("cors");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 
-const authRouter = require("./routes/auth");
-const vaccineRouter = require("./routes/vaccine");
-const roleRouter = require("./routes/role");
-const userRouter = require("./routes/user");
-const healthOrganizationRouter = require("./routes/healthOganization");
-const organizationRouter = require("./routes/company");
-const diseaseRouter = require("./routes/disease");
+const multer = require("multer");
 
-const organInjectionRegister = require("./routes/organInjectionRegister");
-const userInjectionRegisterRouter = require("./routes/userInjectionRegister");
-const scheduleInjectionRouter = require("./routes/scheduleInjection");
-const injectionInforRouter = require("./routes/injection_infor");
+const routes = require("./routes/index");
 
 const app = express();
 
@@ -25,22 +16,31 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(cookieParser());
 
+// SET STORAGE
+const upload = multer({ dest: "./public/data/uploads/" });
+
+// app.use(
+//   fileUpload({
+//     useTempFiles: true,
+//   })
+// );
+
 db.connectDB();
 //routes
 
-app.use("/api/auth", authRouter);
-app.use("/api/vaccine", vaccineRouter);
-app.use("/api/role", roleRouter);
-app.use("/api/user", userRouter);
+app.use("/api/auth", routes.authRouter);
+app.use("/api/vaccine", routes.vaccineRouter);
+app.use("/api/role", routes.roleRouter);
+app.use("/api/user", routes.userRouter);
 
-app.use("/api/health-organization", healthOrganizationRouter);
-app.use("/api/organization", organizationRouter);
-app.use("/api/disease", diseaseRouter);
+app.use("/api/health-organization", routes.healthOrganizationRouter);
+app.use("/api/organization", routes.organizationRouter);
+app.use("/api/disease", routes.diseaseRouter);
 
-app.use("/api/organ-injection-register", organInjectionRegister);
-app.use("/api/user-injection-register", userInjectionRegisterRouter);
-app.use("/api/schedule-injection", scheduleInjectionRouter);
-app.use("/api/injection-infor", injectionInforRouter);
+app.use("/api/organ-injection-register", routes.organInjectionRegisterRouter);
+app.use("/api/user-injection-register", routes.userInjectionRegisterRouter);
+app.use("/api/schedule-injection", routes.scheduleInjectionRouter);
+app.use("/api/injection-infor", routes.injectionInforRouter);
 
 const PORT = process.env.PORT || 5000;
 

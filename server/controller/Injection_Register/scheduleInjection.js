@@ -1,11 +1,11 @@
-const ScheduleInjection = require("../model/schedule_injection");
-const sms = require("../config/sendSMS");
-const Users = require("../model/user");
-const InjectionRegister = require("../model/injection_register");
-const InjectionInfor = require("../model/injection_infor");
-const { findByIdAndUpdate } = require("../model/schedule_injection");
+const ScheduleInjection = require("../../model/schedule_injection");
+const sms = require("../../config/sendSMS");
+const Users = require("../../model/user");
+const InjectionRegister = require("../../model/injection_register");
+const InjectionInfor = require("../../model/injection_infor");
+const { findByIdAndUpdate } = require("../../model/schedule_injection");
 
-const HealthOrganization = require("../model/healthOrganization");
+const HealthOrganization = require("../../model/healthOrganization");
 class APIfeature {
   constructor(query, queryString) {
     this.query = query;

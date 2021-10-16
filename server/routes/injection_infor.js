@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const auth = require("../middleware/auth");
-const InjectionInforCtrl = require("../controller/injection_infor");
+const InjectionInforCtrl = require("../controller/InjectionInfor/injection_infor");
 
 router.patch("/pre-injection/:id", auth, InjectionInforCtrl.updatePreInjection);
 

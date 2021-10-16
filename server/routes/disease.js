@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const deseaseCtrl = require("../controller/diseaseCtrl");
+const deseaseCtrl = require("../controller/Disease/diseaseCtrl");
 router.get("/:id", deseaseCtrl.getById);
 router.get("/", deseaseCtrl.getAll);
 router.post("/", deseaseCtrl.createDisease);

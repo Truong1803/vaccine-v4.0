@@ -1,4 +1,4 @@
-const vaccineCtrl = require("../controller/vaccineCtrl");
+const vaccineCtrl = require("../controller/Vaccines/vaccineCtrl");
 const authTP = require("../middleware/authTP");
 const auth = require("../middleware/auth");
 const router = require("express").Router();

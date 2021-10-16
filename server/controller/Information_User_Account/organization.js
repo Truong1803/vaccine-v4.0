@@ -1,6 +1,6 @@
-const Organization = require("../model/organization");
+const Organization = require("../../model/organization");
 const bcrypt = require("bcrypt");
-const sendEmailRegister = require("../config/sendEmailOrgan");
+const sendEmailRegister = require("../../config/sendEmailOrgan");
 class APIfeature {
   constructor(query, queryString) {
     this.query = query;

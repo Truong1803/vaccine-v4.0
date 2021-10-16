@@ -1,5 +1,5 @@
-const InjectionInfor = require("../model/injection_infor");
-const Users = require("../model/user");
+const InjectionInfor = require("../../model/injection_infor");
+const Users = require("../../model/user");
 const InjectionInforCtrl = {
   updatePreInjection: async (req, res) => {
     try {

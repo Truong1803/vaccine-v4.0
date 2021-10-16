@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const authCtrl = require("../controller/authCtrl");
+const authCtrl = require("../controller/Auth/authCtrl");
 /**
  * đăng ký tài khoản người dân bằng sdt
  */

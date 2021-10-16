@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const healthOganizationCtrl = require("../controller/healthOganization");
+const healthOganizationCtrl = require("../controller/HealthOrganization/healthOganization");
 const auth = require("../middleware/auth");
 const authAdmin = require("../middleware/authAdmin");
 /**
