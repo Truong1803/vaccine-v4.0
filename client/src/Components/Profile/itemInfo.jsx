@@ -1,9 +1,29 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { updateInfor } from "../../redux/actions/authActions";
-function ItemInfo({ infor }) {
+import { getUserById, updateUser } from "../../redux/actions/userAction";
+
+const initialState = {
+  phonenumber: "",
+  identification: "",
+  name: "",
+  gender: "",
+  dob: "",
+  province: "",
+  district: "",
+  ward: "",
+  address: "",
+  bhyt: "",
+  job: "",
+  company: "",
+};
+function ItemInfo() {
   const dispatch = useDispatch();
+  const { auth, user } = useSelector((state) => state);
+
+  const [data, setData] = useState(initialState);
+
   const [tinh, setTinh] = useState([]);
   const [huyen, setHuyen] = useState([]);
   const [phuong, setPhuong] = useState([]);
@@ -11,13 +31,31 @@ function ItemInfo({ infor }) {
   const [districtId, setDistrictId] = useState("");
   const [wardId, setWardId] = useState("");
 
-  const name = useRef();
-  const dob = useRef();
-  const address = useRef();
-  const gender = useRef();
-
   const isFirstRun = useRef(true);
   const isFirstRun1 = useRef(true);
+
+  useEffect(async () => {
+    if (auth.access_token) {
+      dispatch(getUserById(auth.user._id, auth.access_token));
+    }
+  }, [auth.access_token]);
+
+  useEffect(() => {
+    if (isFirstRun1.current) {
+      isFirstRun1.current = false;
+      return;
+    }
+
+    setData(user[0]);
+    setProvinceId(user[0]?.province.id);
+    setDistrictId(user[0]?.district.id);
+    setWardId(user[0]?.ward.id);
+  }, [user]);
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setData({ ...data, [name]: value });
+  };
 
   useEffect(() => {
     if (isFirstRun.current) {
@@ -92,39 +130,37 @@ function ItemInfo({ infor }) {
       }
     });
     dispatch(
-      updateInfor({
-        ...infor,
-        name: name.current.value,
-        gender: gender.current.value,
-        dob: dob.current.value,
-        province: province1,
-        district: district1,
-        ward: ward1,
-        address: address.current.value,
-      })
+      updateUser(
+        {
+          ...data,
+          province: province1,
+          district: district1,
+          ward: ward1,
+        },
+        auth.access_token
+      )
     );
-    localStorage.removeItem("infor");
   };
 
   return (
     <div>
-      <div className='justify-content-center mt-5 row'>
-        <div className='col-12'>
-          <div className='login-box '>
-            <div className='card'>
-              <div className='card-header text-center p-3'>
+      <div className="justify-content-center mt-5 row">
+        <div className="col-12">
+          <div className="login-box ">
+            <div className="card">
+              <div className="card-header text-center p-3">
                 <h3>Thông tin cá nhân</h3>
               </div>
-              <div className='card-body mt-3'>
+              <div className="card-body mt-3">
                 <div>
-                  <div className='row'>
-                    <div className='col'>
+                  <div className="row">
+                    <div className="col">
                       <label>Số điện thoại:</label>
-                      <div className='input-group mb-3'>
+                      <div className="input-group mb-3">
                         <input
-                          type='text'
-                          className='form-control'
-                          placeholder={infor.phonenumber}
+                          type="text"
+                          className="form-control"
+                          placeholder={data.phonenumber}
                           disabled
                         />
                       </div>
@@ -140,39 +176,42 @@ function ItemInfo({ infor }) {
                         />
                       </div>
                     </div> */}
-                    <div className='col'>
+                    <div className="col">
                       <label>CCCD/CMND:</label>
-                      <div className='input-group mb-3'>
+                      <div className="input-group mb-3">
                         <input
-                          type='text'
-                          aria-label='CCCD/CMND'
-                          className='form-control'
-                          placeholder={infor.identification}
+                          type="text"
+                          aria-label="CCCD/CMND"
+                          className="form-control"
+                          placeholder={data.identification}
                           disabled
                         />
                       </div>
                     </div>
                   </div>
 
-                  <div className='row'>
-                    <div className='col'>
+                  <div className="row">
+                    <div className="col">
                       <label>Họ và tên:</label>
-                      <div className='input-group mb-3'>
+                      <div className="input-group mb-3">
                         <input
-                          type='text'
-                          className='form-control'
-                          ref={name}
+                          type="text"
+                          className="form-control"
+                          name="name"
+                          value={data.name}
+                          onChange={handleOnChange}
                         />
                       </div>
                     </div>
-                    <div className='col'>
+                    <div className="col">
                       <label>Giới tính:</label>
-                      <div className='form-group'>
+                      <div className="form-group">
                         <select
-                          id='inputState'
-                          className='form-control'
-                          ref={gender}
-                          defaultValue='Nam'
+                          id="inputState"
+                          className="form-control"
+                          name="gender"
+                          value={data.gender}
+                          onChange={handleOnChange}
                         >
                           <option>Nam</option>
                           <option>Nữ</option>
@@ -180,77 +219,87 @@ function ItemInfo({ infor }) {
                         </select>
                       </div>
                     </div>
-                    <div className='col'>
+                    <div className="col">
                       <label>Ngày sinh:</label>
-                      <div className='input-group mb-3'>
+                      <div className="input-group mb-3">
                         <input
-                          type='date'
-                          aria-label='Ngày sinh'
-                          defaultValue='25/09/2021'
-                          className='form-control'
-                          ref={dob}
+                          type="date"
+                          aria-label="Ngày sinh"
+                          className="form-control"
+                          value={data.dob}
+                          name="dob"
+                          onChange={handleOnChange}
                         />
                       </div>
                     </div>
                   </div>
-                  <div className='row'>
-                    <div className='col'>
+                  <div className="row">
+                    <div className="col">
                       <label>Số thẻ BHYT:</label>
-                      <div className='input-group mb-3'>
+                      <div className="input-group mb-3">
                         <input
-                          type='text'
-                          aria-label='CCCD/CMND'
-                          className='form-control'
-                          placeholder={infor.identification}
+                          type="text"
+                          aria-label="CCCD/CMND"
+                          className="form-control"
+                          name="bhyt"
+                          value={data.bhyt}
+                          onChange={handleOnChange}
                         />
                       </div>
                     </div>
-                    <div className='col'>
+                    <div className="col">
                       <label>Nghề nghiệp:</label>
-                      <div className='input-group mb-3'>
+                      <div className="input-group mb-3">
                         <input
-                          type='text'
-                          aria-label='CCCD/CMND'
-                          className='form-control'
-                          placeholder={infor.identification}
+                          type="text"
+                          aria-label="CCCD/CMND"
+                          className="form-control"
+                          name="job"
+                          value={data.job}
+                          onChange={handleOnChange}
                         />
                       </div>
                     </div>
-                    <div className='col'>
+                    <div className="col">
                       <label>Đơn vị công tác:</label>
-                      <div className='input-group mb-3'>
+                      <div className="input-group mb-3">
                         <input
-                          type='text'
-                          aria-label='CCCD/CMND'
-                          className='form-control'
-                          placeholder={infor.identification}
+                          type="text"
+                          aria-label="CCCD/CMND"
+                          className="form-control"
+                          name="company"
+                          value={data.company}
+                          onChange={handleOnChange}
                         />
                       </div>
                     </div>
                   </div>
-                  <div className='row'>
-                    <div className='col'>
+                  <div className="row">
+                    <div className="col">
                       <label>Địa chỉ:</label>
-                      <div className='input-group mb-3'>
+                      <div className="input-group mb-3">
                         <input
-                          type='text'
-                          className='form-control'
-                          ref={address}
+                          type="text"
+                          className="form-control"
+                          name="address"
+                          value={data.address}
+                          onChange={handleOnChange}
                         />
                       </div>
                     </div>
                   </div>
-                  <div className='row'>
-                    <div className='col'>
+                  <div className="row">
+                    <div className="col">
                       <label>Tỉnh/Thành Phố:</label>
-                      <div className='form-group'>
+                      <div className="form-group">
                         <select
-                          id='inputState'
-                          className='form-control'
+                          id="inputState"
+                          className="form-control"
+                          name="province"
                           value={provinceId}
                           onChange={handleChangeProvince}
                         >
-                          <option>Tỉnh/Thành phố</option>
+                          <option hidden={true}>Tỉnh/Thành phố</option>
                           {tinh.map((option) => (
                             <option
                               key={option.ProvinceID}
@@ -262,12 +311,12 @@ function ItemInfo({ infor }) {
                         </select>
                       </div>
                     </div>
-                    <div className='col'>
+                    <div className="col">
                       <label>Quận/Huyện:</label>
-                      <div className='form-group'>
+                      <div className="form-group">
                         <select
-                          id='inputState'
-                          className='form-control'
+                          id="inputState"
+                          className="form-control"
                           value={districtId}
                           onChange={handleChangeDistrict}
                         >
@@ -283,12 +332,12 @@ function ItemInfo({ infor }) {
                         </select>
                       </div>
                     </div>
-                    <div className='col'>
+                    <div className="col">
                       <label>Phường/Xã:</label>
-                      <div className='form-group'>
+                      <div className="form-group">
                         <select
-                          id='inputState'
-                          className='form-control'
+                          id="inputState"
+                          className="form-control"
                           value={wardId}
                           onChange={handleChangeWard}
                         >
@@ -305,12 +354,12 @@ function ItemInfo({ infor }) {
                       </div>
                     </div>
                   </div>
-                  <div className='row'>
-                    <div className='col-8'></div>
-                    <div className='col-4'>
+                  <div className="row">
+                    <div className="col-8"></div>
+                    <div className="col-4">
                       <button
-                        type='submit'
-                        className='btn btn-primary btn-block'
+                        type="submit"
+                        className="btn btn-primary btn-block"
                         onClick={handleSubmit}
                       >
                         Lưu

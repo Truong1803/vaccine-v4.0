@@ -7,6 +7,7 @@ export default (state = [], action) => {
     case ADD_USER:
       return [...state, action.payload];
     case EDIT_USER:
+      console.log(state);
       const newUser = state.map((user) =>
         user._id === action.payload._id ? action.payload : user
       );

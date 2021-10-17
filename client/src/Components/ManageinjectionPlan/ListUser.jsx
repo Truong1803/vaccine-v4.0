@@ -1,18 +1,11 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
-import { getAPI } from '../../api/FetchData';
-import { getDataVaccine } from '../../redux/actions/vaccineAction';
-import ModalRegisterInjection
-  from '../RegisterInjection/ModalRegisterInjection';
-import InjectionPlan from './InjectionPlan';
+import { getAPI } from "../../api/FetchData";
+import { getDataVaccine } from "../../redux/actions/vaccineAction";
+import ModalRegisterInjection from "../RegisterInjection/ModalRegisterInjection";
+import InjectionPlan from "./InjectionPlan";
 
 function ListUserInjection() {
   const dispatch = useDispatch();
@@ -150,7 +143,6 @@ function ListUserInjection() {
                   className="btn btn-primary"
                   data-toggle="modal"
                   data-target="#exampleModal2"
-                  onClick={handleOnclickPlan}
                 >
                   Thêm người đăng ký
                 </button>

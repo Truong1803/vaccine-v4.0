@@ -12,6 +12,15 @@ export const getDataUser = (page, search, access_token) => async (dispatch) => {
   }
 };
 
+export const getUserById = (userId, access_token) => async (dispatch) => {
+  try {
+    const res = await getAPI(`/user/${userId}`, access_token);
+    dispatch({ type: GET_USER, payload: res.data.data });
+  } catch (error) {
+    dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
+  }
+};
+
 export const createUser = (newUser, access_token) => async (dispatch) => {
   try {
     const res = await postAPI("/user", newUser, access_token);
