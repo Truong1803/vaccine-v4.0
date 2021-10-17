@@ -52,7 +52,9 @@ const userCtrl = {
   getById: async (req, res) => {
     try {
       const user = await Users.findById({ _id: req.params.id });
-      return res.json({ data: user });
+      let data = [];
+      data.push(user);
+      return res.json({ data: data });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -134,6 +136,9 @@ const userCtrl = {
         district,
         ward,
         address,
+        bhyt,
+        job,
+        company,
       } = req.body;
       const user = await Users.findByIdAndUpdate(
         { _id: req.body._id },
@@ -147,6 +152,9 @@ const userCtrl = {
           district,
           ward,
           address,
+          bhyt,
+          job,
+          company,
         },
         { new: true }
       );
