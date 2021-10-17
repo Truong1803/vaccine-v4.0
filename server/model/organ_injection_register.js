@@ -9,7 +9,7 @@ const OrganInjectionRegisterSchema = new mongoose.Schema(
       type: Array,
     },
     dose: {
-      type: number,
+      type: Number,
     },
     healthOrganizationId: {
       type: mongoose.Schema.ObjectId,

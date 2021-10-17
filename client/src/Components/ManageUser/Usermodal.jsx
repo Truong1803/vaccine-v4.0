@@ -1,19 +1,9 @@
-import React, {
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
-import axios from 'axios';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
-import {
-  createUser,
-  updateUser,
-} from '../../redux/actions/userAction';
+import { createUser, updateUser } from "../../redux/actions/userAction";
 
 const initialState = {
   phonenumber: "",

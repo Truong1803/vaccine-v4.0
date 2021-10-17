@@ -1,20 +1,14 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   deleteVaccine,
   getDataVaccine,
-} from '../../redux/actions/vaccineAction';
-import Modal from '../alert/Modal';
-import Paginate from '../Paginate/Paginate';
-import VaccineModal from './VaccineModal';
+} from "../../redux/actions/vaccineAction";
+import Modal from "../alert/Modal";
+import Paginate from "../Paginate/Paginate";
+import VaccineModal from "./VaccineModal";
 
 function ListVaccine() {
   const { auth, totalItem } = useSelector((state) => state);
@@ -121,7 +115,7 @@ function ListVaccine() {
           <table className="table">
             <thead className="thead-dark">
               <tr className="text-center">
-                <th scope="col">Mã vaccine</th>
+                <th scope="col">STT</th>
                 <th scope="col">Tên vaccine</th>
                 <th scope="col">Tên hãng</th>
                 <th scope="col">Tên nước</th>
@@ -137,9 +131,9 @@ function ListVaccine() {
                   <td>Chưa có dữ liệu vắc xin</td>
                 </tr>
               ) : (
-                vaccine.map((item) => (
+                vaccine.map((item, index) => (
                   <tr className="text-center" key={item._id}>
-                    <td>{item._id}</td>
+                    <td>{index + 1}</td>
                     <td>{item.name_vaccine}</td>
                     <td>{item.production_unit}</td>
                     <td>{item.country}</td>

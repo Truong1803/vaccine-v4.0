@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
+      default: "",
     },
     name: {
       type: String,
@@ -20,6 +21,7 @@ const userSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
+      default: "",
     },
     dob: {
       type: String,
@@ -39,6 +41,7 @@ const userSchema = new mongoose.Schema(
     },
     address: {
       type: String,
+      default: "",
     },
     role: {
       type: Number,
@@ -49,9 +52,15 @@ const userSchema = new mongoose.Schema(
     },
     bhyt: {
       type: String,
+      default: "",
     },
     job: {
       type: String,
+      default: "",
+    },
+    company: {
+      type: String,
+      default: "",
     },
     // record
     doseInformation: {
