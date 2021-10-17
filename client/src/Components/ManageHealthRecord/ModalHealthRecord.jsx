@@ -6,28 +6,28 @@ function ModalHealthRecord() {
   return (
     <div>
       <div
-        class='modal fade'
+        className='modal fade'
         id='exampleModal'
         tabindex='-1'
         aria-labelledby='exampleModalLabel'
         aria-hidden='true'
       >
-        <div class='modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl'>
-          <div class='modal-content'>
-            <div class='modal-header'>
-              <h5 class='modal-title' id='exampleModalLabel'>
+        <div className='modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl'>
+          <div className='modal-content'>
+            <div className='modal-header'>
+              <h5 className='modal-title' id='exampleModalLabel'>
                 Hồ Sơ Tiêm Chủng
               </h5>
               <button
                 type='button'
-                class='close'
+                className='close'
                 data-dismiss='modal'
                 aria-label='Close'
               >
                 <span aria-hidden='true'>&times;</span>
               </button>
             </div>
-            <div class='modal-body'>
+            <div className='modal-body'>
               <div className='row'>
                 <div className='col-12'>1.Thông tin cá nhân</div>
                 <div className='col-12'>
@@ -185,15 +185,15 @@ function ModalHealthRecord() {
                 </div>
               </div>
             </div>
-            <div class='modal-footer'>
+            <div className='modal-footer'>
               <button
                 type='button'
-                class='btn btn-secondary'
+                className='btn btn-secondary'
                 data-dismiss='modal'
               >
                 Huỷ
               </button>
-              <button type='button' class='btn btn-primary'>
+              <button type='button' className='btn btn-primary'>
                 Cập nhật
               </button>
             </div>

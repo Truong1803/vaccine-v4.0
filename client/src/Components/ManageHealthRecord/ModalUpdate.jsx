@@ -107,7 +107,7 @@ function ModalUpdate() {
                         <div className='col-1'>
                           <input type='text' className='form-control' />
                         </div>
-                        <div className='col-1'>Giờ</div>
+                        <div className='col-1'>giờ</div>
                         <div className='col-1'>
                           <input type='text' className='form-control' />
                         </div>
@@ -120,7 +120,7 @@ function ModalUpdate() {
                   </div>
                 </div>
                 <div className='row'>
-                  <div className='col-12'>4.Phản ứng sau tiêm</div>
+                  <div className='col-12'>2.Phản ứng sau tiêm</div>
                 </div>
                 <div className='col-12'>
                   <div className='row'>
@@ -143,7 +143,7 @@ function ModalUpdate() {
                         <div className='col-1'>
                           <input type='text' className='form-control' />
                         </div>
-                        <div className='col-1'>Giờ</div>
+                        <div className='col-1'>giờ</div>
                         <div className='col-1'>
                           <input type='text' className='form-control' />
                         </div>

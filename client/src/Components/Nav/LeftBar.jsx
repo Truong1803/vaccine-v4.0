@@ -88,7 +88,7 @@ function LeftBar() {
             aria-controls='collapseSubItems4'
             aria-expanded='false'
           >
-            Quản lý kế hoạch tiêm
+            Thiết lập kế hoạch tiêm
           </Link>
           <ul
             className='nav-second-level collapse'
@@ -101,8 +101,49 @@ function LeftBar() {
               </Link>
             </li>
             <li className='nav-item'>
-              <Link className='nav-link' to='/admin/list_organization_injection'>
+              <Link
+                className='nav-link'
+                to='/admin/list_organization_injection'
+              >
                 <span className='nav-link-text'>Tổ chức</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+        <li className='nav-item'>
+          <Link
+            className='nav-link nav-link-collapse'
+            to='/admin/list_plan_injection'
+            id='hasSubItems'
+          >
+            Danh sách kế hoạch tiêm
+          </Link>
+        </li>
+        <li className='nav-item'>
+          <Link
+            className='nav-link nav-link-collapse'
+            to='#'
+            id='hasSubItems'
+            data-toggle='collapse'
+            data-target='#collapseSubItems5'
+            aria-controls='collapseSubItems5'
+            aria-expanded='false'
+          >
+            Cập nhật hồ sơ tiêm chủng
+          </Link>
+          <ul
+            className='nav-second-level collapse'
+            id='collapseSubItems5'
+            data-parent='#navAccordion'
+          >
+            <li className='nav-item'>
+              <Link className='nav-link' to='/admin/health_record'>
+                <span className='nav-link-text'>Khám sàng lọc</span>
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <Link className='nav-link' to='/admin/health_record'>
+                <span className='nav-link-text'>Sau khi tiêm</span>
               </Link>
             </li>
           </ul>
