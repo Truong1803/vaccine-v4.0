@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import { Form } from 'react-bootstrap';
+import { Form } from "react-bootstrap";
 
 function FormImport() {
   return (
     <div
       className="modal fade"
       id="exampleModal2"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >

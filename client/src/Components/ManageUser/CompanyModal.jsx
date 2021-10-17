@@ -1,19 +1,12 @@
-import React, {
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
-import axios from 'axios';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   createCompanyAdmin,
   updateCompanyAdmin,
-} from '../../redux/actions/companyAction';
+} from "../../redux/actions/companyAction";
 
 const initialState = {
   represent: "",
@@ -214,7 +207,7 @@ function OrganizationModal({ action, item, status }) {
       <div
         className="modal fade"
         id="exampleModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >

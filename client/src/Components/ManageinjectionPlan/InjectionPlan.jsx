@@ -20,6 +20,10 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
   const { vaccine, auth } = useSelector((state) => state);
 
   useEffect(() => {
+    console.log(listUser);
+  }, []);
+
+  useEffect(() => {
     dispatch(getDataVaccine());
   }, [dispatch]);
 
@@ -31,7 +35,7 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
     setInjectionDate(e.target.value);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     listUser.map((item) => {
       if (item.checked === true) {
         const { userId, healthOrganizationId, vaccineId, dose } = item;
@@ -80,7 +84,12 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
               <div className="modal-body">
                 <div className="row justify-content-center">
                   <div className="col-6">
-                    <p>Danh sách người đăng ký theo ngày: {injectionDate}</p>
+                    <p>
+                      Danh sách người đăng ký theo ngày:{" "}
+                      {listUser[0]?.status === "success"
+                        ? listUser[0]?.injectionDate
+                        : injectionDate}
+                    </p>
                   </div>
                   <div className="col-4 row">
                     <div className="form-group row align-items-center justify-content-center">
@@ -91,7 +100,12 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                         type="date"
                         className="form-control col-6"
                         id="exampleInputEmail1"
-                        value={injectionDate}
+                        value={
+                          listUser[0]?.status === "success"
+                            ? listUser[0]?.injectionDate
+                            : injectionDate
+                        }
+                        disabled={listUser[0]?.status === "success"}
                         onChange={handleChangeDate}
                       />
                     </div>
@@ -115,14 +129,25 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                       <tbody>
                         {listUser.map(
                           (item) =>
-                            item.checked === true && (
-                              <tr className="text-center ">
+                            (item.checked === true ||
+                              item.status === "success") && (
+                              <tr className="text-center " key={item._id}>
                                 <td>{item.user.name}</td>
                                 <td>{item.user.gender}</td>
                                 <td>{item.user.phonenumber}</td>
                                 <td>{item.user.identification}</td>
                                 <td>{item.injectionDate}</td>
-                                <td className="text-danger">chưa duyệt</td>
+                                <td
+                                  className={
+                                    item.status === "success"
+                                      ? "text-success"
+                                      : "text-danger"
+                                  }
+                                >
+                                  {item.status === "success"
+                                    ? "đã duyệt"
+                                    : "chưa duyệt"}
+                                </td>
 
                                 {/* <td>
                                   <div className="row justify-content-center">
@@ -157,7 +182,7 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                           <input
                             type="text"
                             className="form-control"
-                            value={listUser[0].dose}
+                            value={listUser[0]?.dose}
                             disabled={true}
                           />
                         </div>
@@ -169,8 +194,9 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                           </label>
                           {vaccine.map(
                             (item) =>
-                              item._id === listUser[0].vaccineId && (
+                              item._id === listUser[0]?.vaccineId && (
                                 <input
+                                  key={item._id}
                                   type="text"
                                   className="form-control"
                                   value={item.name_vaccine}
@@ -186,16 +212,25 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                           <label htmlFor="exampleFormControlSelect1">
                             Thời gian tiêm:
                           </label>
-                          <select
-                            className="form-control"
-                            id="exampleFormControlSelect1"
-                            value={time}
-                            onChange={(e) => setTime(e.target.value)}
-                          >
-                            <option hidden={true}>Chọn thời gian</option>
-                            <option value="Sáng">8:00-11:00</option>
-                            <option value="Chiều">13:00-18:00</option>
-                          </select>
+                          {listUser[0]?.status === "success" ? (
+                            <input
+                              type="text"
+                              className="form-control"
+                              value={listUser[0]?.time}
+                              disabled={listUser[0]?.status === "success"}
+                            />
+                          ) : (
+                            <select
+                              className="form-control"
+                              id="exampleFormControlSelect1"
+                              value={time}
+                              onChange={(e) => setTime(e.target.value)}
+                            >
+                              <option hidden={true}>Chọn thời gian</option>
+                              <option value="Sáng">8:00-11:00</option>
+                              <option value="Chiều">13:00-18:00</option>
+                            </select>
+                          )}
                         </div>
                       </div>
                       <div className="col-3">
@@ -206,7 +241,7 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                           <input
                             type="text"
                             className="form-control"
-                            value={listUser[0].organization.organization}
+                            value={listUser[0]?.organization.organization}
                             disabled={true}
                           />
                         </div>
@@ -215,25 +250,37 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                   </div>
                 </div>
               </div>
-
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal"
-                  onClick={handleOnclickPlan}
-                >
-                  Huỷ
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={handleSubmit}
-                  data-dismiss="modal"
-                >
-                  Duyệt
-                </button>
-              </div>
+              {listUser[0]?.status === "success" ? (
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    data-dismiss="modal"
+                    onClick={handleOnclickPlan}
+                  >
+                    Quay lại
+                  </button>
+                </div>
+              ) : (
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-dismiss="modal"
+                    onClick={handleOnclickPlan}
+                  >
+                    Huỷ
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={handleSubmit}
+                    data-dismiss="modal"
+                  >
+                    Duyệt
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

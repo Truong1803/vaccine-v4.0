@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import { useDispatch, useSelector } from "react-redux";
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
-import { getAPI } from "../../api/FetchData";
-import { getDataVaccine } from "../../redux/actions/vaccineAction";
-import ModalRegisterInjection from "../RegisterInjection/ModalRegisterInjection";
-import InjectionPlan from "./InjectionPlan";
+import { getAPI } from '../../api/FetchData';
+import { getDataVaccine } from '../../redux/actions/vaccineAction';
+import ModalRegisterInjection
+  from '../RegisterInjection/ModalRegisterInjection';
+import InjectionPlan from './InjectionPlan';
 
 function ListUserInjection() {
   const dispatch = useDispatch();
@@ -34,6 +41,7 @@ function ListUserInjection() {
       );
       setListUser(res.data.data);
     }
+    console.log(callback);
   }, [vaccineId, dose, callback, auth.access_token]);
 
   const handleOnclickModal = (user) => {

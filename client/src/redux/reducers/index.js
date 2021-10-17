@@ -1,14 +1,18 @@
-import { combineReducers } from "redux";
-import auth from "./authReducer";
-import alert from "./alertReducer";
-import vaccine from "./vaccineReducer";
-import organization from "./organizationReducer";
-import role from "./roleReducer";
-import user from "./userReducer";
-import totalItem from "./totalPageReducer";
-import company from "./companyReducer";
-import disease from "./diseaseReducer";
-import injectionRegister from "./injectionRegisterReducer";
+import { combineReducers } from 'redux';
+
+import alert from './alertReducer';
+import auth from './authReducer';
+import company from './companyReducer';
+import disease from './diseaseReducer';
+import injectionInfor from './injection_inforReducer';
+import injectionRegister from './injectionRegisterReducer';
+import organization from './organizationReducer';
+import role from './roleReducer';
+import schedule from './scheduleReducer';
+import totalItem from './totalPageReducer';
+import user from './userReducer';
+import vaccine from './vaccineReducer';
+
 export default combineReducers({
   auth,
   alert,
@@ -20,4 +24,6 @@ export default combineReducers({
   company,
   disease,
   injectionRegister,
+  schedule,
+  injectionInfor,
 });
