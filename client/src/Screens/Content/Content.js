@@ -22,6 +22,7 @@ import ListOrganizationInjection from "../../Components/ManageinjectionPlan/List
 import Info from "./Info";
 import HealthRecord from "./HealthRecord";
 import ListPlan from "../../Components/ManageinjectionPlan/ListPlan";
+import Certificate from "./Certificate";
 function Content() {
   const { auth } = useSelector((state) => state);
   return (
@@ -46,6 +47,9 @@ function Content() {
       </Route>
       <Route path='/look_up'>
         <LookUpUser />
+      </Route>
+      <Route path='/certificate'>
+        <Certificate />
       </Route>
       <Route path='/admin/health_record'>
         <HealthRecord />
