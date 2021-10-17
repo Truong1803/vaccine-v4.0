@@ -1,36 +1,29 @@
-import React from 'react';
+import React from "react";
 
-import { useSelector } from 'react-redux';
-import {
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { useSelector } from "react-redux";
+import { Redirect, Route, Switch } from "react-router-dom";
 
-import LookUpUser from '../../Components/LookUp/LookUp';
-import ListOrganizationInjection
-  from '../../Components/ManageinjectionPlan/ListOrganization';
-import ListPlan from '../../Components/ManageinjectionPlan/ListPlan';
-import ListUserInjection from '../../Components/ManageinjectionPlan/ListUser';
-import List from '../../Components/ManageUser/List';
-import ListOrganization from '../../Components/ManageUser/ListOrganization';
-import ListUser from '../../Components/ManageUser/ListUser';
-import RegisterInjectionOrganization
-  from '../../Components/RegisterInjection/RegisterInjectionOrganization';
-import RegisterInjectionUser
-  from '../../Components/RegisterInjection/RegisterInjectionUser';
-import Dashboard from './Dashboard';
-import DepartmentHealth from './DepartmentHealth';
-import Home from './Home';
-import Info from './Info';
-import InjectionUnit from './InjectionUnit';
-import ManageRole from './ManageRole';
-import ManageVaccine from './ManageVaccine';
-import PostHealthRecord from './PostHealthRecord';
-import PreHealthRecord from './PreHealthRecord';
-import Profile from './Profile';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
+import LookUpUser from "../../Components/LookUp/LookUp";
+import ListOrganizationInjection from "../../Components/ManageinjectionPlan/ListOrganization";
+import ListPlan from "../../Components/ManageinjectionPlan/ListPlan";
+import ListUserInjection from "../../Components/ManageinjectionPlan/ListUser";
+import List from "../../Components/ManageUser/List";
+import ListOrganization from "../../Components/ManageUser/ListOrganization";
+import ListUser from "../../Components/ManageUser/ListUser";
+import RegisterInjectionOrganization from "../../Components/RegisterInjection/RegisterInjectionOrganization";
+import RegisterInjectionUser from "../../Components/RegisterInjection/RegisterInjectionUser";
+import Dashboard from "./Dashboard";
+import DepartmentHealth from "./DepartmentHealth";
+import Home from "./Home";
+import Info from "./Info";
+import InjectionUnit from "./InjectionUnit";
+import ManageRole from "./ManageRole";
+import ManageVaccine from "./ManageVaccine";
+import PostHealthRecord from "./PostHealthRecord";
+import PreHealthRecord from "./PreHealthRecord";
+import Profile from "./Profile";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
 
 function Content() {
   const { auth } = useSelector((state) => state);
