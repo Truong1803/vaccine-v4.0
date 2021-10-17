@@ -3,8 +3,7 @@ const sms = require("../../config/sendSMS");
 const Users = require("../../model/user");
 const InjectionRegister = require("../../model/injection_register");
 const InjectionInfor = require("../../model/injection_infor");
-const { findByIdAndUpdate } = require("../../model/schedule_injection");
-
+const mongoose = require("mongoose");
 const HealthOrganization = require("../../model/healthOrganization");
 class APIfeature {
   constructor(query, queryString) {
@@ -40,15 +39,82 @@ class APIfeature {
   }
 }
 const ScheduleInjectionCtrl = {
-  getByDate: async (req, res) => {
+  getAll: async (req, res) => {
     try {
-      const total = await ScheduleInjection.countDocuments({});
-      const features = new APIfeature(
-        ScheduleInjection.find({ injectionDate: req.params.injectionDate }),
-        req.query
-      ).paginating();
-      const data = await features.query;
-      return res.json({ data, total });
+      const total = await ScheduleInjection.countDocuments({
+        healthOrganizationId: req.user.id,
+      });
+
+      // const features = new APIfeature(
+      //   ScheduleInjection.find({ healthOrganizationId: req.user.id }),
+      //   req.query
+      // )
+      //   .paginating()
+      //   .filtering();
+      // const data = await features.query;
+      ScheduleInjection.aggregate([
+        {
+          $match: {
+            healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+          },
+        },
+        {
+          $lookup: {
+            from: "healthorganizations",
+            localField: "healthOrganizationId",
+            foreignField: "_id",
+            as: "organization",
+          },
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "userId",
+            foreignField: "_id",
+            as: "user",
+          },
+        },
+        {
+          $sort: {
+            injectionDate: -1,
+          },
+        },
+        {
+          $unwind: "$organization",
+        },
+        {
+          $unwind: "$user",
+        },
+      ])
+        .then((result) => {
+          let dataSet = new Set();
+          result.forEach((item) => {
+            dataSet.add(item.injectionDate);
+          });
+          let array = Array.from(dataSet);
+          let resultArray = [];
+          let dataArr = [];
+          while (result.length !== 0) {
+            if (
+              result[result.length - 1].injectionDate ===
+              array[array.length - 1]
+            ) {
+              dataArr.push(result.pop());
+            } else {
+              array.pop();
+              resultArray.push(dataArr);
+              dataArr = [];
+              dataArr.push(result.pop());
+              if (result.length === 0) {
+                resultArray.push(dataArr);
+              }
+            }
+          }
+          res.json({ data: resultArray, total });
+        })
+        .catch((error) => {
+          return res.status(500).json({ msg: error.message });
+        });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

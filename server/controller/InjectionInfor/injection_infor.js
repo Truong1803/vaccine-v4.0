@@ -1,6 +1,133 @@
 const InjectionInfor = require("../../model/injection_infor");
 const Users = require("../../model/user");
+const mongoose = require("mongoose");
 const InjectionInforCtrl = {
+  getPreInjection: async (req, res) => {
+    try {
+      const total = await InjectionInfor.countDocuments({
+        status: false,
+        healthOrganizationId: req.user.id,
+      });
+      InjectionInfor.aggregate([
+        {
+          $match: {
+            status: false,
+            healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+          },
+        },
+        {
+          $lookup: {
+            from: "healthorganizations",
+            localField: "healthOrganizationId",
+            foreignField: "_id",
+            as: "organization",
+          },
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "userId",
+            foreignField: "_id",
+            as: "user",
+          },
+        },
+        {
+          $lookup: {
+            from: "vaccines",
+            localField: "vaccineId",
+            foreignField: "_id",
+            as: "vaccine",
+          },
+        },
+        {
+          $sort: {
+            injectionDate: 1,
+          },
+        },
+        {
+          $unwind: "$organization",
+        },
+        {
+          $unwind: "$user",
+        },
+        {
+          $unwind: "$vaccine",
+        },
+      ])
+        .then((result) => {
+          res.json({ data: result, total });
+        })
+        .catch((error) => {
+          return res.status(500).json({ msg: error.message });
+        });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  getPostInjection: async (req, res) => {
+    try {
+      const total = await InjectionInfor.countDocuments({
+        status: true,
+        healthOrganizationId: req.user.id,
+      });
+      InjectionInfor.aggregate([
+        {
+          $match: {
+            status: true,
+            healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+          },
+        },
+        {
+          $lookup: {
+            from: "healthorganizations",
+            localField: "healthOrganizationId",
+            foreignField: "_id",
+            as: "organization",
+          },
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "userId",
+            foreignField: "_id",
+            as: "user",
+          },
+        },
+        {
+          $lookup: {
+            from: "vaccines",
+            localField: "vaccineId",
+            foreignField: "_id",
+            as: "vaccine",
+          },
+        },
+        {
+          $sort: {
+            injectionDate: 1,
+          },
+        },
+        {
+          $unwind: "$organization",
+        },
+        {
+          $unwind: "$user",
+        },
+        {
+          $unwind: "$vaccine",
+        },
+      ])
+        .then((result) => {
+          res.json({ data: result, total });
+        })
+        .catch((error) => {
+          return res.status(500).json({ msg: error.message });
+        });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
   updatePreInjection: async (req, res) => {
     try {
       const {
@@ -8,17 +135,20 @@ const InjectionInforCtrl = {
         bloodVessel,
         bloodPressure,
         breathing,
-        injectorName,
-      } = req.body.preInjectionReaction;
+        injectorPreName,
+        timePre,
+      } = req.body;
       const result = await InjectionInfor.findByIdAndUpdate(
         { _id: req.params.id },
         {
+          status: true,
           preInjectionReaction: {
-            temperature,
-            bloodVessel,
+            temperature: parseFloat(temperature),
+            bloodVessel: parseInt(bloodVessel),
             bloodPressure,
-            breathing,
-            injectorName,
+            breathing: parseInt(breathing),
+            injectorPreName,
+            timePre,
           },
         },
         { new: true }
@@ -34,10 +164,11 @@ const InjectionInforCtrl = {
 
   updatePostInjection: async (req, res) => {
     try {
+      const { nameReact, injectorPostName, timePost } = req.body;
       const result = await InjectionInfor.findByIdAndUpdate(
         { _id: req.params.id },
         {
-          postInjectionReaction: req.body.postInjectionReaction,
+          postInjectionReaction: { nameReact, injectorPostName, timePost },
         },
         { new: true }
       );
