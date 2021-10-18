@@ -1,9 +1,40 @@
-import React, { useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
+import { getDataQH } from '../../redux/actions/oganizationAction';
+import { getDataVaccine } from '../../redux/actions/vaccineAction';
 import ModalDetail from './ModalDetail';
 
 function ModalHealthRecord({ dataLookup }) {
-  const [record, setRecord] = useState();
+  const dispatch = useDispatch();
+  const { auth, vaccine, organization } = useSelector((state) => state);
+  const page = 1;
+  const search = "";
+
+  const [action, setAction] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [dataLookupDetail, setDataLookupDetail] = useState("");
+
+  useEffect(() => {
+    if (auth.access_token) {
+      dispatch(getDataQH(page, search, auth.access_token));
+      dispatch(getDataVaccine(page, search));
+    }
+  }, [auth.access_token]);
+
+  const handleSetDataLookupDetail = (item, action) => {
+    setDataLookupDetail(item);
+    setAction(action);
+    setOpenModal(true);
+  };
+
   return (
     <div>
       <div
@@ -39,7 +70,7 @@ function ModalHealthRecord({ dataLookup }) {
                         <input
                           type="text"
                           className="form-control"
-                          value={dataLookup.user?.name}
+                          value={dataLookup.name}
                           disabled={true}
                         />
                       </div>
@@ -50,7 +81,7 @@ function ModalHealthRecord({ dataLookup }) {
                         <input
                           type="date"
                           className="form-control"
-                          value={dataLookup.user?.dob}
+                          value={dataLookup.dob}
                           disabled={true}
                         />
                       </div>
@@ -61,7 +92,7 @@ function ModalHealthRecord({ dataLookup }) {
                         <input
                           type="text"
                           className="form-control"
-                          value={dataLookup.user?.gender}
+                          value={dataLookup.gender}
                           disabled={true}
                         />
                       </div>
@@ -74,7 +105,7 @@ function ModalHealthRecord({ dataLookup }) {
                         <input
                           type="text"
                           className="form-control"
-                          value={dataLookup.user?.phonenumber}
+                          value={dataLookup.phonenumber}
                           disabled={true}
                         />
                       </div>
@@ -85,7 +116,7 @@ function ModalHealthRecord({ dataLookup }) {
                         <input
                           type="text"
                           className="form-control"
-                          value={dataLookup.user?.identification}
+                          value={dataLookup.identification}
                           disabled={true}
                         />
                       </div>
@@ -96,7 +127,7 @@ function ModalHealthRecord({ dataLookup }) {
                         <input
                           type="text"
                           className="form-control"
-                          value={dataLookup.user?.bhyt}
+                          value={dataLookup.bhyt}
                           disabled={true}
                         />
                       </div>
@@ -109,7 +140,7 @@ function ModalHealthRecord({ dataLookup }) {
                         <input
                           type="email"
                           className="form-control"
-                          value={dataLookup.user?.email}
+                          value={dataLookup.email}
                           disabled={true}
                         />
                       </div>
@@ -120,7 +151,7 @@ function ModalHealthRecord({ dataLookup }) {
                         <input
                           type="text"
                           className="form-control"
-                          value={dataLookup.user?.job}
+                          value={dataLookup.job}
                           disabled={true}
                         />
                       </div>
@@ -133,7 +164,7 @@ function ModalHealthRecord({ dataLookup }) {
                         <input
                           type="text"
                           className="form-control"
-                          value={dataLookup.user?.company}
+                          value={dataLookup.company}
                           disabled={true}
                         />
                       </div>
@@ -146,7 +177,7 @@ function ModalHealthRecord({ dataLookup }) {
                         <input
                           type="text"
                           className="form-control"
-                          value={dataLookup.user?.address}
+                          value={dataLookup.address}
                           disabled={true}
                         />
                       </div>
@@ -159,7 +190,7 @@ function ModalHealthRecord({ dataLookup }) {
                         <input
                           type="text"
                           className="form-control"
-                          value={dataLookup.user?.province.name}
+                          value={dataLookup.province?.name}
                           disabled={true}
                         />
                       </div>
@@ -170,7 +201,7 @@ function ModalHealthRecord({ dataLookup }) {
                         <input
                           type="text"
                           className="form-control"
-                          value={dataLookup.user?.district.name}
+                          value={dataLookup.district?.name}
                           disabled={true}
                         />
                       </div>
@@ -181,7 +212,7 @@ function ModalHealthRecord({ dataLookup }) {
                         <input
                           type="text"
                           className="form-control"
-                          value={dataLookup.user?.ward.name}
+                          value={dataLookup.ward?.name}
                           disabled={true}
                         />
                       </div>
@@ -195,46 +226,73 @@ function ModalHealthRecord({ dataLookup }) {
                   </div>
                   <div className="row">
                     <div className="col-12 table-responsive table-hover ">
-                      {dataLookup.user?.ModalDetail?.doseInformation ? (
+                      {dataLookup.doseInformation ? (
                         <table className="table">
                           <thead className="thead-dark">
                             <tr className="text-center">
                               <th scope="col">Số mũi</th>
                               <th scope="col">Ngày tiêm</th>
                               <th scope="col">Thời gian tiêm</th>
-                              <th scope="col">Tên vaccine</th>
-                              <th scope="col">Địa điểm tiêm</th>
+                              <th scope="col">Loại vắc xin</th>
+                              <th scope="col">Đơn vị tiêm</th>
                               <th scope="col">Chi tiết</th>
-                              <th scope="col"></th>
                               <th scope="col"></th>
                             </tr>
                           </thead>
                           <tbody>
-                            {dataLookup.user?.ModalDetail?.doseInformation.map(
-                              (item, index) => (
-                                <tr className="text-center " key={index}>
-                                  <td>{index + 1}</td>
-                                  <td>{item.injectionDate}</td>
-                                  <td>{item.time}</td>
-                                  <td>{item.vaccineId}</td>
-                                  <td>{item.organizationId}</td>
+                            {dataLookup.doseInformation.map((item, index) => (
+                              <tr className="text-center " key={index}>
+                                <td>{index + 1}</td>
+                                <td>{item.injectionDate}</td>
+                                <td>{item.time}</td>
+                                {vaccine.map(
+                                  (v) =>
+                                    v._id === item.vaccineId && (
+                                      <td>{v.name_vaccine}</td>
+                                    )
+                                )}
+                                {organization.map(
+                                  (o) =>
+                                    o._id === item.healthOrganizationId && (
+                                      <td>{o.organization}</td>
+                                    )
+                                )}
 
-                                  <td>
-                                    <div className="row justify-content-center">
-                                      <button
-                                        type="button"
-                                        className="btn btn-success mr-3 "
-                                        data-toggle="modal"
-                                        data-target="#exampleModal2"
-                                        // onClick={handleOnchange}
-                                      >
-                                        <i className="far fa-eye"></i>
-                                      </button>
-                                    </div>
-                                  </td>
-                                </tr>
-                              )
-                            )}
+                                <td>
+                                  <div className="row justify-content-center">
+                                    <button
+                                      type="button"
+                                      className="btn btn-success mr-3 "
+                                      data-toggle="modal"
+                                      data-target="#exampleModal2"
+                                      onClick={() =>
+                                        handleSetDataLookupDetail(item, "look")
+                                      }
+                                    >
+                                      <i className="far fa-eye"></i>
+                                    </button>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="row justify-content-center">
+                                    <button
+                                      type="button"
+                                      className="btn btn-warning mr-3 "
+                                      data-toggle="modal"
+                                      data-target="#exampleModal2"
+                                      onClick={() =>
+                                        handleSetDataLookupDetail(
+                                          item,
+                                          "update"
+                                        )
+                                      }
+                                    >
+                                      <i className="far fa-edit"></i>
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
                           </tbody>
                         </table>
                       ) : (
@@ -257,7 +315,13 @@ function ModalHealthRecord({ dataLookup }) {
           </div>
         </div>
       </div>
-      <ModalDetail />
+      {openModal && (
+        <ModalDetail
+          dataLookupDetail={dataLookupDetail}
+          action={action}
+          userId={dataLookup._id}
+        />
+      )}
     </div>
   );
 }

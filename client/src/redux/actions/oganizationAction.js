@@ -4,7 +4,7 @@ import {
   patchAPI,
   postAPI,
   putAPI,
-} from "../../api/FetchData";
+} from '../../api/FetchData';
 import {
   ADD_PAGE,
   ADD_QH,
@@ -13,7 +13,7 @@ import {
   EDIT_QH,
   GET_PAGE,
   GET_QH,
-} from "../containt";
+} from '../containt';
 
 export const getDataQH =
   (page = 1, search = "", access_token) =>
@@ -23,6 +23,7 @@ export const getDataQH =
         `/health-organization?page=${page}&limit=${5}&organization[regex]=${search}`,
         access_token
       );
+
       dispatch({ type: GET_PAGE, payload: res.data.total });
       dispatch({ type: GET_QH, payload: res.data.data });
     } catch (error) {

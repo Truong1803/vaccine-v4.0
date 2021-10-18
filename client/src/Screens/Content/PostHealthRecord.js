@@ -1,10 +1,10 @@
 import React from 'react';
 
-import ListHealthRecord
-  from '../../Components/ManageHealthRecord/ListHealthRecord';
+import UpdateInjection
+  from '../../Components/ManageHealthRecord/UpdateInjection';
 
 function PostHealthRecord() {
-  return <ListHealthRecord status={true} />;
+  return <UpdateInjection status={true} />;
 }
 
 export default PostHealthRecord;

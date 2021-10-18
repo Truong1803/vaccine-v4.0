@@ -9,6 +9,7 @@ import injectionRegister from './injectionRegisterReducer';
 import organization from './organizationReducer';
 import role from './roleReducer';
 import schedule from './scheduleReducer';
+import sideEffect from './sideEffectReduce';
 import totalItem from './totalPageReducer';
 import user from './userReducer';
 import vaccine from './vaccineReducer';
@@ -23,6 +24,7 @@ export default combineReducers({
   totalItem,
   company,
   disease,
+  sideEffect,
   injectionRegister,
   schedule,
   injectionInfor,

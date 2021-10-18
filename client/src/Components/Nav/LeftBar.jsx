@@ -149,6 +149,15 @@ function LeftBar() {
             </li>
           </ul>
         </li>
+        <li className="nav-item">
+          <Link
+            className="nav-link nav-link-collapse"
+            to="/admin/health-record"
+            id="hasSubItems"
+          >
+            Quản lý hồ sơ tiêm chủng
+          </Link>
+        </li>
       </>
     );
   }

@@ -20,10 +20,6 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
   const { vaccine, auth } = useSelector((state) => state);
 
   useEffect(() => {
-    console.log(listUser);
-  }, []);
-
-  useEffect(() => {
     dispatch(getDataVaccine());
   }, [dispatch]);
 
@@ -121,6 +117,7 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                           <th scope="col">Số điện thoại</th>
                           <th scope="col">CMT/CCCD</th>
                           <th scope="col">Ngày đăng ký</th>
+                          <th scope="col">Thời gian tiêm</th>
                           <th scope="col">Trạng thái</th>
                           {/* <th scope="col">Chi tiết</th> */}
                           {/* <th scope="col"></th> */}
@@ -137,6 +134,7 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                                 <td>{item.user.phonenumber}</td>
                                 <td>{item.user.identification}</td>
                                 <td>{item.injectionDate}</td>
+                                <td>{item.time}</td>
                                 <td
                                   className={
                                     item.status === "success"
@@ -206,20 +204,15 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                           )}
                         </div>
                       </div>
+                      {listUser[0]?.status === "success" ? (
+                        ""
+                      ) : (
+                        <div className="col-3">
+                          <div className="form-group">
+                            <label htmlFor="exampleFormControlSelect1">
+                              Thời gian tiêm:
+                            </label>
 
-                      <div className="col-3">
-                        <div className="form-group">
-                          <label htmlFor="exampleFormControlSelect1">
-                            Thời gian tiêm:
-                          </label>
-                          {listUser[0]?.status === "success" ? (
-                            <input
-                              type="text"
-                              className="form-control"
-                              value={listUser[0]?.time}
-                              disabled={listUser[0]?.status === "success"}
-                            />
-                          ) : (
                             <select
                               className="form-control"
                               id="exampleFormControlSelect1"
@@ -230,9 +223,10 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                               <option value="Sáng">8:00-11:00</option>
                               <option value="Chiều">13:00-18:00</option>
                             </select>
-                          )}
+                          </div>
                         </div>
-                      </div>
+                      )}
+
                       <div className="col-3">
                         <div className="form-group">
                           <label htmlFor="exampleFormControlSelect1">

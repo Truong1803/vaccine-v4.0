@@ -8,7 +8,11 @@ import {
   useSelector,
 } from 'react-redux';
 
-import { updatePreInjection } from '../../redux/actions/injection_inforAction';
+import {
+  updatePostInjection,
+  updatePreInjection,
+} from '../../redux/actions/injection_inforAction';
+import { getDataSideEffect } from '../../redux/actions/sideEffectAction';
 
 const initPreState = {
   temperature: "",
@@ -25,10 +29,11 @@ const initPostState = {
 };
 function ModalUpdate({ dataUpdate, setCallback, callback }) {
   const dispatch = useDispatch();
-  const { auth } = useSelector((state) => state);
+  const { auth, sideEffect } = useSelector((state) => state);
 
   const [data, setData] = useState("");
   useEffect(() => {
+    dispatch(getDataSideEffect());
     if (dataUpdate) {
       if (dataUpdate.status === false) {
         setData(initPreState);
@@ -47,6 +52,8 @@ function ModalUpdate({ dataUpdate, setCallback, callback }) {
     setCallback(!callback);
     if (dataUpdate.status === false) {
       dispatch(updatePreInjection(data, dataUpdate._id, auth.access_token));
+    } else {
+      dispatch(updatePostInjection(data, dataUpdate._id, auth.access_token));
     }
   };
 
@@ -241,14 +248,29 @@ function ModalUpdate({ dataUpdate, setCallback, callback }) {
                 <div className="col-12">
                   <div className="row">
                     <div className="form-group col-12">
-                      <input
+                      {/* <input
                         type="text"
                         className="form-control"
                         name="nameReact"
                         value={data.nameReact}
                         disabled={!dataUpdate.status}
                         onChange={handleOnChange}
-                      />
+                      /> */}
+                      <select
+                        id="inputState"
+                        className="form-control col-8"
+                        name="nameReact"
+                        value={data.nameReact}
+                        disabled={!dataUpdate.status}
+                        onChange={handleOnChange}
+                      >
+                        <option hidden={true}>Chọn phản ứng</option>
+                        {sideEffect.map((item) => (
+                          <option key={item._id} value={item._id}>
+                            {item.name}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   </div>
                   <div className="row mt-2">

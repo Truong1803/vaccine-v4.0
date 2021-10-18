@@ -63,20 +63,37 @@ function FormInfoUser({ data, setData, setStatus, status }) {
         <div className="col-2 ">
           <div className="form-group">
             <label htmlFor="exampleFormControlSelect1">Loại vaccine:</label>
-            <select
-              className="form-control"
-              id="exampleFormControlSelect1"
-              value={data.vaccineId}
-              onChange={handleOnChange}
-              name="vaccineId"
-            >
-              <option hidden={true}>Lựa chọn vắc xin</option>
-              {vaccine.map((option) => (
-                <option key={option._id} value={option._id}>
-                  {option.name_vaccine}
-                </option>
-              ))}
-            </select>
+            {auth.user?.doseInformation.length === 0 ? (
+              <select
+                className="form-control"
+                id="exampleFormControlSelect1"
+                value={data.vaccineId}
+                onChange={handleOnChange}
+                name="vaccineId"
+              >
+                <option hidden={true}>Lựa chọn vắc xin</option>
+                {vaccine.map((option) => (
+                  <option key={option._id} value={option._id}>
+                    {option.name_vaccine}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              vaccine.map(
+                (item) =>
+                  item._id ===
+                    auth.user?.doseInformation[
+                      auth.user?.doseInformation.length - 1
+                    ].vaccineId && (
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={item.name_vaccine}
+                      disabled={true}
+                    />
+                  )
+              )
+            )}
           </div>
         </div>
         <div className="col-4">

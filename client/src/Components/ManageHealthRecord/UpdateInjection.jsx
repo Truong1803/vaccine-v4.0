@@ -14,12 +14,13 @@ import {
 } from '../../redux/actions/injection_inforAction';
 import ModalUpdate from './ModalUpdate';
 
-function ListHealthRecord({ status }) {
+function UpdateInjection({ status }) {
   const dispatch = useDispatch();
   const { auth, injectionInfor } = useSelector((state) => state);
 
   const [page, setPage] = useState("");
   const [search, setSearch] = useState("");
+  const [injectionDate, setInjectionDate] = useState("");
 
   const [dataUpdate, setDataUpdate] = useState("");
 
@@ -31,11 +32,11 @@ function ListHealthRecord({ status }) {
 
   useEffect(() => {
     if (auth.access_token && status === false) {
-      dispatch(getPreInjection(auth.access_token));
+      dispatch(getPreInjection(auth.access_token, injectionDate));
     } else if (auth.access_token && status === true) {
-      dispatch(getPostInjection(auth.access_token));
+      dispatch(getPostInjection(auth.access_token, injectionDate));
     }
-  }, [auth.access_token, status, callback]);
+  }, [auth.access_token, status, callback, injectionDate]);
 
   const [record, setRecord] = useState();
   const [search1, handleOnChangeSearch] = useState("");
@@ -67,7 +68,12 @@ function ListHealthRecord({ status }) {
               </div>
               <div className="col-4">
                 <form className="form-inline my-2 my-lg-0 ">
-                  <input className="form-control mr-sm-2" type="date" />
+                  <input
+                    className="form-control mr-sm-2"
+                    type="date"
+                    value={injectionDate}
+                    onChange={(e) => setInjectionDate(e.target.value)}
+                  />
                 </form>
               </div>
             </div>
@@ -155,4 +161,4 @@ function ListHealthRecord({ status }) {
   );
 }
 
-export default ListHealthRecord;
+export default UpdateInjection;

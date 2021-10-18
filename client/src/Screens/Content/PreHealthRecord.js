@@ -1,10 +1,10 @@
 import React from 'react';
 
-import ListHealthRecord
-  from '../../Components/ManageHealthRecord/ListHealthRecord';
+import UpdateInjection
+  from '../../Components/ManageHealthRecord/UpdateInjection';
 
 function PreHealthRecord() {
-  return <ListHealthRecord status={false} />;
+  return <UpdateInjection status={false} />;
 }
 
 export default PreHealthRecord;
