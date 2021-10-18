@@ -87,6 +87,20 @@ const healthOganizationCtrl = {
             .paginating();
           const data = await features.query;
           return res.json({ data, total });
+        } else {
+          const total = await HealthOrganization.countDocuments({
+            role: 3,
+          });
+          const features = new APIfeature(
+            HealthOrganization.find({
+              role: 3,
+            }),
+            req.query
+          )
+            .filtering()
+            .paginating();
+          const data = await features.query;
+          return res.json({ data, total });
         }
       } else {
         const userCurrent = await Users.findById({ _id: req.user.id });

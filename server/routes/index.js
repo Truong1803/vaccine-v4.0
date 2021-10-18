@@ -9,6 +9,7 @@ const injectionInforRouter = require("./injection_infor");
 const roleRouter = require("./role");
 const vaccineRouter = require("./vaccine");
 const diseaseRouter = require("./disease");
+const sideEffectRouter = require("./sideEffect");
 
 const routes = {
   authRouter,
@@ -22,6 +23,7 @@ const routes = {
   roleRouter,
   vaccineRouter,
   diseaseRouter,
+  sideEffectRouter,
 };
 
 module.exports = routes;

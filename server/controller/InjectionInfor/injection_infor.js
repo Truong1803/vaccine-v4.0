@@ -8,58 +8,115 @@ const InjectionInforCtrl = {
         status: false,
         healthOrganizationId: req.user.id,
       });
-      InjectionInfor.aggregate([
-        {
-          $match: {
-            status: false,
-            healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+      console.log(req.query.injectionDate === "");
+      if (req.query.injectionDate === "") {
+        InjectionInfor.aggregate([
+          {
+            $match: {
+              status: false,
+              healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+            },
           },
-        },
-        {
-          $lookup: {
-            from: "healthorganizations",
-            localField: "healthOrganizationId",
-            foreignField: "_id",
-            as: "organization",
+          {
+            $lookup: {
+              from: "healthorganizations",
+              localField: "healthOrganizationId",
+              foreignField: "_id",
+              as: "organization",
+            },
           },
-        },
-        {
-          $lookup: {
-            from: "users",
-            localField: "userId",
-            foreignField: "_id",
-            as: "user",
+          {
+            $lookup: {
+              from: "users",
+              localField: "userId",
+              foreignField: "_id",
+              as: "user",
+            },
           },
-        },
-        {
-          $lookup: {
-            from: "vaccines",
-            localField: "vaccineId",
-            foreignField: "_id",
-            as: "vaccine",
+          {
+            $lookup: {
+              from: "vaccines",
+              localField: "vaccineId",
+              foreignField: "_id",
+              as: "vaccine",
+            },
           },
-        },
-        {
-          $sort: {
-            injectionDate: 1,
+          {
+            $sort: {
+              injectionDate: 1,
+            },
           },
-        },
-        {
-          $unwind: "$organization",
-        },
-        {
-          $unwind: "$user",
-        },
-        {
-          $unwind: "$vaccine",
-        },
-      ])
-        .then((result) => {
-          res.json({ data: result, total });
-        })
-        .catch((error) => {
-          return res.status(500).json({ msg: error.message });
-        });
+          {
+            $unwind: "$organization",
+          },
+          {
+            $unwind: "$user",
+          },
+          {
+            $unwind: "$vaccine",
+          },
+        ])
+          .then((result) => {
+            res.json({ data: result, total });
+          })
+          .catch((error) => {
+            return res.status(500).json({ msg: error.message });
+          });
+      } else {
+        InjectionInfor.aggregate([
+          {
+            $match: {
+              status: false,
+              healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+              injectionDate: req.query.injectionDate,
+            },
+          },
+          {
+            $lookup: {
+              from: "healthorganizations",
+              localField: "healthOrganizationId",
+              foreignField: "_id",
+              as: "organization",
+            },
+          },
+          {
+            $lookup: {
+              from: "users",
+              localField: "userId",
+              foreignField: "_id",
+              as: "user",
+            },
+          },
+          {
+            $lookup: {
+              from: "vaccines",
+              localField: "vaccineId",
+              foreignField: "_id",
+              as: "vaccine",
+            },
+          },
+          {
+            $sort: {
+              injectionDate: 1,
+            },
+          },
+          {
+            $unwind: "$organization",
+          },
+          {
+            $unwind: "$user",
+          },
+          {
+            $unwind: "$vaccine",
+          },
+        ])
+          .then((result) => {
+            res.json({ data: result, total });
+          })
+          .catch((error) => {
+            return res.status(500).json({ msg: error.message });
+          });
+      }
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -71,58 +128,115 @@ const InjectionInforCtrl = {
         status: true,
         healthOrganizationId: req.user.id,
       });
-      InjectionInfor.aggregate([
-        {
-          $match: {
-            status: true,
-            healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+
+      if (req.query.injectionDate === "") {
+        InjectionInfor.aggregate([
+          {
+            $match: {
+              status: true,
+              healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+            },
           },
-        },
-        {
-          $lookup: {
-            from: "healthorganizations",
-            localField: "healthOrganizationId",
-            foreignField: "_id",
-            as: "organization",
+          {
+            $lookup: {
+              from: "healthorganizations",
+              localField: "healthOrganizationId",
+              foreignField: "_id",
+              as: "organization",
+            },
           },
-        },
-        {
-          $lookup: {
-            from: "users",
-            localField: "userId",
-            foreignField: "_id",
-            as: "user",
+          {
+            $lookup: {
+              from: "users",
+              localField: "userId",
+              foreignField: "_id",
+              as: "user",
+            },
           },
-        },
-        {
-          $lookup: {
-            from: "vaccines",
-            localField: "vaccineId",
-            foreignField: "_id",
-            as: "vaccine",
+          {
+            $lookup: {
+              from: "vaccines",
+              localField: "vaccineId",
+              foreignField: "_id",
+              as: "vaccine",
+            },
           },
-        },
-        {
-          $sort: {
-            injectionDate: 1,
+          {
+            $sort: {
+              injectionDate: 1,
+            },
           },
-        },
-        {
-          $unwind: "$organization",
-        },
-        {
-          $unwind: "$user",
-        },
-        {
-          $unwind: "$vaccine",
-        },
-      ])
-        .then((result) => {
-          res.json({ data: result, total });
-        })
-        .catch((error) => {
-          return res.status(500).json({ msg: error.message });
-        });
+          {
+            $unwind: "$organization",
+          },
+          {
+            $unwind: "$user",
+          },
+          {
+            $unwind: "$vaccine",
+          },
+        ])
+          .then((result) => {
+            res.json({ data: result, total });
+          })
+          .catch((error) => {
+            return res.status(500).json({ msg: error.message });
+          });
+      } else {
+        InjectionInfor.aggregate([
+          {
+            $match: {
+              status: true,
+              healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+              injectionDate: req.query.injectionDate,
+            },
+          },
+          {
+            $lookup: {
+              from: "healthorganizations",
+              localField: "healthOrganizationId",
+              foreignField: "_id",
+              as: "organization",
+            },
+          },
+          {
+            $lookup: {
+              from: "users",
+              localField: "userId",
+              foreignField: "_id",
+              as: "user",
+            },
+          },
+          {
+            $lookup: {
+              from: "vaccines",
+              localField: "vaccineId",
+              foreignField: "_id",
+              as: "vaccine",
+            },
+          },
+          {
+            $sort: {
+              injectionDate: 1,
+            },
+          },
+          {
+            $unwind: "$organization",
+          },
+          {
+            $unwind: "$user",
+          },
+          {
+            $unwind: "$vaccine",
+          },
+        ])
+          .then((result) => {
+            res.json({ data: result, total });
+          })
+          .catch((error) => {
+            return res.status(500).json({ msg: error.message });
+          });
+      }
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -177,6 +291,7 @@ const InjectionInforCtrl = {
         injectionDate,
         vaccineId,
         diseaseId,
+        time,
         healthOrganizationId,
         preInjectionReaction,
         postInjectionReaction,
@@ -189,6 +304,7 @@ const InjectionInforCtrl = {
             injectionDate,
             vaccineId,
             diseaseId,
+            time,
             healthOrganizationId,
             preInjectionReaction,
             postInjectionReaction,
@@ -202,6 +318,7 @@ const InjectionInforCtrl = {
         msg: "Cập nhật hồ sơ sau tiêm thành công",
       });
     } catch (error) {
+      console.log(error.message);
       return res.status(500).json({ msg: error.message });
     }
   },

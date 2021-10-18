@@ -102,10 +102,16 @@ const ScheduleInjectionCtrl = {
               dataArr.push(result.pop());
             } else {
               array.pop();
+              dataArr.sort((a, b) => {
+                return -1;
+              });
               resultArray.push(dataArr);
               dataArr = [];
               dataArr.push(result.pop());
               if (result.length === 0) {
+                dataArr.sort((a, b) => {
+                  return -1;
+                });
                 resultArray.push(dataArr);
               }
             }

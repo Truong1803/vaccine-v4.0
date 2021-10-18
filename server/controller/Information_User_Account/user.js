@@ -48,7 +48,21 @@ const userCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  getAllUserInjected: async (req, res) => {
+    try {
+      let dataInjected = [];
+      const data = await Users.find();
 
+      data.forEach((item) => {
+        if (Object.keys(item.doseInformation).length > 0) {
+          dataInjected.push(item);
+        }
+      });
+      res.json({ data: dataInjected });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
   getById: async (req, res) => {
     try {
       const user = await Users.findById({ _id: req.params.id });
@@ -247,6 +261,21 @@ const userCtrl = {
           return res.json({ data: "notFound" });
         }
       }
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  updateRecord: async (req, res) => {
+    try {
+      const data = req.body;
+      const user = await Users.updateOne(
+        { _id: req.params.id, "doseInformation.dose": 1 },
+        { $set: { "doseInformation.$": data } },
+        { new: true }
+      );
+      console.log(user);
+      res.json({ msg: "Cập nhật hồ sơ tiêm chủng thành công" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

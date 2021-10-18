@@ -36,6 +36,7 @@ app.use("/api/user", routes.userRouter);
 app.use("/api/health-organization", routes.healthOrganizationRouter);
 app.use("/api/organization", routes.organizationRouter);
 app.use("/api/disease", routes.diseaseRouter);
+app.use("/api/side-effect", routes.sideEffectRouter);
 
 app.use("/api/organ-injection-register", routes.organInjectionRegisterRouter);
 app.use("/api/user-injection-register", routes.userInjectionRegisterRouter);

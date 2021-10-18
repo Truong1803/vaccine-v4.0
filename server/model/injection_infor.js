@@ -28,7 +28,7 @@ const InjectionInforSchema = new mongoose.Schema(
       default: "",
     },
     postInjectionReaction: {
-      type: String,
+      type: Object,
       default: "",
     },
     status: {
