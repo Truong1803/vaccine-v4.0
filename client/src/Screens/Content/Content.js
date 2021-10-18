@@ -23,6 +23,7 @@ import Certificate from './Certificate';
 import Dashboard from './Dashboard';
 import DepartmentHealth from './DepartmentHealth';
 import HealthRecord from './HealthRecord';
+import HealthRecordUserList from './HealthRecordUser';
 import Home from './Home';
 import Info from './Info';
 import InjectionUnit from './InjectionUnit';
@@ -61,6 +62,9 @@ function Content() {
       </Route>
       <Route path="/certificate">
         <Certificate />
+      </Route>
+      <Route path="/health-record-user">
+        <HealthRecordUserList />
       </Route>
       <Route path="/admin/health-record">
         <HealthRecord />
