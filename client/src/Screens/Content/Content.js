@@ -21,6 +21,7 @@ import RegisterInjectionUser
   from '../../Components/RegisterInjection/RegisterInjectionUser';
 import Dashboard from './Dashboard';
 import DepartmentHealth from './DepartmentHealth';
+import HealthRecord from './HealthRecord';
 import Home from './Home';
 import Info from './Info';
 import InjectionUnit from './InjectionUnit';
@@ -56,6 +57,9 @@ function Content() {
       </Route>
       <Route path="/look_up">
         <LookUpUser />
+      </Route>
+      <Route path="/health_record">
+        <HealthRecord />
       </Route>
       <Route path="/admin/pre-health_record">
         <PreHealthRecord />

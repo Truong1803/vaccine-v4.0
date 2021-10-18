@@ -105,7 +105,7 @@ function TopBar() {
                       </Link>
                     </Dropdown.Item>
                     <Dropdown.Item>
-                      <Link to="/" className="none_outline">
+                      <Link to="/health_record" className="none_outline">
                         Tra cứu hồ sơ cá nhân
                       </Link>
                     </Dropdown.Item>
