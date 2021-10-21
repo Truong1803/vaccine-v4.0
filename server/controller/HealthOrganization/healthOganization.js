@@ -317,7 +317,7 @@ const healthOganizationCtrl = {
         address,
         password: passwordHash,
         role: 3,
-        num_table,
+        num_table: parseInt(num_table),
       });
       newUser.save();
       sendEmailRegister(email, email, password);
@@ -359,7 +359,7 @@ const healthOganizationCtrl = {
         num_table,
       } = req.body;
       const user = await HealthOrganization.findByIdAndUpdate(
-        { _id: req.params._id },
+        { _id: req.params.id },
         {
           email,
           password,
@@ -371,7 +371,7 @@ const healthOganizationCtrl = {
           ward,
           address,
           role,
-          num_table,
+          num_table: parseInt(num_table),
         },
         { new: true }
       );

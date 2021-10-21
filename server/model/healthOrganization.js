@@ -31,7 +31,7 @@ const HealthOrganizationSchema = new mongoose.Schema(
       type: String,
     },
     num_table: {
-      type: String,
+      type: Number,
     },
     role: {
       type: Number,

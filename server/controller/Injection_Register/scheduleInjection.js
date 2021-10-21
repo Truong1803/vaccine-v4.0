@@ -44,107 +44,200 @@ const ScheduleInjectionCtrl = {
       const total = await ScheduleInjection.countDocuments({
         healthOrganizationId: req.user.id,
       });
-
-      // const features = new APIfeature(
-      //   ScheduleInjection.find({ healthOrganizationId: req.user.id }),
-      //   req.query
-      // )
-      //   .paginating()
-      //   .filtering();
-      // const data = await features.query;
-      ScheduleInjection.aggregate([
-        {
-          $match: {
-            healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+      if (req.query.injectionDate === "") {
+        ScheduleInjection.aggregate([
+          {
+            $match: {
+              healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+            },
           },
-        },
-        {
-          $lookup: {
-            from: "healthorganizations",
-            localField: "healthOrganizationId",
-            foreignField: "_id",
-            as: "organization",
+          {
+            $lookup: {
+              from: "healthorganizations",
+              localField: "healthOrganizationId",
+              foreignField: "_id",
+              as: "organization",
+            },
           },
-        },
-        {
-          $lookup: {
-            from: "users",
-            localField: "userId",
-            foreignField: "_id",
-            as: "user",
+          {
+            $lookup: {
+              from: "users",
+              localField: "userId",
+              foreignField: "_id",
+              as: "user",
+            },
           },
-        },
-        {
-          $sort: {
-            injectionDate: -1,
+          {
+            $sort: {
+              injectionDate: -1,
+            },
           },
-        },
-        {
-          $unwind: "$organization",
-        },
-        {
-          $unwind: "$user",
-        },
-      ])
-        .then((result) => {
-          let dataSet = new Set();
-          result.forEach((item) => {
-            dataSet.add(item.injectionDate);
-          });
-          let array = Array.from(dataSet);
-          let resultArray = [];
-          let dataArr = [];
-          while (result.length !== 0) {
-            if (
-              result[result.length - 1].injectionDate ===
-              array[array.length - 1]
-            ) {
-              dataArr.push(result.pop());
-            } else {
-              array.pop();
-              dataArr.sort((a, b) => {
-                return -1;
-              });
-              resultArray.push(dataArr);
-              dataArr = [];
-              dataArr.push(result.pop());
-              if (result.length === 0) {
+          {
+            $unwind: "$organization",
+          },
+          {
+            $unwind: "$user",
+          },
+        ])
+          .then((result) => {
+            let dataSet = new Set();
+            result.forEach((item) => {
+              dataSet.add(item.injectionDate);
+            });
+            let array = Array.from(dataSet);
+            let resultArray = [];
+            let dataArr = [];
+            while (result.length !== 0) {
+              if (
+                result[result.length - 1].injectionDate ===
+                array[array.length - 1]
+              ) {
+                dataArr.push(result.pop());
+                if (result.length === 0) {
+                  dataArr.sort((a, b) => {
+                    return -1;
+                  });
+                  resultArray.push(dataArr);
+                }
+              } else {
+                array.pop();
                 dataArr.sort((a, b) => {
                   return -1;
                 });
                 resultArray.push(dataArr);
+                dataArr = [];
+                dataArr.push(result.pop());
+                if (result.length === 0) {
+                  dataArr.sort((a, b) => {
+                    return -1;
+                  });
+                  resultArray.push(dataArr);
+                }
               }
             }
-          }
-          res.json({ data: resultArray, total });
-        })
-        .catch((error) => {
-          return res.status(500).json({ msg: error.message });
-        });
+            res.json({ data: resultArray, total });
+          })
+          .catch((error) => {
+            return res.status(500).json({ msg: error.message });
+          });
+      } else {
+        ScheduleInjection.aggregate([
+          {
+            $match: {
+              healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+              injectionDate: req.query.injectionDate,
+            },
+          },
+          {
+            $lookup: {
+              from: "healthorganizations",
+              localField: "healthOrganizationId",
+              foreignField: "_id",
+              as: "organization",
+            },
+          },
+          {
+            $lookup: {
+              from: "users",
+              localField: "userId",
+              foreignField: "_id",
+              as: "user",
+            },
+          },
+          {
+            $sort: {
+              injectionDate: -1,
+            },
+          },
+          {
+            $unwind: "$organization",
+          },
+          {
+            $unwind: "$user",
+          },
+        ])
+          .then((result) => {
+            let dataSet = new Set();
+            result.forEach((item) => {
+              dataSet.add(item.injectionDate);
+            });
+            let array = Array.from(dataSet);
+            let resultArray = [];
+            let dataArr = [];
+            while (result.length !== 0) {
+              if (
+                result[result.length - 1].injectionDate ===
+                array[array.length - 1]
+              ) {
+                dataArr.push(result.pop());
+                if (result.length === 0) {
+                  dataArr.sort((a, b) => {
+                    return -1;
+                  });
+                  resultArray.push(dataArr);
+                }
+              } else {
+                array.pop();
+                dataArr.sort((a, b) => {
+                  return -1;
+                });
+                resultArray.push(dataArr);
+                dataArr = [];
+                dataArr.push(result.pop());
+                if (result.length === 0) {
+                  dataArr.sort((a, b) => {
+                    return -1;
+                  });
+                  resultArray.push(dataArr);
+                }
+              }
+            }
+            res.json({ data: resultArray, total });
+          })
+          .catch((error) => {
+            return res.status(500).json({ msg: error.message });
+          });
+      }
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
   },
 
   setScheduleInjection: async (req, res) => {
-    const data = req.body;
-    const organ = await HealthOrganization.findById(
-      data[0].healthOrganizationId
-    );
-    const num_table = parseInt(organ.num_table);
-    let time = 0;
-    let timeMorning = 28800; // 8h sáng
-    let timeAfternoon = 46800; // 13h chiều
-    if (data[0].time === "Sáng") {
-      time = timeMorning;
-    } else {
-      time = timeAfternoon;
-    }
     try {
-      data.map(async (item, index) => {
-        console.log(item);
-        const timeStart = convertHMS(time);
-        const newData = new ScheduleInjection({ ...item, time: timeStart });
+      const data = req.body;
+      const organ = await HealthOrganization.findById(
+        data[0].healthOrganizationId
+      );
+      const num_table = parseInt(organ.num_table);
+      let timeCount = 0;
+      let timeMorning = 25200; // 7h sáng
+      let timeAfternoon = 46800; // 13h chiều
+      const limitMorning = ((4 * 60) / 5) * num_table;
+      const limitAfternoon = ((5 * 60) / 5) * num_table;
+      if (data[0].time === "Sáng") {
+        if (data.length > limitMorning) {
+          return res.status(400).json({
+            msg: `Số lượng người tiêm không đượt vượt quá ${limitMorning}`,
+          });
+        }
+        timeCount = timeMorning;
+      } else {
+        if (data.length > limitAfternoon) {
+          return res.status(400).json({
+            msg: `Số lượng người tiêm không đượt vượt quá ${limitAfternoon}`,
+          });
+        }
+        timeCount = timeAfternoon;
+      }
+      //  data.forEach(async (item, index)
+      for (const [index, item] of data.entries()) {
+        const timeStart = convertHMS(timeCount);
+
+        const newData = await new ScheduleInjection({
+          ...item,
+          time: timeStart,
+        });
         await newData.save();
         const user = await Users.findById({ _id: newData.userId });
 
@@ -152,9 +245,10 @@ const ScheduleInjectionCtrl = {
         const history = await InjectionRegister.findOneAndDelete({
           userId: newData.userId,
         });
+
         const { userId, healthOrganizationId, dose, vaccineId, diseaseId } =
           history;
-        const newInjectionInfor = new InjectionInfor({
+        const newInjectionInfor = await new InjectionInfor({
           userId,
           healthOrganizationId,
           dose,
@@ -164,10 +258,11 @@ const ScheduleInjectionCtrl = {
           time: timeStart,
         });
         await newInjectionInfor.save();
+
         if ((index + 1) % num_table === 0) {
-          time = time + 300;
+          timeCount = timeCount + 300;
         }
-      });
+      }
       return res.json({ msg: "Thiết lập kế hoạch tiêm thành công" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });

@@ -1,6 +1,7 @@
 const InjectionInfor = require("../../model/injection_infor");
 const Users = require("../../model/user");
 const mongoose = require("mongoose");
+const ScheduleInjection = require("../../model/schedule_injection");
 const InjectionInforCtrl = {
   getPreInjection: async (req, res) => {
     try {
@@ -8,7 +9,6 @@ const InjectionInforCtrl = {
         status: false,
         healthOrganizationId: req.user.id,
       });
-      console.log(req.query.injectionDate === "");
       if (req.query.injectionDate === "") {
         InjectionInfor.aggregate([
           {
@@ -314,11 +314,13 @@ const InjectionInforCtrl = {
       await InjectionInfor.findByIdAndDelete({
         _id: req.params.id,
       });
+      await ScheduleInjection.findOneAndDelete({
+        userId: result.userId,
+      });
       return res.json({
         msg: "Cập nhật hồ sơ sau tiêm thành công",
       });
     } catch (error) {
-      console.log(error.message);
       return res.status(500).json({ msg: error.message });
     }
   },

@@ -58,7 +58,19 @@ const userCtrl = {
           dataInjected.push(item);
         }
       });
-      res.json({ data: dataInjected });
+      if (req.query.injectionDate === "") {
+        res.json({ data: dataInjected });
+      } else {
+        let dataFilter = [];
+        dataInjected.forEach((item) => {
+          item.doseInformation.forEach((item1) => {
+            if (item1.injectionDate === req.query.injectionDate) {
+              dataFilter.push(item);
+            }
+          });
+        });
+        res.json({ data: dataFilter });
+      }
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

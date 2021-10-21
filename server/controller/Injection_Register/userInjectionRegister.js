@@ -47,7 +47,6 @@ class APIfeature {
 }
 const UserInjectionRegisterCtrl = {
   getAllInjectionRegister: async (req, res) => {
-    console.log(req.query);
     try {
       if (req.query.vaccineId !== "0" && req.query.dose === "0") {
         InjectionRegister.aggregate([
@@ -284,6 +283,7 @@ const UserInjectionRegisterCtrl = {
         vaccineId,
         diseaseId,
       } = req.body;
+      console.log(req.body);
       if (
         userId === "" ||
         healthOrganizationId === "" ||
