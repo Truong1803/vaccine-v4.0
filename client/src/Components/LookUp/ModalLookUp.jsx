@@ -14,8 +14,10 @@ function ModalLookUp({ auth, setShowModal }) {
   const { vaccine, injectionRegister } = useSelector((state) => state);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(GetInjectionRegister(auth.access_token));
-    dispatch(getDataVaccine());
+    if (auth.access_token) {
+      dispatch(GetInjectionRegister(auth.access_token));
+      dispatch(getDataVaccine());
+    }
   }, [auth.access_token, dispatch]);
   const handleClick = () => {
     setShowModal(false);
@@ -62,7 +64,7 @@ function ModalLookUp({ auth, setShowModal }) {
                           <input
                             type="text"
                             className="form-control"
-                            value={auth.user.name}
+                            value={auth.user?.name}
                             disabled={true}
                           />
                         </div>
@@ -73,7 +75,7 @@ function ModalLookUp({ auth, setShowModal }) {
                           <input
                             type="date"
                             className="form-control"
-                            value={auth.user.dob}
+                            value={auth.user?.dob}
                             disabled={true}
                           />
                         </div>
@@ -86,7 +88,7 @@ function ModalLookUp({ auth, setShowModal }) {
                           <input
                             type="text"
                             className="form-control"
-                            value={auth.user.gender}
+                            value={auth.user?.gender}
                             disabled={true}
                           />
                         </div>
@@ -99,7 +101,7 @@ function ModalLookUp({ auth, setShowModal }) {
                           <input
                             type="text"
                             className="form-control"
-                            value={auth.user.phonenumber}
+                            value={auth.user?.phonenumber}
                             disabled={true}
                           />
                         </div>
@@ -116,7 +118,7 @@ function ModalLookUp({ auth, setShowModal }) {
                           <input
                             type="email"
                             className="form-control"
-                            value={auth.user.email}
+                            value={auth.user?.email}
                             disabled={true}
                           />
                         </div>
@@ -127,7 +129,7 @@ function ModalLookUp({ auth, setShowModal }) {
                           <input
                             type="text"
                             className="form-control"
-                            value={auth.user.identification}
+                            value={auth.user?.identification}
                             disabled={true}
                           />
                         </div>
@@ -140,7 +142,7 @@ function ModalLookUp({ auth, setShowModal }) {
                           <input
                             type="text"
                             className="form-control"
-                            value={auth.user.bhyt}
+                            value={auth.user?.bhyt}
                             disabled={true}
                           />
                         </div>
@@ -153,7 +155,7 @@ function ModalLookUp({ auth, setShowModal }) {
                           <input
                             type="text"
                             className="form-control"
-                            value={auth.user.job}
+                            value={auth.user?.job}
                             disabled={true}
                           />
                         </div>
@@ -172,7 +174,7 @@ function ModalLookUp({ auth, setShowModal }) {
                           <input
                             type="text"
                             className="form-control"
-                            value={auth.user.organization}
+                            value={auth.user?.company}
                             disabled={true}
                           />
                         </div>
@@ -185,7 +187,7 @@ function ModalLookUp({ auth, setShowModal }) {
                           <input
                             type="text"
                             className="form-control"
-                            value={auth.user.province.name}
+                            value={auth.user?.province?.name}
                             disabled={true}
                           />
                         </div>
@@ -198,7 +200,7 @@ function ModalLookUp({ auth, setShowModal }) {
                           <input
                             type="text"
                             className="form-control"
-                            value={auth.user.district.name}
+                            value={auth.user?.district?.name}
                             disabled={true}
                           />
                         </div>
@@ -211,7 +213,7 @@ function ModalLookUp({ auth, setShowModal }) {
                           <input
                             type="text"
                             className="form-control"
-                            value={auth.user.ward.name}
+                            value={auth.user?.ward?.name}
                             disabled={true}
                           />
                         </div>
@@ -222,7 +224,7 @@ function ModalLookUp({ auth, setShowModal }) {
                           <input
                             type="text"
                             className="form-control"
-                            value={auth.user.address}
+                            value={auth.user?.address}
                             disabled={true}
                           />
                         </div>

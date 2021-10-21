@@ -17,15 +17,16 @@ function ListPlan() {
 
   const [page, setPage] = useState("");
   const [search, setSearch] = useState("");
+  const [injectionDate, setInjectionDate] = useState("");
 
   const [showPlan, setShowPlan] = useState(false);
   const [dataSchedule, setDataSchedule] = useState("");
 
   useEffect(() => {
     if (auth.access_token) {
-      dispatch(getAllSchedule(page, search, auth.access_token));
+      dispatch(getAllSchedule(auth.access_token, injectionDate));
     }
-  }, [auth.access_token, page, search]);
+  }, [auth.access_token, injectionDate]);
 
   const handleOnclickPlan = (item) => {
     setDataSchedule(item);
@@ -46,7 +47,12 @@ function ListPlan() {
               </div>
               <div className="col-8">
                 <form className="form-inline my-2 my-lg-0 ">
-                  <input className="form-control mr-sm-2" type="date" />
+                  <input
+                    className="form-control mr-sm-2"
+                    type="date"
+                    value={injectionDate}
+                    onChange={(e) => setInjectionDate(e.target.value)}
+                  />
                 </form>
               </div>
             </div>

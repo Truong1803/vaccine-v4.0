@@ -1,4 +1,9 @@
-import { ADD_USER, DELETE_USER, EDIT_USER, GET_USER } from "../containt";
+import {
+  ADD_USER,
+  DELETE_USER,
+  EDIT_USER,
+  GET_USER,
+} from '../containt';
 
 export default (state = [], action) => {
   switch (action.type) {
@@ -7,7 +12,6 @@ export default (state = [], action) => {
     case ADD_USER:
       return [...state, action.payload];
     case EDIT_USER:
-      console.log(state);
       const newUser = state.map((user) =>
         user._id === action.payload._id ? action.payload : user
       );

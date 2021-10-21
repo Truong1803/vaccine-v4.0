@@ -38,7 +38,7 @@ function LookUp() {
   };
   return (
     <div className="row justify-content-center">
-      <div className="col-8">
+      <div className="col-9">
         <div className="row mt-4">
           <div className="col-12 text-center">
             <h3>Tra cứu kết quả đăng ký</h3>
@@ -61,7 +61,6 @@ function LookUp() {
                       {injectionRegister.status === "success" && (
                         <th scope="col">Thời gian</th>
                       )}
-
                       <th scope="col">Địa điểm</th>
                       <th scope="col">Trạng thái</th>
                       <th scope="col"></th>

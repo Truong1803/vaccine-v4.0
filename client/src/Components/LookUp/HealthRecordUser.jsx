@@ -8,6 +8,7 @@ import {
   useSelector,
 } from 'react-redux';
 
+import { refreshToken } from '../../redux/actions/authActions';
 import { getDataQH } from '../../redux/actions/oganizationAction';
 import { getDataVaccine } from '../../redux/actions/vaccineAction';
 import ModalDetail from '../ManageHealthRecord/ModalDetail';
@@ -24,6 +25,7 @@ function HealthRecordUser() {
   const [openModal, setOpenModal] = useState(false);
   useEffect(() => {
     if (auth.access_token) {
+      dispatch(refreshToken());
       dispatch(getDataQH(page, search, auth.access_token));
       dispatch(getDataVaccine(page, search));
     }

@@ -16,7 +16,7 @@ import ModalUpdate from './ModalUpdate';
 
 function UpdateInjection({ status }) {
   const dispatch = useDispatch();
-  const { auth, injectionInfor } = useSelector((state) => state);
+  const { auth, injectionInfor, alert } = useSelector((state) => state);
 
   const [page, setPage] = useState("");
   const [search, setSearch] = useState("");
@@ -36,7 +36,7 @@ function UpdateInjection({ status }) {
     } else if (auth.access_token && status === true) {
       dispatch(getPostInjection(auth.access_token, injectionDate));
     }
-  }, [auth.access_token, status, callback, injectionDate]);
+  }, [auth.access_token, status, callback, injectionDate, alert]);
 
   const [record, setRecord] = useState();
   const [search1, handleOnChangeSearch] = useState("");
@@ -101,7 +101,7 @@ function UpdateInjection({ status }) {
                   </thead>
                   <tbody>
                     {injectionInfor.map((item, index) => (
-                      <tr className="text-center ">
+                      <tr className="text-center " key={index}>
                         <td>{index + 1}</td>
                         <td>{item.user?.name}</td>
                         <td>{item.user?.gender}</td>

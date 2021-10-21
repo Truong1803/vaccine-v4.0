@@ -2,8 +2,8 @@
   --violet: rgb(69, 20, 90);
   --gradient: linear-gradient(
     90deg,
-    rgba(69, 20, 90, 1) 0%,
-    rgba(204, 87, 31, 1) 94%
+    #1877f2,
+    #1877f2
   );
   --white: #ffffff;
 }
@@ -31,8 +31,8 @@ ul li:hover {
   background: var(--violet);
   background: linear-gradient(
     180deg,
-    rgba(69, 20, 90, 1) 0%,
-    rgba(204, 87, 31, 1) 94%
+    #263544,
+    #263544
   );
   height: 100vh;
 }

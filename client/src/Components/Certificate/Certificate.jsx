@@ -5,16 +5,18 @@ import {
   useSelector,
 } from 'react-redux';
 
+import { refreshToken } from '../../redux/actions/authActions';
 import { getDataQH } from '../../redux/actions/oganizationAction';
 import { getDataVaccine } from '../../redux/actions/vaccineAction';
 
 function ItemCertificate() {
   const dispatch = useDispatch();
-  const { auth, vaccine, organization } = useSelector((state) => state);
+  const { auth, vaccine, organization, user } = useSelector((state) => state);
   const page = 1;
   const search = "";
   useEffect(() => {
     if (auth.access_token) {
+      dispatch(refreshToken());
       dispatch(getDataVaccine(page, search));
       dispatch(getDataQH(page, search, auth.access_token));
     }
@@ -22,7 +24,7 @@ function ItemCertificate() {
 
   return (
     <div className="row justify-content-center">
-      {auth.user?.doseInformation.lenght === 0 ? (
+      {auth?.user?.doseInformation[0] === undefined ? (
         <div className="col-8">
           <h5>Chưa tiêm vắc xin</h5>
         </div>
@@ -44,28 +46,28 @@ function ItemCertificate() {
             <div className="col-12">
               <div className="row mt-2">
                 <div className="col-3">
-                  Họ và tên: <strong>{auth.user?.name}</strong>
+                  Họ và tên: <strong>{auth?.user?.name}</strong>
                 </div>
                 <div className="col-3">
-                  Giới tính: <strong>{auth.user?.gender}</strong>
+                  Giới tính: <strong>{auth?.user?.gender}</strong>
                 </div>
                 <div className="col-3">
-                  Ngày sinh: <strong>{auth.user?.dob}</strong>
+                  Ngày sinh: <strong>{auth?.user?.dob}</strong>
                 </div>
                 <div className="col-3">
-                  Số điện thoại: <strong>{auth.user?.phonenumber}</strong>
+                  Số điện thoại: <strong>{auth?.user?.phonenumber}</strong>
                 </div>
               </div>
               <div className="row mt-3">
                 <div className="col-3">
-                  CMND/CCCD: <strong>{auth.user?.identification}</strong>
+                  CMND/CCCD: <strong>{auth?.user?.identification}</strong>
                 </div>
                 <div className="col-3">
-                  Số BHYT: <strong>{auth.user?.bhyt}</strong>
+                  Số BHYT: <strong>{auth?.user?.bhyt}</strong>
                 </div>
                 <div className="col-6">
                   Địa chỉ:{" "}
-                  <strong>{`${auth.user?.address}, ${auth.user?.ward?.name}, ${auth.user?.district?.name}, ${auth.user?.province?.name}`}</strong>
+                  <strong>{`${auth?.user?.address}, ${auth?.user?.ward?.name}, ${auth?.user?.district?.name}, ${auth?.user?.province?.name}`}</strong>
                 </div>
               </div>
             </div>
@@ -88,7 +90,7 @@ function ItemCertificate() {
                     </tr>
                   </thead>
                   <tbody>
-                    {auth.user?.doseInformation.map((item, index) => (
+                    {auth?.user?.doseInformation.map((item, index) => (
                       <tr className="text-center" key={index}>
                         <td>{index + 1}</td>
                         <td>{item.injectionDate}</td>
@@ -112,12 +114,16 @@ function ItemCertificate() {
               </div>
             </div>
           </div>
-          <div className="col-12 bg-warning border border-dark rounded">
+          <div
+            className={`col-12 ${
+              auth?.user?.doseInformation.length === 1
+                ? "bg-warning"
+                : "bg-success"
+            } border border-dark rounded`}
+          >
             <div className="row p-3">
               <div className="col-3 text-center">
-                <p>{`Đã tiêm ${
-                  Object.keys(auth.user?.doseInformation).length
-                } mũi vắc xin`}</p>
+                <p>{`Đã tiêm ${auth?.user?.doseInformation.length} mũi vắc xin`}</p>
                 <div className="border border-dark text-center">
                   <img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png"
@@ -135,7 +141,7 @@ function ItemCertificate() {
                     Họ và tên:
                   </div>
                   <div className="col-9 p-3">
-                    <strong>{auth.user?.name}</strong>
+                    <strong>{auth?.user?.name}</strong>
                   </div>
                 </div>
                 <div className="row">
@@ -146,7 +152,7 @@ function ItemCertificate() {
                     Ngày sinh:
                   </div>
                   <div className="col-9 p-3">
-                    <strong>{auth.user?.dob}</strong>
+                    <strong>{auth?.user?.dob}</strong>
                   </div>
                 </div>
                 <div className="row">
@@ -157,7 +163,7 @@ function ItemCertificate() {
                     CMND/CCCD:
                   </div>
                   <div className="col-9 p-3">
-                    <strong>{auth.user?.identification}</strong>
+                    <strong>{auth?.user?.identification}</strong>
                   </div>
                 </div>
               </div>

@@ -16,7 +16,7 @@ import InjectionPlan from './InjectionPlan';
 
 function ListUserInjection() {
   const dispatch = useDispatch();
-  const { vaccine } = useSelector((state) => state);
+  const { vaccine, alert } = useSelector((state) => state);
 
   const [listUser, setListUser] = useState([]);
   const { auth } = useSelector((state) => state);
@@ -41,8 +41,7 @@ function ListUserInjection() {
       );
       setListUser(res.data.data);
     }
-    console.log(callback);
-  }, [vaccineId, dose, callback, auth.access_token]);
+  }, [vaccineId, dose, callback, auth.access_token, alert]);
 
   const handleOnclickModal = (user) => {
     setUser(user);
@@ -59,7 +58,6 @@ function ListUserInjection() {
   };
 
   const handleCheck = (id) => {
-    console.log(id);
     listUser.forEach((item) => {
       if (item._id === id) {
         item.checked = !item.checked;
@@ -78,7 +76,6 @@ function ListUserInjection() {
 
     let value = 0;
     const x = listUser.length;
-    console.log(x, size1);
     if (x > size) value = size;
     else value = x;
     for (let i = 0; i < x; i++) {

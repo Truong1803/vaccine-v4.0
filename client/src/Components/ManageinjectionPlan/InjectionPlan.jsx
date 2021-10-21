@@ -17,7 +17,7 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
   const [injectionDate, setInjectionDate] = useState("");
 
   const dispatch = useDispatch();
-  const { vaccine, auth } = useSelector((state) => state);
+  const { vaccine, auth, alert } = useSelector((state) => state);
 
   useEffect(() => {
     dispatch(getDataVaccine());

@@ -18,11 +18,10 @@ export const setScheduleInjection =
   };
 
 export const getAllSchedule =
-  (page = "", search = "", access_token) =>
-  async (dispatch) => {
+  (access_token, injectionDate) => async (dispatch) => {
     try {
       const res = await getAPI(
-        `/schedule-injection?page=${page}&search=${search}`,
+        `/schedule-injection?injectionDate=${injectionDate}`,
         access_token
       );
       dispatch({ type: GET_SCHEDULE_INJECTION, payload: res.data.data });

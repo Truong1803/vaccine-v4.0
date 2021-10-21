@@ -1,10 +1,13 @@
 import {
-  INJECT_REGISTER,
+  deleteAPI,
+  getAPI,
+  postAPI,
+} from '../../api/FetchData';
+import {
   ALERT,
-  GET_INJECTION_REGISTER,
   DELETE_INJECTION_REGISTER,
-} from "../containt";
-import { getAPI, postAPI, deleteAPI } from "../../api/FetchData";
+  GET_INJECTION_REGISTER,
+} from '../containt';
 
 export const InjectionRegister = (data, access_token) => async (dispatch) => {
   try {
@@ -31,7 +34,6 @@ export const DeleteInjectionRegister =
         `/user-injection-register/${itemId}`,
         access_token
       );
-      console.log(res.data);
       dispatch({ type: ALERT, payload: { success: res.data.msg } });
       dispatch({ type: DELETE_INJECTION_REGISTER, payload: "notFound" });
     } catch (error) {

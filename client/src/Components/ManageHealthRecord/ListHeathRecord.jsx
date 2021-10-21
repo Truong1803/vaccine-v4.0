@@ -16,16 +16,16 @@ function ListHealthRecord() {
   const { auth, user } = useSelector((state) => state);
 
   const [dataLookup, setDataLookup] = useState("");
-
+  const [injectionDate, setInjectionDate] = useState("");
   const handleSetDataLookup = (item) => {
     setDataLookup(item);
   };
 
   useEffect(() => {
     if (auth.access_token) {
-      dispatch(getUserInjected(auth.access_token));
+      dispatch(getUserInjected(auth.access_token, injectionDate));
     }
-  }, [auth.access_token]);
+  }, [auth.access_token, injectionDate]);
 
   return (
     <div className="row justify-content-center">
@@ -56,8 +56,8 @@ function ListHealthRecord() {
                   <input
                     className="form-control mr-sm-2"
                     type="date"
-                    // value={injectionDate}
-                    // onChange={(e) => setInjectionDate(e.target.value)}
+                    value={injectionDate}
+                    onChange={(e) => setInjectionDate(e.target.value)}
                   />
                 </form>
               </div>

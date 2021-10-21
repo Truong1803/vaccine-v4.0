@@ -26,6 +26,14 @@ function FormInfoUser({ data, setData, setStatus, status }) {
     if (auth.access_token) {
       dispatch(getDataQH(1, "", auth.access_token));
       dispatch(getDataCompany(1, "", auth.access_token));
+      if (auth.user?.doseInformation.length !== 0) {
+        setData({
+          ...data,
+          vaccineId:
+            auth.user?.doseInformation[auth.user?.doseInformation.length - 1]
+              .vaccineId,
+        });
+      }
     }
   }, [auth.access_token]);
 
@@ -88,7 +96,10 @@ function FormInfoUser({ data, setData, setStatus, status }) {
                     <input
                       type="text"
                       className="form-control"
+                      name="vaccineId"
                       value={item.name_vaccine}
+                      onChange={handleOnChange}
+                      name="vaccineId"
                       disabled={true}
                     />
                   )

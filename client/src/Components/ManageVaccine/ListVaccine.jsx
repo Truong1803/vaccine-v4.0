@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import { useDispatch, useSelector } from "react-redux";
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
 import {
   deleteVaccine,
   getDataVaccine,
-} from "../../redux/actions/vaccineAction";
-import Modal from "../alert/Modal";
-import Paginate from "../Paginate/Paginate";
-import VaccineModal from "./VaccineModal";
+} from '../../redux/actions/vaccineAction';
+import Modal from '../alert/Modal';
+import Paginate from '../Paginate/Paginate';
+import VaccineModal from './VaccineModal';
 
 function ListVaccine() {
   const { auth, totalItem } = useSelector((state) => state);
@@ -111,10 +117,10 @@ function ListVaccine() {
             )}
           </div>
         </div>
-        <div className="col-12 table-responsive table-hover">
-          <table className="table">
-            <thead className="thead-dark">
-              <tr className="text-center">
+        <div className="col-12 table-responsive table-hover ">
+          <table className="table shadow-sm border rounded-lg table-striped">
+            <thead className="thead-danger bg-transparent">
+              <tr className="text-center table-info">
                 <th scope="col">STT</th>
                 <th scope="col">Tên vaccine</th>
                 <th scope="col">Tên hãng</th>

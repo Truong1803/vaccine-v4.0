@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
-import Organization from "../../Components/SignUp/Organization";
-import User from "../../Components/SignUp/User";
-import video from "../../assets/Images/bg.mp4";
+import React, { useState } from 'react';
+
+import video from '../../assets/Images/bg.mp4';
+import Organization from '../../Components/SignUp/Organization';
+import User from '../../Components/SignUp/User';
+
 function SignUp() {
   const user = "Cá nhân";
   const organization = "Tổ chức";
   const [checkType, setCheckType] = useState(user);
-  useEffect(() => {
-    console.log(checkType);
-  }, [checkType]);
   return (
     <div>
       <div className="position-relative">

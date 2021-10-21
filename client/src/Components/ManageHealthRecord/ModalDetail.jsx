@@ -145,7 +145,14 @@ function ModalDetail({ dataLookupDetail, action, userId }) {
                   <div className="col-12 mb-2">2.Tiền sử bệnh</div>
                 </div>
 
-                {}
+                {disease.map(
+                  (item) =>
+                    dataLookupDetail?.diseaseId.includes(item._id) && (
+                      <div className="col-12" key={item._id}>
+                        + {item.diseaseName}
+                      </div>
+                    )
+                )}
 
                 <div className="row">
                   <div className="col-12">3.Khám sàng lọc</div>

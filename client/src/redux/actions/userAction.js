@@ -25,14 +25,18 @@ export const getDataUser = (page, search, access_token) => async (dispatch) => {
   }
 };
 
-export const getUserInjected = (access_token) => async (dispatch) => {
-  try {
-    const res = await getAPI(`/user/injected`, access_token);
-    dispatch({ type: GET_USER, payload: res.data.data });
-  } catch (error) {
-    dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
-  }
-};
+export const getUserInjected =
+  (access_token, injectionDate) => async (dispatch) => {
+    try {
+      const res = await getAPI(
+        `/user/injected?injectionDate=${injectionDate}`,
+        access_token
+      );
+      dispatch({ type: GET_USER, payload: res.data.data });
+    } catch (error) {
+      dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
+    }
+  };
 
 export const getUserById = (userId, access_token) => async (dispatch) => {
   try {

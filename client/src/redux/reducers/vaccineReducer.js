@@ -3,10 +3,9 @@ import {
   DELETE_VACCINE,
   EDIT_VACCINE,
   GET_VACCINE,
-} from "../containt";
+} from '../containt';
 
 export default (state = [], action) => {
-  const { type, payload } = action;
   switch (action.type) {
     case GET_VACCINE:
       return action.payload;
