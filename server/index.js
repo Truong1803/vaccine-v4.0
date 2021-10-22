@@ -4,7 +4,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 
-const multer = require("multer");
+// const multer = require("multer");
 
 const routes = require("./routes/index");
 
@@ -16,8 +16,8 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(cookieParser());
 
-// SET STORAGE
-const upload = multer({ dest: "./public/data/uploads/" });
+// // SET STORAGE
+// const upload = multer({ dest: "./public/data/uploads/" });
 
 // app.use(
 //   fileUpload({

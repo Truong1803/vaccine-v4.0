@@ -5,20 +5,14 @@ const OrganInjectionRegisterSchema = new mongoose.Schema(
     organizationId: {
       type: mongoose.Schema.ObjectId,
     },
-    userId: {
+    userPhone: {
       type: Array,
-    },
-    dose: {
-      type: Number,
     },
     healthOrganizationId: {
       type: mongoose.Schema.ObjectId,
     },
     vaccineId: {
       type: Number,
-    },
-    diseaseId: {
-      type: Array,
     },
     status: {
       type: String,
