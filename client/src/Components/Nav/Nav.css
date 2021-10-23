@@ -1,10 +1,6 @@
 :root {
   --violet: rgb(69, 20, 90);
-  --gradient: linear-gradient(
-    90deg,
-    #1877f2,
-    #1877f2
-  );
+  --gradient: linear-gradient(90deg, #1877f2, #1877f2);
   --white: #ffffff;
 }
 .bgTopBar {
@@ -27,14 +23,10 @@ ul li:hover {
   background-color: rgba(225, 225, 225, 0.5);
 }
 
-.rightbar {
+.left-bar {
   background: var(--violet);
-  background: linear-gradient(
-    180deg,
-    #263544,
-    #263544
-  );
-  height: 100vh;
+  background: linear-gradient(180deg, #263544, #263544);
+  height: 250vh;
 }
 ul > li > a {
   color: #fff;
