@@ -3,7 +3,7 @@ import ReportDeptHealth from "../../Components/Report/ReportDeptHealth";
 import ReportHealthOrganization from "../../Components/Report/ReportHealthOrganization";
 import ReportInjectionUnit from "../../Components/Report/ReportInjectionUnit";
 function Report() {
-  let check = 3;
+  let check = 5;
   return check === 3 ? (
     <ReportInjectionUnit />
   ) : check === 4 ? (
