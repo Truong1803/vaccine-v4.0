@@ -1,8 +1,11 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import Toast from "./Toast";
-import Loading from "./Loading.jsx";
-import Loading1 from "./Loading1.jsx";
+import React from 'react';
+
+import { useSelector } from 'react-redux';
+
+import Loading from './Loading.jsx';
+import Loading1 from './Loading1.jsx';
+import Toast from './Toast';
+
 export const Alert = () => {
   const { alert } = useSelector((state) => state);
   return (

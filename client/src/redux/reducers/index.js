@@ -5,6 +5,7 @@ import auth from './authReducer';
 import company from './companyReducer';
 import disease from './diseaseReducer';
 import injectionInfor from './injection_inforReducer';
+import injectionRegisterOrgan from './injectionRegisterOrganReducer';
 import injectionRegister from './injectionRegisterReducer';
 import organization from './organizationReducer';
 import role from './roleReducer';
@@ -28,4 +29,5 @@ export default combineReducers({
   injectionRegister,
   schedule,
   injectionInfor,
+  injectionRegisterOrgan,
 });

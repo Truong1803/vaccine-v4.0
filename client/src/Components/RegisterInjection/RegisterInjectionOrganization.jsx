@@ -1,7 +1,18 @@
 import './RegisterinjectionStyles.css';
 
-import React, { useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
+import {
+  GetInjectionRegisterOrgan,
+} from '../../redux/actions/injectionRegisterOrganAction';
 import FormImport from './FormImport';
 import ModalRegisterInjection from './ModalRegisterInjection';
 
@@ -9,6 +20,14 @@ function RegisterInjectionOrganization() {
   const data = [];
 
   const [showModal, setShowModal] = useState(false);
+
+  const dispatch = useDispatch();
+  const { auth, injectionRegisterOrgan, alert } = useSelector((state) => state);
+  useEffect(() => {
+    if (auth.access_token) {
+      dispatch(GetInjectionRegisterOrgan(auth.user?._id, auth.access_token));
+    }
+  }, [auth.access_token, alert]);
 
   const handleOnChangeSearch = (e) => {
     e.preventDefault();
@@ -101,43 +120,45 @@ function RegisterInjectionOrganization() {
             </tr>
           </thead>
           <tbody>
-            <tr className="text-center ">
-              <td>1</td>
-              <td>Ngô Trung Sơn</td>
-              <td>28/05/2</td>
-              <td>Nam</td>
-              <td>0344174212</td>
-              <td>001200008471</td>
+            {injectionRegisterOrgan[0]?.userPhone.map((item, index) => (
+              <tr className="text-center " key={item._id}>
+                <td>{index + 1}</td>
+                <td>{item.phonenumber.name}</td>
+                <td>{item.phonenumber.dob}</td>
+                <td>{item.phonenumber.gender}</td>
+                <td>{item.phonenumber.phonenumber}</td>
+                <td>{item.phonenumber.identification}</td>
 
-              <td>2</td>
-              <td>chưa duyệt</td>
-              <td>
-                <div className="row justify-content-center">
-                  <button
-                    type="button"
-                    className="btn btn-danger  mr-4"
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                    onClick={() => {
-                      // handleOpenModal(item._id);
-                    }}
-                  >
-                    <i className="fas fa-trash"></i>
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-warning  mr-4"
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                    onClick={() => {
-                      handleOnClick("Sửa", false);
-                    }}
-                  >
-                    <i className="fas fa-edit"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
+                <td>{item.dose}</td>
+                <td className="text-danger">chưa duyệt</td>
+                <td>
+                  <div className="row justify-content-center">
+                    <button
+                      type="button"
+                      className="btn btn-danger  mr-4"
+                      data-toggle="modal"
+                      data-target="#exampleModal"
+                      onClick={() => {
+                        // handleOpenModal(item._id);
+                      }}
+                    >
+                      <i className="fas fa-trash"></i>
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-warning  mr-4"
+                      data-toggle="modal"
+                      data-target="#exampleModal"
+                      onClick={() => {
+                        handleOnClick("Sửa", false);
+                      }}
+                    >
+                      <i className="fas fa-edit"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

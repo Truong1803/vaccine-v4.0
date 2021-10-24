@@ -1,7 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
+import {
+  InjectionRegisterOrgan,
+} from '../../redux/actions/injectionRegisterOrganAction';
 
 function FormImport() {
-  const handleUpload = () => {};
+  const [file, setFile] = useState("");
+
+  const dispatch = useDispatch();
+  const { auth } = useSelector((state) => state);
+
+  const handleUpload = async (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+
+    let formData = new FormData();
+    formData.append("file", file);
+    setFile(formData);
+  };
+
+  const handleOnSubmit = () => {
+    dispatch(InjectionRegisterOrgan(file, auth.access_token));
+  };
   return (
     <div
       className="modal fade"
@@ -53,7 +78,12 @@ function FormImport() {
             >
               Đóng
             </button>
-            <button type="button" className="btn btn-primary">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleOnSubmit}
+              data-dismiss="modal"
+            >
               Tải file
             </button>
           </div>
