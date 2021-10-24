@@ -15,5 +15,13 @@ router.post(
 
 router.get("/", auth, authDVT, OrganInjectionRegisterCtrl.getListOrganRegister);
 
+router.get(
+  "/organ/:id",
+  auth,
+  authCTY,
+  OrganInjectionRegisterCtrl.getByIdOrgan
+);
+
 router.get("/:id", auth, authDVT, OrganInjectionRegisterCtrl.getById);
+
 module.exports = router;

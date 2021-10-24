@@ -134,7 +134,7 @@ const OrganInjectionRegisterCtrl = {
       };
       const newData = new OrganInjectionRegister(dataReturn);
       await newData.save();
-      res.json({ data: dataReturn, msg: "Đăng ký thành công" });
+      res.json({ msg: "Đăng ký thành công" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -241,7 +241,69 @@ const OrganInjectionRegisterCtrl = {
     }
   },
 
+  getByIdOrgan: async (req, res) => {
+    try {
+      OrganInjectionRegister.aggregate([
+        {
+          $match: {
+            organizationId: mongoose.Types.ObjectId(req.params.id),
+          },
+        },
+        {
+          $addFields: {
+            userPhone: { $ifNull: ["$userPhone", []] },
+          },
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "userPhone.phonenumber",
+            foreignField: "phonenumber",
+            as: "users",
+          },
+        },
+        {
+          $addFields: {
+            userPhone: {
+              $map: {
+                input: "$userPhone",
+                in: {
+                  $mergeObjects: [
+                    "$$this",
+                    {
+                      phonenumber: {
+                        $arrayElemAt: [
+                          "$users",
+                          {
+                            $indexOfArray: [
+                              "$users.phonenumber",
+                              "$$this.phonenumber",
+                            ],
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+        { $project: { users: 0 } },
+      ])
+        .then((result) => {
+          res.json({ data: result });
+        })
+        .catch((error) => {
+          return res.status(500).json({ msg: error.message });
+        });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
   getById: async (req, res) => {
+    console.log(1);
     try {
       OrganInjectionRegister.aggregate([
         {
