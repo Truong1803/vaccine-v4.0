@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from "react";
-import FormImport from "./FormImport";
-import ModalRegisterInjection from "./ModalRegisterInjection";
+import './RegisterinjectionStyles.css';
 
-import "./RegisterinjectionStyles.css";
+import React, { useState } from 'react';
+
+import FormImport from './FormImport';
+import ModalRegisterInjection from './ModalRegisterInjection';
+
 function RegisterInjectionOrganization() {
   const data = [];
+
+  const [showModal, setShowModal] = useState(false);
+
   const handleOnChangeSearch = (e) => {
     e.preventDefault();
     // setTimeout(() => {
@@ -45,11 +50,11 @@ function RegisterInjectionOrganization() {
               />
             </form>
           </div>
-          <div className="col-6 d-flex justify-content-center">
+          <div className="col-5 d-flex justify-content-center">
             <h3>Đăng ký tiêm tổ chức</h3>
           </div>
-          <div className="col-3">
-            <div className="action  ">
+          <div className="col-4">
+            <div className="action  row">
               <button
                 type="button"
                 className="btn btn-outline-primary"
@@ -79,7 +84,7 @@ function RegisterInjectionOrganization() {
           </div>
         </div>
       </div>
-      <div className="col-10  ">
+      <div className="col-12 ">
         <table className="table">
           <thead className="thead-dark">
             <tr className="text-center">
@@ -89,7 +94,7 @@ function RegisterInjectionOrganization() {
               <th scope="col">Giới tính</th>
               <th scope="col">Số điện thoại</th>
               <th scope="col">Số CCCD/CMND</th>
-              <th scope="col">Địa chỉ</th>
+
               <th scope="col">Mũi thứ</th>
               <th scope="col">Trạng thái</th>
               <th scope="col"></th>
@@ -103,7 +108,7 @@ function RegisterInjectionOrganization() {
               <td>Nam</td>
               <td>0344174212</td>
               <td>001200008471</td>
-              <td>Minh Quang,Ba Vì,Hà Nội</td>
+
               <td>2</td>
               <td>chưa duyệt</td>
               <td>
@@ -136,7 +141,7 @@ function RegisterInjectionOrganization() {
           </tbody>
         </table>
       </div>
-      <ModalRegisterInjection />
+      {showModal && <ModalRegisterInjection />}
       <FormImport />
     </div>
   );

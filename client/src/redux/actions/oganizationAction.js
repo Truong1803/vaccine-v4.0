@@ -31,6 +31,16 @@ export const getDataQH =
     }
   };
 
+export const getHealthOrganById =
+  (userId, access_token) => async (dispatch) => {
+    try {
+      const res = await getAPI(`/health-organization/${userId}`, access_token);
+      dispatch({ type: GET_QH, payload: res.data.data });
+    } catch (error) {
+      dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
+    }
+  };
+
 export const createOrgan = (newOrgan, access_token) => async (dispatch) => {
   try {
     const res = await postAPI("/health-organization", newOrgan, access_token);

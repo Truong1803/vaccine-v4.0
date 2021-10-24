@@ -1,8 +1,21 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { updateInfor } from "../../redux/actions/authActions";
-import { getUserById, updateUser } from "../../redux/actions/userAction";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+
+import axios from 'axios';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
+import { getCompanyById } from '../../redux/actions/companyAction';
+import { getHealthOrganById } from '../../redux/actions/oganizationAction';
+import {
+  getUserById,
+  updateUser,
+} from '../../redux/actions/userAction';
 
 const initialState = {
   phonenumber: "",
@@ -36,7 +49,13 @@ function ItemInfo() {
 
   useEffect(async () => {
     if (auth.access_token) {
-      dispatch(getUserById(auth.user._id, auth.access_token));
+      if (auth.user.role === 1) {
+        dispatch(getUserById(auth.user._id, auth.access_token));
+      } else if (auth.user.role === 2) {
+        dispatch(getCompanyById(auth.user._id, auth.access_token));
+      } else {
+        dispatch(getHealthOrganById(auth.user._id, auth.access_token));
+      }
     }
   }, [auth.access_token]);
 

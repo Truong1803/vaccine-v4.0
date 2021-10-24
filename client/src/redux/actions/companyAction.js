@@ -3,8 +3,7 @@ import {
   getAPI,
   patchAPI,
   postAPI,
-  putAPI,
-} from "../../api/FetchData";
+} from '../../api/FetchData';
 import {
   ADD_COMPANY,
   ADD_PAGE,
@@ -13,7 +12,7 @@ import {
   EDIT_COMPANY,
   GET_COMPANY,
   GET_PAGE,
-} from "../containt";
+} from '../containt';
 
 export const getDataCompany =
   (page, search, access_token) => async (dispatch) => {
@@ -28,7 +27,14 @@ export const getDataCompany =
       dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
     }
   };
-
+export const getCompanyById = (userId, access_token) => async (dispatch) => {
+  try {
+    const res = await getAPI(`/organization/${userId}`, access_token);
+    dispatch({ type: GET_COMPANY, payload: res.data.data });
+  } catch (error) {
+    dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
+  }
+};
 export const deleteCompany = (organId, token) => async (dispatch) => {
   try {
     const res = await deleteAPI(`/organization/${organId}`, token);

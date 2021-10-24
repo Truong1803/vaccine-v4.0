@@ -1,8 +1,7 @@
-import React from "react";
-
-import { Form } from "react-bootstrap";
+import React from 'react';
 
 function FormImport() {
+  const handleUpload = () => {};
   return (
     <div
       className="modal fade"
@@ -29,9 +28,12 @@ function FormImport() {
           <div className="modal-body">
             <div className="row justify-content-center align-items-center">
               <div className="col-6 ">
-                <Form.Group controlId="formFile" className="mb-3">
-                  <Form.Control type="file" />
-                </Form.Group>
+                <input
+                  type="file"
+                  name="file"
+                  id="file_up"
+                  onChange={handleUpload}
+                />
               </div>
               <div className="col-6">
                 <div className="">Bước 1: Tải file mẫu và cập nhật dữ liệu</div>
