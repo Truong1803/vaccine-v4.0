@@ -3,6 +3,7 @@ const OrganInjectionRegisterCtrl = require("../controller/Injection_Register/org
 const multer = require("multer");
 const auth = require("../middleware/auth");
 const authCTY = require("../middleware/authCTY");
+const authDVT = require("../middleware/authDVT");
 const upload = multer({ dest: "./public/data/uploads/" });
 router.post(
   "/",
@@ -12,4 +13,7 @@ router.post(
   OrganInjectionRegisterCtrl.registerInjection
 );
 
+router.get("/", auth, authDVT, OrganInjectionRegisterCtrl.getListOrganRegister);
+
+router.get("/:id", auth, authDVT, OrganInjectionRegisterCtrl.getById);
 module.exports = router;

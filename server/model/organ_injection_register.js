@@ -18,6 +18,9 @@ const OrganInjectionRegisterSchema = new mongoose.Schema(
       type: String,
       default: "pendding",
     },
+    injectionDate: {
+      type: String,
+    },
     checked: {
       type: Boolean,
       default: false,

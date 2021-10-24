@@ -128,7 +128,9 @@ const healthOganizationCtrl = {
   getById: async (req, res) => {
     try {
       const user = await HealthOrganization.findById({ _id: req.params.id });
-      return res.json({ data: user });
+      let data = [];
+      data.push(user);
+      return res.json({ data: data });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

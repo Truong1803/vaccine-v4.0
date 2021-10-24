@@ -8,6 +8,7 @@ const Users = require("../../model/user");
 const XLSX = require("xlsx");
 const fs = require("fs");
 const vaccine = require("../../model/vaccine");
+const mongoose = require("mongoose");
 const OrganInjectionRegisterCtrl = {
   registerInjection: async (req, res) => {
     try {
@@ -68,22 +69,30 @@ const OrganInjectionRegisterCtrl = {
         name_vaccine: xlData[0].vaccine,
       });
       for (const [index, item] of xlData.entries()) {
-        const user = await Users.findOne({ phonenumber: item.phonenumber });
+        const user = await Users.findOne({
+          phonenumber: item.phonenumber,
+        });
 
         if (user) {
           if (user.doseInformation[0]) {
             if (user.doseInformation[0].vaccineId === vaccineIdReg._id) {
-              userPhoneArr.push(user.phonenumber);
+              userPhoneArr.push({
+                phonenumber: user.phonenumber,
+                dose: item.dose,
+              });
             } else {
               return res.status(400).json({
                 msg: `Đối tượng ${user.name} không đủ điều kiện tiêm vắc xin ${item.vaccine}`,
               });
             }
           } else {
-            userPhoneArr.push(user.phonenumber);
+            userPhoneArr.push({
+              phonenumber: user.phonenumber,
+              dose: item.dose,
+            });
           }
         } else {
-          userPhoneArr.push(item.phonenumber);
+          userPhoneArr.push({ phonenumber: item.phonenumber, dose: item.dose });
           const province = await Provinces.findOne({ name: item.province });
           const district = await Districts.findOne({ name: item.district });
           const ward = await Wards.findOne({ name: item.ward });
@@ -123,12 +132,177 @@ const OrganInjectionRegisterCtrl = {
         vaccineId: vaccineIdReg._id,
         injectionDate: xlData[0].injectionDate,
       };
+      const newData = new OrganInjectionRegister(dataReturn);
+      await newData.save();
       res.json({ data: dataReturn, msg: "Đăng ký thành công" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
   },
+  getListOrganRegister: async (req, res) => {
+    try {
+      if (req.query.vaccineId === "0") {
+        OrganInjectionRegister.aggregate([
+          {
+            $match: {
+              healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+            },
+          },
+          {
+            $lookup: {
+              from: "healthorganizations",
+              localField: "healthOrganizationId",
+              foreignField: "_id",
+              as: "healthOrganization",
+            },
+          },
+          {
+            $lookup: {
+              from: "organizations",
+              localField: "organizationId",
+              foreignField: "_id",
+              as: "organization",
+            },
+          },
+          {
+            $sort: {
+              injectionDate: 1,
+            },
+          },
+          {
+            $unwind: "$healthOrganization",
+          },
+          {
+            $unwind: "$organization",
+          },
+        ])
+          .then((result) => {
+            res.json({ data: result });
+          })
+          .catch((error) => {
+            return res.status(500).json({ msg: error.message });
+          });
+      } else {
+        OrganInjectionRegister.aggregate([
+          {
+            $match: {
+              healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
+              vaccineId: parseInt(req.query.vaccineId),
+            },
+          },
+          {
+            $lookup: {
+              from: "healthorganizations",
+              localField: "healthOrganizationId",
+              foreignField: "_id",
+              as: "healthOrganization",
+            },
+          },
+          {
+            $lookup: {
+              from: "organizations",
+              localField: "organizationId",
+              foreignField: "_id",
+              as: "organization",
+            },
+          },
+          {
+            $lookup: {
+              from: "vaccines",
+              localField: "vaccineId",
+              foreignField: "_id",
+              as: "vaccine",
+            },
+          },
+          {
+            $sort: {
+              injectionDate: 1,
+            },
+          },
+          {
+            $unwind: "$healthOrganization",
+          },
+          {
+            $unwind: "$organization",
+          },
+          {
+            $unwind: "$vaccine",
+          },
+        ])
+          .then((result) => {
+            res.json({ data: result });
+          })
+          .catch((error) => {
+            return res.status(500).json({ msg: error.message });
+          });
+      }
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  getById: async (req, res) => {
+    try {
+      OrganInjectionRegister.aggregate([
+        {
+          $match: {
+            _id: mongoose.Types.ObjectId(req.params.id),
+          },
+        },
+        {
+          $addFields: {
+            userPhone: { $ifNull: ["$userPhone", []] },
+          },
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "userPhone.phonenumber",
+            foreignField: "phonenumber",
+            as: "users",
+          },
+        },
+        {
+          $addFields: {
+            userPhone: {
+              $map: {
+                input: "$userPhone",
+                in: {
+                  $mergeObjects: [
+                    "$$this",
+                    {
+                      phonenumber: {
+                        $arrayElemAt: [
+                          "$users",
+                          {
+                            $indexOfArray: [
+                              "$users.phonenumber",
+                              "$$this.phonenumber",
+                            ],
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+        { $project: { users: 0 } },
+      ])
+        .then((result) => {
+          res.json({ data: result });
+        })
+        .catch((error) => {
+          return res.status(500).json({ msg: error.message });
+        });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
+
 const removeTmp = (path) => {
   fs.unlink(path, (err) => {
     if (err) throw err;

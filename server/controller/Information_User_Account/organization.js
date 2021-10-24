@@ -59,6 +59,8 @@ const organizationCtrl = {
   getById: async (req, res) => {
     try {
       const user = await Organization.findById({ _id: req.params.id });
+      let data = [];
+      data.push(user);
       return res.json({ data: user });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
