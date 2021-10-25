@@ -11,17 +11,50 @@ import {
 import { setScheduleInjection } from '../../redux/actions/scheduleAction';
 import { getDataVaccine } from '../../redux/actions/vaccineAction';
 
-function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
+function InjectionPlan({
+  setShowPlan,
+  listUser,
+  // setCallback,
+  // callback,
+  check,
+}) {
   const [data, setData] = useState([]);
   const [time, setTime] = useState("");
   const [injectionDate, setInjectionDate] = useState("");
-
+  const [listUser1, setListUser1] = useState([]);
   const dispatch = useDispatch();
   const { vaccine, auth, alert } = useSelector((state) => state);
 
   useEffect(() => {
     dispatch(getDataVaccine());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (check === "user" && listUser) {
+      setListUser1(listUser);
+    } else {
+      for (const item of listUser) {
+        for (const u of item?.userPhone) {
+          setListUser1((oldData) => [
+            ...oldData,
+            {
+              checked: true,
+              diseaseId: [],
+              dose: u.dose,
+              healthOrganizationId: auth.user._id,
+              injectionDate: item.injectionDate,
+              organization: item.healthOrganization,
+              status: item.status,
+              user: u.phonenumber,
+              userId: u.phonenumber._id,
+              vaccineId: item.vaccineId,
+              organizationId: item.organizationId,
+            },
+          ]);
+        }
+      }
+    }
+  }, []);
 
   const handleOnclickPlan = () => {
     setShowPlan(false);
@@ -32,23 +65,46 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
   };
 
   const handleSubmit = () => {
-    listUser.map((item) => {
-      if (item.checked === true) {
-        const { userId, healthOrganizationId, vaccineId, dose } = item;
-        data.push({
-          userId,
-          healthOrganizationId,
-          vaccineId,
-          time,
-          injectionDate,
-          dose,
-        });
-      }
-    });
+    if (check === "user") {
+      listUser1.map((item) => {
+        if (item.checked === true) {
+          const { userId, healthOrganizationId, vaccineId, dose } = item;
+          data.push({
+            userId,
+            healthOrganizationId,
+            vaccineId,
+            time,
+            injectionDate,
+            dose,
+          });
+        }
+      });
+    } else {
+      listUser1.map((item) => {
+        if (item.checked === true) {
+          const {
+            userId,
+            healthOrganizationId,
+            vaccineId,
+            dose,
+            organizationId,
+          } = item;
+          data.push({
+            userId,
+            healthOrganizationId,
+            vaccineId,
+            time,
+            injectionDate,
+            dose,
+            organizationId: organizationId,
+          });
+        }
+      });
+    }
     setTime("");
     setInjectionDate("");
     dispatch(setScheduleInjection(data, auth.access_token));
-    setCallback(!callback);
+
     setData([]);
     setShowPlan(false);
   };
@@ -82,8 +138,8 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                   <div className="col-6">
                     <p>
                       Danh sách người đăng ký theo ngày:{" "}
-                      {listUser[0]?.status === "success"
-                        ? listUser[0]?.injectionDate
+                      {listUser1[0]?.status === "success"
+                        ? listUser1[0]?.injectionDate
                         : injectionDate}
                     </p>
                   </div>
@@ -97,11 +153,11 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                         className="form-control col-6"
                         id="exampleInputEmail1"
                         value={
-                          listUser[0]?.status === "success"
-                            ? listUser[0]?.injectionDate
+                          listUser1[0]?.status === "success"
+                            ? listUser1[0]?.injectionDate
                             : injectionDate
                         }
-                        disabled={listUser[0]?.status === "success"}
+                        disabled={listUser1[0]?.status === "success"}
                         onChange={handleChangeDate}
                       />
                     </div>
@@ -124,7 +180,7 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                         </tr>
                       </thead>
                       <tbody>
-                        {listUser.map(
+                        {listUser1.map(
                           (item) =>
                             (item.checked === true ||
                               item.status === "success") && (
@@ -146,22 +202,6 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                                     ? "đã duyệt"
                                     : "chưa duyệt"}
                                 </td>
-
-                                {/* <td>
-                                  <div className="row justify-content-center">
-                                    <button
-                                      type="button"
-                                      className="btn btn-info col-6"
-                                      data-toggle="modal"
-                                      data-target="#exampleModal"
-                                      //   onClick={() => {
-                                      //     handleOnClick(item, "Xem", true);
-                                      //   }}
-                                    >
-                                      <i className="far fa-eye"></i>
-                                    </button>
-                                  </div>
-                                </td> */}
                               </tr>
                             )
                         )}
@@ -180,7 +220,7 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                           <input
                             type="text"
                             className="form-control"
-                            value={listUser[0]?.dose}
+                            value={listUser1[0]?.dose}
                             disabled={true}
                           />
                         </div>
@@ -192,7 +232,7 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                           </label>
                           {vaccine.map(
                             (item) =>
-                              item._id === listUser[0]?.vaccineId && (
+                              item._id === listUser1[0]?.vaccineId && (
                                 <input
                                   key={item._id}
                                   type="text"
@@ -204,7 +244,7 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                           )}
                         </div>
                       </div>
-                      {listUser[0]?.status === "success" ? (
+                      {listUser1[0]?.status === "success" ? (
                         ""
                       ) : (
                         <div className="col-3">
@@ -235,7 +275,7 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                           <input
                             type="text"
                             className="form-control"
-                            value={listUser[0]?.organization.organization}
+                            value={listUser1[0]?.organization.organization}
                             disabled={true}
                           />
                         </div>
@@ -244,7 +284,7 @@ function InjectionPlan({ setShowPlan, listUser, setCallback, callback }) {
                   </div>
                 </div>
               </div>
-              {listUser[0]?.status === "success" ? (
+              {listUser1[0]?.status === "success" ? (
                 <div className="modal-footer">
                   <button
                     type="button"

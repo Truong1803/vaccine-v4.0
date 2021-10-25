@@ -92,7 +92,11 @@ function ListPlan() {
         </table>
       </div>
       {showPlan && (
-        <InjectionPlan listUser={dataSchedule} setShowPlan={setShowPlan} />
+        <InjectionPlan
+          listUser={dataSchedule}
+          setShowPlan={setShowPlan}
+          check="user"
+        />
       )}
     </div>
   );

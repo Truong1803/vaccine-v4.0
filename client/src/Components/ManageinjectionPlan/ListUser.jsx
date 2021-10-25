@@ -249,8 +249,9 @@ function ListUserInjection() {
         <InjectionPlan
           listUser={listUser}
           setShowPlan={setShowPlan}
-          setCallback={setCallback}
-          callback={callback}
+          // setCallback={setCallback}
+          // callback={callback}
+          check="user"
         />
       )}
       {/* {action !== "" && (
