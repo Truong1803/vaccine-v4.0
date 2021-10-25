@@ -2,6 +2,7 @@ const ScheduleInjection = require("../../model/schedule_injection");
 const sms = require("../../config/sendSMS");
 const Users = require("../../model/user");
 const InjectionRegister = require("../../model/injection_register");
+const InjectionRegisterOrgan = require("../../model/organ_injection_register");
 const InjectionInfor = require("../../model/injection_infor");
 const mongoose = require("mongoose");
 const HealthOrganization = require("../../model/healthOrganization");
@@ -206,6 +207,7 @@ const ScheduleInjectionCtrl = {
   setScheduleInjection: async (req, res) => {
     try {
       const data = req.body;
+
       const organ = await HealthOrganization.findById(
         data[0].healthOrganizationId
       );
@@ -245,19 +247,33 @@ const ScheduleInjectionCtrl = {
         const history = await InjectionRegister.findOneAndDelete({
           userId: newData.userId,
         });
-
-        const { userId, healthOrganizationId, dose, vaccineId, diseaseId } =
-          history;
-        const newInjectionInfor = await new InjectionInfor({
-          userId,
-          healthOrganizationId,
-          dose,
-          vaccineId,
-          diseaseId,
-          injectionDate: newData.injectionDate,
-          time: timeStart,
-        });
-        await newInjectionInfor.save();
+        if (history) {
+          const { userId, healthOrganizationId, dose, vaccineId, diseaseId } =
+            history;
+          const newInjectionInfor = await new InjectionInfor({
+            userId,
+            healthOrganizationId,
+            dose,
+            vaccineId,
+            injectionDate: newData.injectionDate,
+            time: timeStart,
+            diseaseId,
+          });
+          await newInjectionInfor.save();
+        } else {
+          const history = await InjectionRegisterOrgan.findOneAndDelete({
+            organizationId: item.organizationId,
+          });
+          const newInjectionInfor = await new InjectionInfor({
+            userId: item.userId,
+            healthOrganizationId: item.healthOrganizationId,
+            dose: item.dose,
+            vaccineId: item.vaccineId,
+            injectionDate: newData.injectionDate,
+            time: timeStart,
+          });
+          await newInjectionInfor.save();
+        }
 
         if ((index + 1) % num_table === 0) {
           timeCount = timeCount + 300;
@@ -270,11 +286,11 @@ const ScheduleInjectionCtrl = {
   },
 };
 function convertHMS(value) {
-  const sec = parseInt(value, 10); // convert value to number if it's string
-  let hours = Math.floor(sec / 3600); // get hours
-  let minutes = Math.floor((sec - hours * 3600) / 60); // get minutes
-  let seconds = sec - hours * 3600 - minutes * 60; //  get seconds
-  // add 0 if value < 10; Example: 2 => 02
+  const sec = parseInt(value, 10);
+  let hours = Math.floor(sec / 3600);
+  let minutes = Math.floor((sec - hours * 3600) / 60);
+  let seconds = sec - hours * 3600 - minutes * 60;
+
   if (hours < 10) {
     hours = "0" + hours;
   }
@@ -284,6 +300,6 @@ function convertHMS(value) {
   if (seconds < 10) {
     seconds = "0" + seconds;
   }
-  return hours + ":" + minutes; // Return is HH : MM : SS
+  return hours + ":" + minutes;
 }
 module.exports = ScheduleInjectionCtrl;

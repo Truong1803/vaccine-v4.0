@@ -43,6 +43,7 @@ app.use("/api/user-injection-register", routes.userInjectionRegisterRouter);
 app.use("/api/schedule-injection", routes.scheduleInjectionRouter);
 app.use("/api/injection-infor", routes.injectionInforRouter);
 
+app.use("/api/report", routes.reportRouter);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

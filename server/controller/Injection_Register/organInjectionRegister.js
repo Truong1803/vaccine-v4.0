@@ -149,11 +149,24 @@ const OrganInjectionRegisterCtrl = {
             },
           },
           {
+            $addFields: {
+              userPhone: { $ifNull: ["$userPhone", []] },
+            },
+          },
+          {
             $lookup: {
               from: "healthorganizations",
               localField: "healthOrganizationId",
               foreignField: "_id",
               as: "healthOrganization",
+            },
+          },
+          {
+            $lookup: {
+              from: "vaccines",
+              localField: "vaccineId",
+              foreignField: "_id",
+              as: "vaccine",
             },
           },
           {
@@ -165,6 +178,42 @@ const OrganInjectionRegisterCtrl = {
             },
           },
           {
+            $lookup: {
+              from: "users",
+              localField: "userPhone.phonenumber",
+              foreignField: "phonenumber",
+              as: "users",
+            },
+          },
+          {
+            $addFields: {
+              userPhone: {
+                $map: {
+                  input: "$userPhone",
+                  in: {
+                    $mergeObjects: [
+                      "$$this",
+                      {
+                        phonenumber: {
+                          $arrayElemAt: [
+                            "$users",
+                            {
+                              $indexOfArray: [
+                                "$users.phonenumber",
+                                "$$this.phonenumber",
+                              ],
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          },
+          { $project: { users: 0 } },
+          {
             $sort: {
               injectionDate: 1,
             },
@@ -174,6 +223,9 @@ const OrganInjectionRegisterCtrl = {
           },
           {
             $unwind: "$organization",
+          },
+          {
+            $unwind: "$vaccine",
           },
         ])
           .then((result) => {
@@ -188,6 +240,11 @@ const OrganInjectionRegisterCtrl = {
             $match: {
               healthOrganizationId: mongoose.Types.ObjectId(req.user.id),
               vaccineId: parseInt(req.query.vaccineId),
+            },
+          },
+          {
+            $addFields: {
+              userPhone: { $ifNull: ["$userPhone", []] },
             },
           },
           {
@@ -214,6 +271,42 @@ const OrganInjectionRegisterCtrl = {
               as: "vaccine",
             },
           },
+          {
+            $lookup: {
+              from: "users",
+              localField: "userPhone.phonenumber",
+              foreignField: "phonenumber",
+              as: "users",
+            },
+          },
+          {
+            $addFields: {
+              userPhone: {
+                $map: {
+                  input: "$userPhone",
+                  in: {
+                    $mergeObjects: [
+                      "$$this",
+                      {
+                        phonenumber: {
+                          $arrayElemAt: [
+                            "$users",
+                            {
+                              $indexOfArray: [
+                                "$users.phonenumber",
+                                "$$this.phonenumber",
+                              ],
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          },
+          { $project: { users: 0 } },
           {
             $sort: {
               injectionDate: 1,

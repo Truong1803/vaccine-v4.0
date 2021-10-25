@@ -283,7 +283,7 @@ const UserInjectionRegisterCtrl = {
         vaccineId,
         diseaseId,
       } = req.body;
-      console.log(req.body);
+
       if (
         userId === "" ||
         healthOrganizationId === "" ||
