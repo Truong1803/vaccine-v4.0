@@ -60,12 +60,12 @@ export const TableDataForVaccine = () => {
         <div className="row justify-content-between ml-1 mr-1">
           <div className="col-5 row">
             <div className="form-group row align-items-center justify-content-center">
-              <label htmlFor="exampleInputEmail1" className="col-7">
+              <label htmlFor="exampleInputEmail1" className="col-8">
                 Thống kê theo tỉnh/thành phố :
               </label>
               <select
                 id="inputState"
-                className="form-control col-5"
+                className="form-control col-4"
                 value={provinceId}
                 onChange={(e) => setProvinceId(e.target.value)}
               >

@@ -18,7 +18,9 @@ const reportCtrl = {
           countInjected =
             countInjected + Object.keys(item.doseInformation).length;
           item.doseInformation.forEach((i) => {
-            if (i.postInjectionReaction !== "616cead53786b07c28376cdb")
+            if (
+              i.postInjectionReaction.nameReact !== "616cead53786b07c28376cdb"
+            )
               countSideEffect = countSideEffect + 1;
           });
         }
@@ -303,7 +305,6 @@ const reportCtrl = {
 
         res.json({ data: resultFinal });
       } else if (startDate !== "" && endDate !== "") {
-        console.log(endDate);
         let resultFinal = [];
         for (const item of healthOrganizations) {
           await Users.aggregate([
