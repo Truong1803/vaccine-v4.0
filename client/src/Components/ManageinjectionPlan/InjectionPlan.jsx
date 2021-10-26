@@ -260,7 +260,7 @@ function InjectionPlan({
                               onChange={(e) => setTime(e.target.value)}
                             >
                               <option hidden={true}>Chọn thời gian</option>
-                              <option value="Sáng">8:00-11:00</option>
+                              <option value="Sáng">7:00-11:00</option>
                               <option value="Chiều">13:00-18:00</option>
                             </select>
                           </div>

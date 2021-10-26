@@ -13,7 +13,6 @@ import {
   getDataVaccine,
 } from '../../redux/actions/vaccineAction';
 import Modal from '../alert/Modal';
-import Paginate from '../Paginate/Paginate';
 import VaccineModal from './VaccineModal';
 
 function ListVaccine() {
@@ -191,7 +190,7 @@ function ListVaccine() {
             auth={auth}
           />
         )}
-        {totalItem > 5 && <Paginate page={page} setPage={setPage} />}
+        {/* {totalItem > 5 && <Paginate page={page} setPage={setPage} />} */}
       </div>
     </div>
   );
