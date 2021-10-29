@@ -1,7 +1,7 @@
 export const dataForInjectionUnit = [
   {
     name: "Nam",
-    ty_le_da_tiem: 60,
+    ty_le_da_tiem: 60.5,
     ty_le_phan_ung: 20,
     da_dang_ky: 100,
     da_tiem: 50,

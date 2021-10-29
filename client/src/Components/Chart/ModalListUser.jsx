@@ -2,6 +2,22 @@ import React from 'react';
 
 import { Table } from 'react-bootstrap';
 
+function getAge(dateString) {
+  var today = new Date();
+  var birthDate = new Date(dateString);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  if (age < 18) {
+    return "< 18";
+  } else if (age >= 18 && age < 60) {
+    return ">= 18";
+  } else {
+    return ">= 60";
+  }
+}
 function ModalListUser({ listUser }) {
   return (
     <div
@@ -46,7 +62,7 @@ function ModalListUser({ listUser }) {
                         <td>{item.name}</td>
                         <td>{item.identification}</td>
                         <td>{item.phonenumber}</td>
-                        <td> {">"}=18</td>
+                        <td>{getAge(item.dob)}</td>
                         <td></td>
                       </tr>
                     ))}

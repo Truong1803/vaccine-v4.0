@@ -148,13 +148,18 @@ export const TableDataForVaccine = ({ provinceId, startDate, endDate }) => {
 export const TableDataForAge = ({ provinceId, startDate, endDate }) => {
   const [openModal, setOpenModal] = useState(false);
   const [data, setData] = useState([]);
-
+  const [listUser, setListUser] = useState([]);
   useEffect(async () => {
     const res = await getAPI(
       `/report/report-injection-age?provinceId=${provinceId}&startDate=${startDate}&endDate=${endDate}`
     );
     setData(res.data.data);
   }, [provinceId, startDate, endDate]);
+
+  const hanleOpenModal = (user) => {
+    setListUser(user);
+    setOpenModal(true);
+  };
   return (
     <div className="row">
       <div className="col">
@@ -228,6 +233,7 @@ export const TableDataForAge = ({ provinceId, startDate, endDate }) => {
                       className="btn btn-success mr-3 "
                       data-toggle="modal"
                       data-target="#exampleModal"
+                      onClick={() => hanleOpenModal(item.user)}
                     >
                       <i className="far fa-eye"></i>
                     </button>
@@ -237,14 +243,19 @@ export const TableDataForAge = ({ provinceId, startDate, endDate }) => {
             ))}
           </tbody>
         </Table>
-        {openModal && <ModalListUser />}
+        {openModal && <ModalListUser listUser={listUser} />}
       </div>
     </div>
   );
 };
 export const TableDataForInjectionUnit = ({ data }) => {
   const [openModal, setOpenModal] = useState(false);
+  const [listUser, setListUser] = useState([]);
 
+  const hanleOpenModal = (user) => {
+    setListUser(user);
+    setOpenModal(true);
+  };
   return (
     <div className="row mt-5 mb-4">
       <div className="col-12">
@@ -293,6 +304,7 @@ export const TableDataForInjectionUnit = ({ data }) => {
                     className="btn btn-success mr-3 "
                     data-toggle="modal"
                     data-target="#exampleModal"
+                    onClick={() => hanleOpenModal(data?.userNam)}
                   >
                     <i className="far fa-eye"></i>
                   </button>
@@ -331,6 +343,7 @@ export const TableDataForInjectionUnit = ({ data }) => {
                     className="btn btn-success mr-3 "
                     data-toggle="modal"
                     data-target="#exampleModal"
+                    onClick={() => hanleOpenModal(data?.userNu)}
                   >
                     <i className="far fa-eye"></i>
                   </button>
@@ -378,7 +391,7 @@ export const TableDataForInjectionUnit = ({ data }) => {
           </tbody>
         </Table>
       </div>
-      {openModal && <ModalListUser />}
+      {openModal && <ModalListUser listUser={listUser} />}
     </div>
   );
 };
