@@ -3,7 +3,6 @@ import React, {
   useState,
 } from 'react';
 
-import axios from 'axios';
 import { Table } from 'react-bootstrap';
 import {
   useDispatch,
@@ -14,30 +13,14 @@ import { getAPI } from '../../api/FetchData';
 import { getDataVaccine } from '../../redux/actions/vaccineAction';
 import ModalListUser from './ModalListUser';
 
-export const TableDataForVaccine = () => {
+export const TableDataForVaccine = ({ provinceId, startDate, endDate }) => {
   const distpatch = useDispatch();
-  const [provinceId, setProvinceId] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-
-  const [tinh, setTinh] = useState([]);
 
   const { vaccine } = useSelector((state) => state);
 
   const [openModal, setOpenModal] = useState(false);
   const [listUser, setListUser] = useState([]);
   const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const getProvince = async () => {
-      const res = await axios.get(
-        "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province",
-        { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
-      );
-      setTinh(res.data.data);
-    };
-    getProvince();
-  }, []);
 
   useEffect(() => {
     distpatch(getDataVaccine());
@@ -56,7 +39,7 @@ export const TableDataForVaccine = () => {
   };
   return (
     <div className="row mt-5 mb-4">
-      <div className="col-12">
+      {/* <div className="col-12">
         <div className="row justify-content-between ml-1 mr-1">
           <div className="col-5 row">
             <div className="form-group row align-items-center justify-content-center">
@@ -108,7 +91,7 @@ export const TableDataForVaccine = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="col-12">
         <Table striped bordered hover>
           <thead>
@@ -162,8 +145,16 @@ export const TableDataForVaccine = () => {
     </div>
   );
 };
-export const TableDataForAge = () => {
+export const TableDataForAge = ({ provinceId, startDate, endDate }) => {
   const [openModal, setOpenModal] = useState(false);
+  const [data, setData] = useState([]);
+
+  useEffect(async () => {
+    const res = await getAPI(
+      `/report/report-injection-age?provinceId=${provinceId}&startDate=${startDate}&endDate=${endDate}`
+    );
+    setData(res.data.data);
+  }, [provinceId, startDate, endDate]);
   return (
     <div className="row">
       <div className="col">
@@ -185,36 +176,65 @@ export const TableDataForAge = () => {
               <td></td>
               <td> &lt; 18 tuổi</td>
               <td> &gt;= 18 tuổi</td>
-              <td> &lt;= 60 tuổi</td>
+              <td> &gt;= 60 tuổi</td>
               <td></td>
 
               <td> &lt; 18 tuổi</td>
               <td> &gt;= 18 tuổi</td>
-              <td> &lt;= 60 tuổi</td>
+              <td> &gt;= 60 tuổi</td>
               <td></td>
             </tr>
-            <tr className="text-center">
-              <td>Trạm y tế xã Minh Quang</td>
-              <td>50</td>
-              <td>50</td>
-              <td>100</td>
-              <td>220</td>
-              <td>28,5%</td>
-              <td>28,5%</td>
-              <td>43%</td>
-              <td>
-                <div className="row justify-content-center">
-                  <button
-                    type="button"
-                    className="btn btn-success mr-3 "
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                  >
-                    <i className="far fa-eye"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
+            {data.map((item, index) => (
+              <tr className="text-center" key={index}>
+                <td>{item.healthOrganization.name}</td>
+                <td>{item.agelt18}</td>
+                <td>{item.agegte18}</td>
+                <td>{item.agegte60}</td>
+                <td>{item.agelt18 + item.agegte18 + item.agegte60}</td>
+                <td>
+                  {item.agelt18 + item.agegte18 + item.agegte60 === 0
+                    ? "0.00"
+                    : (
+                        (item.agelt18 /
+                          (item.agelt18 + item.agegte18 + item.agegte60)) *
+                        100
+                      ).toFixed(2)}{" "}
+                  %
+                </td>
+                <td>
+                  {item.agelt18 + item.agegte18 + item.agegte60 === 0
+                    ? "0.00"
+                    : (
+                        (item.agegte18 /
+                          (item.agelt18 + item.agegte18 + item.agegte60)) *
+                        100
+                      ).toFixed(2)}{" "}
+                  %
+                </td>
+                <td>
+                  {item.agelt18 + item.agegte18 + item.agegte60 === 0
+                    ? "0.00"
+                    : (
+                        (item.agegte60 /
+                          (item.agelt18 + item.agegte18 + item.agegte60)) *
+                        100
+                      ).toFixed(2)}{" "}
+                  %
+                </td>
+                <td>
+                  <div className="row justify-content-center">
+                    <button
+                      type="button"
+                      className="btn btn-success mr-3 "
+                      data-toggle="modal"
+                      data-target="#exampleModal"
+                    >
+                      <i className="far fa-eye"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </Table>
         {openModal && <ModalListUser />}
@@ -222,69 +242,50 @@ export const TableDataForAge = () => {
     </div>
   );
 };
-export const TableDataForInjectionUnit = () => {
+export const TableDataForInjectionUnit = ({ data }) => {
   const [openModal, setOpenModal] = useState(false);
+
   return (
     <div className="row mt-5 mb-4">
-      <div className="col-12">
-        <div className="row justify-content-between ml-1 mr-1">
-          <div className="col-5 row">
-            <div className="form-group row align-items-center justify-content-center">
-              <label htmlFor="exampleInputEmail1" className="col-7">
-                Thống kê theo tỉnh/thành phố :
-              </label>
-              <select id="inputState" className="form-control col-5">
-                <option>Tỉnh/Thành Phố</option>
-              </select>
-            </div>
-          </div>
-          <div className="col-3 row">
-            <div className="form-group row align-items-center justify-content-center">
-              <label htmlFor="exampleInputEmail1" className="col-5">
-                Từ ngày :
-              </label>
-              <input
-                type="date"
-                className="form-control col-7"
-                id="exampleInputEmail1"
-              />
-            </div>
-          </div>
-          <div className="col-3 row">
-            <div className="form-group row align-items-center justify-content-center">
-              <label htmlFor="exampleInputEmail1" className="col-5">
-                Đến ngày :
-              </label>
-              <input
-                type="date"
-                className="form-control col-7"
-                id="exampleInputEmail1"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="col-12">
         <Table striped bordered hover>
           <thead>
             <tr className="text-center ">
               <th></th>
-              <th>Số lượng người đăng ký</th>
-              <th>Số lượng người đã tiêm</th>
+              <th>Số lượt đăng ký</th>
+              <th>Số mũi đã tiêm</th>
               <th>Số lượng người phản ứng sau tiêm</th>
-              <th>Tỷ lệ người đã tiêm / người đã đăng ký</th>
-              <th>Tỷ lệ phản ứng sau tiêm / người đăng ký</th>
+              <th>Tỷ lệ số mũi đã tiêm / số lượt đã đăng ký</th>
+              <th>Tỷ lệ phản ứng sau tiêm / số lượt đã tiêm</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             <tr className="text-center">
               <td>Nam</td>
-              <td>50</td>
-              <td>50</td>
-              <td>100</td>
-              <td>20%</td>
-              <td>30%</td>
+              <td>{data?.Nam?.num_user_injectionNam}</td>
+              <td>{data?.Nam?.countInjectedNam}</td>
+              <td>{data?.Nam?.countSideEffectNam}</td>
+              <td>
+                {data?.Nam?.num_user_injectionNam === 0
+                  ? "0.00"
+                  : (
+                      (data?.Nam?.countInjectedNam /
+                        data?.Nam?.num_user_injectionNam) *
+                      100
+                    ).toFixed(2)}
+                %
+              </td>
+              <td>
+                {data?.Nam?.countInjectedNam === 0
+                  ? "0.00"
+                  : (
+                      (data?.Nam?.countSideEffectNam /
+                        data?.Nam?.countInjectedNam) *
+                      100
+                    ).toFixed(2)}
+                %
+              </td>
               <td className="pl-4">
                 <div className="row justify-content-center align-items-center">
                   <button
@@ -300,11 +301,29 @@ export const TableDataForInjectionUnit = () => {
             </tr>
             <tr className="text-center">
               <td>Nữ</td>
-              <td>50</td>
-              <td>50</td>
-              <td>100</td>
-              <td>20%</td>
-              <td>30%</td>
+              <td>{data?.Nu?.num_user_injectionNu}</td>
+              <td>{data?.Nu?.countInjectedNu}</td>
+              <td>{data?.Nu?.countSideEffectNu}</td>
+              <td>
+                {data?.Nu?.num_user_injectionNu === 0
+                  ? "0.00"
+                  : (
+                      (data?.Nu?.countInjectedNu /
+                        data?.Nu?.num_user_injectionNu) *
+                      100
+                    ).toFixed(2)}
+                %
+              </td>
+              <td>
+                {data?.Nu?.countInjectedNu === 0
+                  ? "0.00"
+                  : (
+                      (data?.Nu?.countSideEffectNu /
+                        data?.Nu?.countInjectedNu) *
+                      100
+                    ).toFixed(2)}
+                %
+              </td>
               <td className="pl-4">
                 <div className="row justify-content-center align-items-center">
                   <button
@@ -320,11 +339,40 @@ export const TableDataForInjectionUnit = () => {
             </tr>
             <tr className="text-center">
               <td>Tổng</td>
-              <td>50</td>
-              <td>50</td>
-              <td>100</td>
-              <td>20%</td>
-              <td>30%</td>
+              <td>
+                {data?.Nam?.num_user_injectionNam +
+                  data?.Nu?.num_user_injectionNu}
+              </td>
+              <td>{data?.Nam?.countInjectedNam + data?.Nu?.countInjectedNu}</td>
+              <td>
+                {data?.Nam?.countSideEffectNam + data?.Nu?.countSideEffectNu}
+              </td>
+              <td>
+                {data?.Nam?.num_user_injectionNam +
+                  data?.Nu?.num_user_injectionNu ===
+                0
+                  ? "0.00"
+                  : (
+                      ((data?.Nam?.countInjectedNam +
+                        data?.Nu?.countInjectedNu) /
+                        (data?.Nam?.num_user_injectionNam +
+                          data?.Nu?.num_user_injectionNu)) *
+                      100
+                    ).toFixed(2)}
+                %
+              </td>
+              <td>
+                {data?.Nam?.countInjectedNam + data?.Nu?.countInjectedNu === 0
+                  ? "0.00"
+                  : (
+                      ((data?.Nam?.countSideEffectNam +
+                        data?.Nu?.countSideEffectNu) /
+                        (data?.Nam?.countInjectedNam +
+                          data?.Nu?.countInjectedNu)) *
+                      100
+                    ).toFixed(2)}
+                %
+              </td>
               <td className="pl-4"></td>
             </tr>
           </tbody>

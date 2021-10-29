@@ -166,11 +166,11 @@ function LeftBar() {
     <div className="float-left text-left pl-2 left-bar">
       <div id="sidebar ">
         <ul className="navbar-nav mr-auto pt-3 " id="navAccordion">
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <Link className="nav-link" to="/admin/dashboard">
               Dashboard
             </Link>
-          </li>
+          </li> */}
           {body}
           <li className="nav-item">
             <Link

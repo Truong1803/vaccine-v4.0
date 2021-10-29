@@ -1,14 +1,20 @@
-import React from "react";
-import ReportDeptHealth from "../../Components/Report/ReportDeptHealth";
-import ReportHealthOrganization from "../../Components/Report/ReportHealthOrganization";
-import ReportInjectionUnit from "../../Components/Report/ReportInjectionUnit";
+import React from 'react';
+
+import { useSelector } from 'react-redux';
+
+import ReportDeptHealth from '../../Components/Report/ReportDeptHealth';
+import ReportHealthOrganization
+  from '../../Components/Report/ReportHealthOrganization';
+import ReportInjectionUnit from '../../Components/Report/ReportInjectionUnit';
+
 function Report() {
-  let check = 5;
-  return check === 3 ? (
+  const { auth } = useSelector((state) => state);
+
+  return auth?.user?.role === 3 ? (
     <ReportInjectionUnit />
-  ) : check === 4 ? (
+  ) : auth?.user?.role === 4 ? (
     <ReportHealthOrganization />
-  ) : check === 5 ? (
+  ) : auth?.user?.role === 5 ? (
     <ReportDeptHealth />
   ) : (
     <p>Không có báo cáo</p>
