@@ -1525,6 +1525,984 @@ const reportCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  getDateInjectionForDistrict: async (req, res) => {
+    try {
+      const { startDate, endDate } = req.query;
+
+      let healthOrganizations = [];
+
+      const result = await HealthOrganization.findById({ _id: req.user.id });
+      const listOrgan = await HealthOrganization.find({
+        district: result.district,
+        role: 3,
+      });
+      listOrgan.forEach((item) => {
+        healthOrganizations.push({
+          healthOrganizationId: item._id,
+          name: item.organization,
+        });
+      });
+      if (startDate === "" && endDate === "") {
+        let resultFinal = [];
+        for (const item of healthOrganizations) {
+          await Users.aggregate([
+            {
+              $project: {
+                name: 1,
+                identification: 1,
+                phonenumber: 1,
+                dob: 1,
+                gender: 1,
+                doseInformation: {
+                  $filter: {
+                    input: "$doseInformation",
+                    as: "doseInformation",
+                    cond: {
+                      $eq: [
+                        "$$doseInformation.healthOrganizationId",
+                        // mongoose.Types.ObjectId(item.healthOrganizationId),
+                        item.healthOrganizationId,
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+          ])
+            .then(async (result) => {
+              let listUser = [];
+              let countInjected = 0;
+              let countSideEffect = 0;
+              const num_user_injection = await InjectionRegister.countDocuments(
+                {
+                  healthOrganizationId: item.healthOrganizationId,
+                }
+              );
+
+              const organ_injection = await InjectionRegisterOrgan.find({
+                healthOrganizationId: item.healthOrganizationId,
+              });
+              let countInjection = 0;
+              for (const item of organ_injection) {
+                countInjection =
+                  countInjection + Object.keys(item.userPhone).length;
+              }
+
+              for (const re of result) {
+                if (Object.keys(re.doseInformation).length !== 0) {
+                  for (const kq of re.doseInformation) {
+                    if (
+                      kq.postInjectionReaction.nameReact !==
+                      "616cead53786b07c28376cdb"
+                    ) {
+                      countSideEffect = countSideEffect + 1;
+                    }
+                  }
+
+                  countInjected =
+                    countInjected + Object.keys(re.doseInformation).length;
+                  listUser.push({
+                    name: re.name,
+                    identification: re.identification,
+                    phonenumber: re.phonenumber,
+                    dob: re.dob,
+                    gender: re.gender,
+                  });
+                }
+              }
+              countInjection =
+                countInjection + num_user_injection + countInjected;
+              resultFinal.push({
+                healthOrganization: item,
+                user: listUser,
+                countInjection,
+                countInjected,
+                countSideEffect,
+                ratio_injection:
+                  countInjection === 0
+                    ? "0.00"
+                    : ((countInjected / countInjection) * 100).toFixed(2),
+                ratio_sideEffect:
+                  countInjected === 0
+                    ? "0.00"
+                    : ((countSideEffect / countInjected) * 100).toFixed(2),
+              });
+            })
+            .catch((error) => {
+              return res.status(500).json({ msg: error.message });
+            });
+        }
+        res.json({
+          data: resultFinal,
+        });
+      } else if (startDate !== "" && endDate === "") {
+        let resultFinal = [];
+        for (const item of healthOrganizations) {
+          await Users.aggregate([
+            {
+              $project: {
+                name: 1,
+                identification: 1,
+                phonenumber: 1,
+                dob: 1,
+                gender: 1,
+                doseInformation: {
+                  $filter: {
+                    input: "$doseInformation",
+                    as: "doseInformation",
+                    cond: {
+                      $and: [
+                        {
+                          $eq: [
+                            "$$doseInformation.healthOrganizationId",
+                            // mongoose.Types.ObjectId(item.healthOrganizationId),
+                            item.healthOrganizationId,
+                          ],
+                        },
+                        {
+                          $gte: ["$$doseInformation.injectionDate", startDate],
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+          ])
+            .then(async (result) => {
+              let listUser = [];
+              let countInjected = 0;
+              let countSideEffect = 0;
+              const num_user_injection = await InjectionRegister.countDocuments(
+                {
+                  healthOrganizationId: item.healthOrganizationId,
+                }
+              );
+
+              const organ_injection = await InjectionRegisterOrgan.find({
+                healthOrganizationId: item.healthOrganizationId,
+              });
+              let countInjection = 0;
+              for (const item of organ_injection) {
+                countInjection =
+                  countInjection + Object.keys(item.userPhone).length;
+              }
+
+              for (const re of result) {
+                if (Object.keys(re.doseInformation).length !== 0) {
+                  for (const kq of re.doseInformation) {
+                    if (
+                      kq.postInjectionReaction.nameReact !==
+                      "616cead53786b07c28376cdb"
+                    ) {
+                      countSideEffect = countSideEffect + 1;
+                    }
+                  }
+
+                  countInjected =
+                    countInjected + Object.keys(re.doseInformation).length;
+                  listUser.push({
+                    name: re.name,
+                    identification: re.identification,
+                    phonenumber: re.phonenumber,
+                    dob: re.dob,
+                    gender: re.gender,
+                  });
+                }
+              }
+              countInjection =
+                countInjection + num_user_injection + countInjected;
+              resultFinal.push({
+                healthOrganization: item,
+                user: listUser,
+                countInjection,
+                countInjected,
+                countSideEffect,
+                ratio_injection:
+                  countInjection === 0
+                    ? "0.00"
+                    : ((countInjected / countInjection) * 100).toFixed(2),
+                ratio_sideEffect:
+                  countInjected === 0
+                    ? "0.00"
+                    : ((countSideEffect / countInjected) * 100).toFixed(2),
+              });
+            })
+            .catch((error) => {
+              return res.status(500).json({ msg: error.message });
+            });
+        }
+        res.json({
+          data: resultFinal,
+        });
+      } else if (startDate === "" && endDate !== "") {
+        let resultFinal = [];
+        for (const item of healthOrganizations) {
+          await Users.aggregate([
+            {
+              $project: {
+                name: 1,
+                identification: 1,
+                phonenumber: 1,
+                dob: 1,
+                gender: 1,
+                doseInformation: {
+                  $filter: {
+                    input: "$doseInformation",
+                    as: "doseInformation",
+                    cond: {
+                      $and: [
+                        {
+                          $eq: [
+                            "$$doseInformation.healthOrganizationId",
+                            // mongoose.Types.ObjectId(item.healthOrganizationId),
+                            item.healthOrganizationId,
+                          ],
+                        },
+                        {
+                          $lte: ["$$doseInformation.injectionDate", endDate],
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+          ])
+            .then(async (result) => {
+              let listUser = [];
+              let countInjected = 0;
+              let countSideEffect = 0;
+              const num_user_injection = await InjectionRegister.countDocuments(
+                {
+                  healthOrganizationId: item.healthOrganizationId,
+                }
+              );
+
+              const organ_injection = await InjectionRegisterOrgan.find({
+                healthOrganizationId: item.healthOrganizationId,
+              });
+              let countInjection = 0;
+              for (const item of organ_injection) {
+                countInjection =
+                  countInjection + Object.keys(item.userPhone).length;
+              }
+
+              for (const re of result) {
+                if (Object.keys(re.doseInformation).length !== 0) {
+                  for (const kq of re.doseInformation) {
+                    if (
+                      kq.postInjectionReaction.nameReact !==
+                      "616cead53786b07c28376cdb"
+                    ) {
+                      countSideEffect = countSideEffect + 1;
+                    }
+                  }
+
+                  countInjected =
+                    countInjected + Object.keys(re.doseInformation).length;
+                  listUser.push({
+                    name: re.name,
+                    identification: re.identification,
+                    phonenumber: re.phonenumber,
+                    dob: re.dob,
+                    gender: re.gender,
+                  });
+                }
+              }
+              countInjection =
+                countInjection + num_user_injection + countInjected;
+              resultFinal.push({
+                healthOrganization: item,
+                user: listUser,
+                countInjection,
+                countInjected,
+                countSideEffect,
+                ratio_injection:
+                  countInjection === 0
+                    ? "0.00"
+                    : ((countInjected / countInjection) * 100).toFixed(2),
+                ratio_sideEffect:
+                  countInjected === 0
+                    ? "0.00"
+                    : ((countSideEffect / countInjected) * 100).toFixed(2),
+              });
+            })
+            .catch((error) => {
+              return res.status(500).json({ msg: error.message });
+            });
+        }
+        res.json({
+          data: resultFinal,
+        });
+      } else if (startDate !== "" && endDate !== "") {
+        let resultFinal = [];
+        for (const item of healthOrganizations) {
+          await Users.aggregate([
+            {
+              $project: {
+                name: 1,
+                identification: 1,
+                phonenumber: 1,
+                dob: 1,
+                gender: 1,
+                doseInformation: {
+                  $filter: {
+                    input: "$doseInformation",
+                    as: "doseInformation",
+                    cond: {
+                      $and: [
+                        {
+                          $eq: [
+                            "$$doseInformation.healthOrganizationId",
+                            // mongoose.Types.ObjectId(item.healthOrganizationId),
+                            item.healthOrganizationId,
+                          ],
+                        },
+                        {
+                          $lte: ["$$doseInformation.injectionDate", endDate],
+                        },
+                        {
+                          $gte: ["$$doseInformation.injectionDate", startDate],
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+          ])
+            .then(async (result) => {
+              let listUser = [];
+              let countInjected = 0;
+              let countSideEffect = 0;
+              const num_user_injection = await InjectionRegister.countDocuments(
+                {
+                  healthOrganizationId: item.healthOrganizationId,
+                }
+              );
+
+              const organ_injection = await InjectionRegisterOrgan.find({
+                healthOrganizationId: item.healthOrganizationId,
+              });
+              let countInjection = 0;
+              for (const item of organ_injection) {
+                countInjection =
+                  countInjection + Object.keys(item.userPhone).length;
+              }
+
+              for (const re of result) {
+                if (Object.keys(re.doseInformation).length !== 0) {
+                  for (const kq of re.doseInformation) {
+                    if (
+                      kq.postInjectionReaction.nameReact !==
+                      "616cead53786b07c28376cdb"
+                    ) {
+                      countSideEffect = countSideEffect + 1;
+                    }
+                  }
+
+                  countInjected =
+                    countInjected + Object.keys(re.doseInformation).length;
+                  listUser.push({
+                    name: re.name,
+                    identification: re.identification,
+                    phonenumber: re.phonenumber,
+                    dob: re.dob,
+                    gender: re.gender,
+                  });
+                }
+              }
+              countInjection =
+                countInjection + num_user_injection + countInjected;
+              resultFinal.push({
+                healthOrganization: item,
+                user: listUser,
+                countInjection,
+                countInjected,
+                countSideEffect,
+                ratio_injection:
+                  countInjection === 0
+                    ? "0.00"
+                    : ((countInjected / countInjection) * 100).toFixed(2),
+                ratio_sideEffect:
+                  countInjected === 0
+                    ? "0.00"
+                    : ((countSideEffect / countInjected) * 100).toFixed(2),
+              });
+            })
+            .catch((error) => {
+              return res.status(500).json({ msg: error.message });
+            });
+        }
+        res.json({
+          data: resultFinal,
+        });
+      }
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  getDateInjectionForProvince: async (req, res) => {
+    try {
+      const { startDate, endDate } = req.query;
+
+      let healthOrganizations = [];
+
+      const result = await HealthOrganization.findById({ _id: req.user.id });
+      const listOrgan = await HealthOrganization.find({
+        province: result.province,
+        role: 3,
+      });
+      let listDistrict = [];
+      listOrgan.forEach((item) => {
+        listDistrict.push({ district: item.district, listWard: [] });
+      });
+      let filteredList = [...new Set(listDistrict.map(JSON.stringify))].map(
+        JSON.parse
+      );
+      filteredList.forEach((item) => {
+        listOrgan.forEach((i) => {
+          if (JSON.stringify(i.district) === JSON.stringify(item.district)) {
+            item.listWard.push({
+              healthOrganizationId: i._id,
+              name: i.organization,
+            });
+          }
+        });
+      });
+
+      if (startDate === "" && endDate === "") {
+        let resultFinal1 = [];
+        for (const listItem of filteredList) {
+          let resultFinal = [];
+          for (const item of listItem.listWard) {
+            await Users.aggregate([
+              {
+                $project: {
+                  name: 1,
+                  identification: 1,
+                  phonenumber: 1,
+                  dob: 1,
+                  gender: 1,
+                  doseInformation: {
+                    $filter: {
+                      input: "$doseInformation",
+                      as: "doseInformation",
+                      cond: {
+                        $eq: [
+                          "$$doseInformation.healthOrganizationId",
+                          // mongoose.Types.ObjectId(item.healthOrganizationId),
+                          item.healthOrganizationId,
+                        ],
+                      },
+                    },
+                  },
+                },
+              },
+            ])
+              .then(async (result) => {
+                let listUser = [];
+                let countInjected = 0;
+                let countSideEffect = 0;
+                const num_user_injection =
+                  await InjectionRegister.countDocuments({
+                    healthOrganizationId: item.healthOrganizationId,
+                  });
+
+                const organ_injection = await InjectionRegisterOrgan.find({
+                  healthOrganizationId: item.healthOrganizationId,
+                });
+                let countInjection = 0;
+                for (const item of organ_injection) {
+                  countInjection =
+                    countInjection + Object.keys(item.userPhone).length;
+                }
+
+                for (const re of result) {
+                  if (Object.keys(re.doseInformation).length !== 0) {
+                    for (const kq of re.doseInformation) {
+                      if (
+                        kq.postInjectionReaction.nameReact !==
+                        "616cead53786b07c28376cdb"
+                      ) {
+                        countSideEffect = countSideEffect + 1;
+                      }
+                    }
+
+                    countInjected =
+                      countInjected + Object.keys(re.doseInformation).length;
+                    listUser.push({
+                      name: re.name,
+                      identification: re.identification,
+                      phonenumber: re.phonenumber,
+                      dob: re.dob,
+                      gender: re.gender,
+                    });
+                  }
+                }
+                countInjection =
+                  countInjection + num_user_injection + countInjected;
+                resultFinal.push({
+                  healthOrganization: item,
+                  user: listUser,
+                  countInjection,
+                  countInjected,
+                  countSideEffect,
+                  ratio_injection:
+                    countInjection === 0
+                      ? "0.00"
+                      : ((countInjected / countInjection) * 100).toFixed(2),
+                  ratio_sideEffect:
+                    countInjected === 0
+                      ? "0.00"
+                      : ((countSideEffect / countInjected) * 100).toFixed(2),
+                });
+              })
+              .catch((error) => {
+                return res.status(500).json({ msg: error.message });
+              });
+          }
+          resultFinal1.push({ organ: listItem.district, data: resultFinal });
+        }
+        let resultFinal2 = [];
+        for (const item of resultFinal1) {
+          let healthOrganization = item.organ;
+          let user = [];
+          let countInjection = 0;
+          let countInjected = 0;
+          let countSideEffect = 0;
+
+          for (const item1 of item.data) {
+            user = [...user, ...item1.user];
+            countInjection = countInjection + item1.countInjection;
+            countInjected = countInjected + item1.countInjected;
+            countSideEffect = countSideEffect + item1.countSideEffect;
+          }
+          resultFinal2.push({
+            healthOrganization,
+            user: [...new Set(user.map(JSON.stringify))].map(JSON.parse),
+            countInjection,
+            countInjected,
+            countSideEffect,
+            ratio_injection:
+              countInjection === 0
+                ? "0.00"
+                : ((countInjected / countInjection) * 100).toFixed(2),
+            ratio_sideEffect:
+              countInjected === 0
+                ? "0.00"
+                : ((countSideEffect / countInjected) * 100).toFixed(2),
+          });
+        }
+        res.json(resultFinal2);
+      } else if (startDate !== "" && endDate === "") {
+        let resultFinal1 = [];
+        for (const listItem of filteredList) {
+          let resultFinal = [];
+          for (const item of listItem.listWard) {
+            await Users.aggregate([
+              {
+                $project: {
+                  name: 1,
+                  identification: 1,
+                  phonenumber: 1,
+                  dob: 1,
+                  gender: 1,
+                  doseInformation: {
+                    $filter: {
+                      input: "$doseInformation",
+                      as: "doseInformation",
+                      cond: {
+                        $and: [
+                          {
+                            $eq: [
+                              "$$doseInformation.healthOrganizationId",
+                              // mongoose.Types.ObjectId(item.healthOrganizationId),
+                              item.healthOrganizationId,
+                            ],
+                          },
+                          {
+                            $gte: [
+                              "$$doseInformation.injectionDate",
+                              startDate,
+                            ],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                },
+              },
+            ])
+              .then(async (result) => {
+                let listUser = [];
+                let countInjected = 0;
+                let countSideEffect = 0;
+                const num_user_injection =
+                  await InjectionRegister.countDocuments({
+                    healthOrganizationId: item.healthOrganizationId,
+                  });
+
+                const organ_injection = await InjectionRegisterOrgan.find({
+                  healthOrganizationId: item.healthOrganizationId,
+                });
+                let countInjection = 0;
+                for (const item of organ_injection) {
+                  countInjection =
+                    countInjection + Object.keys(item.userPhone).length;
+                }
+
+                for (const re of result) {
+                  if (Object.keys(re.doseInformation).length !== 0) {
+                    for (const kq of re.doseInformation) {
+                      if (
+                        kq.postInjectionReaction.nameReact !==
+                        "616cead53786b07c28376cdb"
+                      ) {
+                        countSideEffect = countSideEffect + 1;
+                      }
+                    }
+
+                    countInjected =
+                      countInjected + Object.keys(re.doseInformation).length;
+                    listUser.push({
+                      name: re.name,
+                      identification: re.identification,
+                      phonenumber: re.phonenumber,
+                      dob: re.dob,
+                      gender: re.gender,
+                    });
+                  }
+                }
+                countInjection =
+                  countInjection + num_user_injection + countInjected;
+                resultFinal.push({
+                  healthOrganization: item,
+                  user: listUser,
+                  countInjection,
+                  countInjected,
+                  countSideEffect,
+                  ratio_injection:
+                    countInjection === 0
+                      ? "0.00"
+                      : ((countInjected / countInjection) * 100).toFixed(2),
+                  ratio_sideEffect:
+                    countInjected === 0
+                      ? "0.00"
+                      : ((countSideEffect / countInjected) * 100).toFixed(2),
+                });
+              })
+              .catch((error) => {
+                return res.status(500).json({ msg: error.message });
+              });
+          }
+          resultFinal1.push({ organ: listItem.district, data: resultFinal });
+        }
+        let resultFinal2 = [];
+        for (const item of resultFinal1) {
+          let healthOrganization = item.organ;
+          let user = [];
+          let countInjection = 0;
+          let countInjected = 0;
+          let countSideEffect = 0;
+
+          for (const item1 of item.data) {
+            user = [...user, ...item1.user];
+            countInjection = countInjection + item1.countInjection;
+            countInjected = countInjected + item1.countInjected;
+            countSideEffect = countSideEffect + item1.countSideEffect;
+          }
+          resultFinal2.push({
+            healthOrganization,
+            user: [...new Set(user.map(JSON.stringify))].map(JSON.parse),
+            countInjection,
+            countInjected,
+            countSideEffect,
+            ratio_injection:
+              countInjection === 0
+                ? "0.00"
+                : ((countInjected / countInjection) * 100).toFixed(2),
+            ratio_sideEffect:
+              countInjected === 0
+                ? "0.00"
+                : ((countSideEffect / countInjected) * 100).toFixed(2),
+          });
+        }
+        res.json(resultFinal2);
+      } else if (startDate === "" && endDate !== "") {
+        let resultFinal1 = [];
+        for (const listItem of filteredList) {
+          let resultFinal = [];
+          for (const item of listItem.listWard) {
+            await Users.aggregate([
+              {
+                $project: {
+                  name: 1,
+                  identification: 1,
+                  phonenumber: 1,
+                  dob: 1,
+                  gender: 1,
+                  doseInformation: {
+                    $filter: {
+                      input: "$doseInformation",
+                      as: "doseInformation",
+                      cond: {
+                        $and: [
+                          {
+                            $eq: [
+                              "$$doseInformation.healthOrganizationId",
+                              // mongoose.Types.ObjectId(item.healthOrganizationId),
+                              item.healthOrganizationId,
+                            ],
+                          },
+                          {
+                            $lte: ["$$doseInformation.injectionDate", endDate],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                },
+              },
+            ])
+              .then(async (result) => {
+                let listUser = [];
+                let countInjected = 0;
+                let countSideEffect = 0;
+                const num_user_injection =
+                  await InjectionRegister.countDocuments({
+                    healthOrganizationId: item.healthOrganizationId,
+                  });
+
+                const organ_injection = await InjectionRegisterOrgan.find({
+                  healthOrganizationId: item.healthOrganizationId,
+                });
+                let countInjection = 0;
+                for (const item of organ_injection) {
+                  countInjection =
+                    countInjection + Object.keys(item.userPhone).length;
+                }
+
+                for (const re of result) {
+                  if (Object.keys(re.doseInformation).length !== 0) {
+                    for (const kq of re.doseInformation) {
+                      if (
+                        kq.postInjectionReaction.nameReact !==
+                        "616cead53786b07c28376cdb"
+                      ) {
+                        countSideEffect = countSideEffect + 1;
+                      }
+                    }
+
+                    countInjected =
+                      countInjected + Object.keys(re.doseInformation).length;
+                    listUser.push({
+                      name: re.name,
+                      identification: re.identification,
+                      phonenumber: re.phonenumber,
+                      dob: re.dob,
+                      gender: re.gender,
+                    });
+                  }
+                }
+                countInjection =
+                  countInjection + num_user_injection + countInjected;
+                resultFinal.push({
+                  healthOrganization: item,
+                  user: listUser,
+                  countInjection,
+                  countInjected,
+                  countSideEffect,
+                  ratio_injection:
+                    countInjection === 0
+                      ? "0.00"
+                      : ((countInjected / countInjection) * 100).toFixed(2),
+                  ratio_sideEffect:
+                    countInjected === 0
+                      ? "0.00"
+                      : ((countSideEffect / countInjected) * 100).toFixed(2),
+                });
+              })
+              .catch((error) => {
+                return res.status(500).json({ msg: error.message });
+              });
+          }
+          resultFinal1.push({ organ: listItem.district, data: resultFinal });
+        }
+        let resultFinal2 = [];
+        for (const item of resultFinal1) {
+          let healthOrganization = item.organ;
+          let user = [];
+          let countInjection = 0;
+          let countInjected = 0;
+          let countSideEffect = 0;
+
+          for (const item1 of item.data) {
+            user = [...user, ...item1.user];
+            countInjection = countInjection + item1.countInjection;
+            countInjected = countInjected + item1.countInjected;
+            countSideEffect = countSideEffect + item1.countSideEffect;
+          }
+          resultFinal2.push({
+            healthOrganization,
+            user,
+            countInjection,
+            countInjected,
+            countSideEffect,
+            ratio_injection:
+              countInjection === 0
+                ? "0.00"
+                : ((countInjected / countInjection) * 100).toFixed(2),
+            ratio_sideEffect:
+              countInjected === 0
+                ? "0.00"
+                : ((countSideEffect / countInjected) * 100).toFixed(2),
+          });
+        }
+        res.json(resultFinal2);
+      } else if (startDate !== "" && endDate !== "") {
+        let resultFinal1 = [];
+        for (const listItem of filteredList) {
+          let resultFinal = [];
+          for (const item of listItem.listWard) {
+            await Users.aggregate([
+              {
+                $project: {
+                  name: 1,
+                  identification: 1,
+                  phonenumber: 1,
+                  dob: 1,
+                  gender: 1,
+                  doseInformation: {
+                    $filter: {
+                      input: "$doseInformation",
+                      as: "doseInformation",
+                      cond: {
+                        $and: [
+                          {
+                            $eq: [
+                              "$$doseInformation.healthOrganizationId",
+                              // mongoose.Types.ObjectId(item.healthOrganizationId),
+                              item.healthOrganizationId,
+                            ],
+                          },
+                          {
+                            $lte: ["$$doseInformation.injectionDate", endDate],
+                          },
+                          {
+                            $gte: [
+                              "$$doseInformation.injectionDate",
+                              startDate,
+                            ],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                },
+              },
+            ])
+              .then(async (result) => {
+                let listUser = [];
+                let countInjected = 0;
+                let countSideEffect = 0;
+                const num_user_injection =
+                  await InjectionRegister.countDocuments({
+                    healthOrganizationId: item.healthOrganizationId,
+                  });
+
+                const organ_injection = await InjectionRegisterOrgan.find({
+                  healthOrganizationId: item.healthOrganizationId,
+                });
+                let countInjection = 0;
+                for (const item of organ_injection) {
+                  countInjection =
+                    countInjection + Object.keys(item.userPhone).length;
+                }
+
+                for (const re of result) {
+                  if (Object.keys(re.doseInformation).length !== 0) {
+                    for (const kq of re.doseInformation) {
+                      if (
+                        kq.postInjectionReaction.nameReact !==
+                        "616cead53786b07c28376cdb"
+                      ) {
+                        countSideEffect = countSideEffect + 1;
+                      }
+                    }
+
+                    countInjected =
+                      countInjected + Object.keys(re.doseInformation).length;
+                    listUser.push({
+                      name: re.name,
+                      identification: re.identification,
+                      phonenumber: re.phonenumber,
+                      dob: re.dob,
+                      gender: re.gender,
+                    });
+                  }
+                }
+                countInjection =
+                  countInjection + num_user_injection + countInjected;
+                resultFinal.push({
+                  healthOrganization: item,
+                  user: listUser,
+                  countInjection,
+                  countInjected,
+                  countSideEffect,
+                  ratio_injection:
+                    countInjection === 0
+                      ? "0.00"
+                      : ((countInjected / countInjection) * 100).toFixed(2),
+                  ratio_sideEffect:
+                    countInjected === 0
+                      ? "0.00"
+                      : ((countSideEffect / countInjected) * 100).toFixed(2),
+                });
+              })
+              .catch((error) => {
+                return res.status(500).json({ msg: error.message });
+              });
+          }
+          resultFinal1.push({ organ: listItem.district, data: resultFinal });
+        }
+        let resultFinal2 = [];
+        for (const item of resultFinal1) {
+          let healthOrganization = item.organ;
+          let user = [];
+          let countInjection = 0;
+          let countInjected = 0;
+          let countSideEffect = 0;
+
+          for (const item1 of item.data) {
+            user = [...user, ...item1.user];
+            countInjection = countInjection + item1.countInjection;
+            countInjected = countInjected + item1.countInjected;
+            countSideEffect = countSideEffect + item1.countSideEffect;
+          }
+          resultFinal2.push({
+            healthOrganization,
+            user: [...new Set(user.map(JSON.stringify))].map(JSON.parse),
+            countInjection,
+            countInjected,
+            countSideEffect,
+            ratio_injection:
+              countInjection === 0
+                ? "0.00"
+                : ((countInjected / countInjection) * 100).toFixed(2),
+            ratio_sideEffect:
+              countInjected === 0
+                ? "0.00"
+                : ((countSideEffect / countInjected) * 100).toFixed(2),
+          });
+        }
+        res.json(resultFinal2);
+      }
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 
 function getAge(dateString) {
