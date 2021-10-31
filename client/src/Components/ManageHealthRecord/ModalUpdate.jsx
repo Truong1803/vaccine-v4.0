@@ -41,7 +41,7 @@ function ModalUpdate({ dataUpdate, setCallback, callback }) {
         setData(initPostState);
       }
     }
-  }, [dataUpdate, dataUpdate.status]);
+  }, [dataUpdate, dataUpdate.status, dispatch]);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;

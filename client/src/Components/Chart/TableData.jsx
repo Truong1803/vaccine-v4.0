@@ -24,13 +24,16 @@ export const TableDataForVaccine = ({ provinceId, startDate, endDate }) => {
 
   useEffect(() => {
     distpatch(getDataVaccine());
-  }, []);
+  }, [distpatch]);
 
-  useEffect(async () => {
-    const res = await getAPI(
-      `/report/report-injection-organ?provinceId=${provinceId}&startDate=${startDate}&endDate=${endDate}`
-    );
-    setData(res.data.data);
+  useEffect(() => {
+    const getData = async () => {
+      const res = await getAPI(
+        `/report/report-injection-organ?provinceId=${provinceId}&startDate=${startDate}&endDate=${endDate}`
+      );
+      setData(res.data.data);
+    };
+    getData();
   }, [provinceId, startDate, endDate]);
 
   const hanleOpenModal = (user) => {
@@ -96,11 +99,14 @@ export const TableDataForAge = ({ provinceId, startDate, endDate }) => {
   const [openModal, setOpenModal] = useState(false);
   const [data, setData] = useState([]);
   const [listUser, setListUser] = useState([]);
-  useEffect(async () => {
-    const res = await getAPI(
-      `/report/report-injection-age?provinceId=${provinceId}&startDate=${startDate}&endDate=${endDate}`
-    );
-    setData(res.data.data);
+  useEffect(() => {
+    const getData = async () => {
+      const res = await getAPI(
+        `/report/report-injection-age?provinceId=${provinceId}&startDate=${startDate}&endDate=${endDate}`
+      );
+      setData(res.data.data);
+    };
+    getData();
   }, [provinceId, startDate, endDate]);
 
   const hanleOpenModal = (user) => {
@@ -370,7 +376,6 @@ export const TableDataForHealthOrganization = ({ data }) => {
       countInjection,
       countInjected,
       countSideEffect,
-      countSideEffect,
       ratio_injection,
       ratio_sideEffect,
     });
@@ -461,7 +466,6 @@ export const TableDataForDeptHealth = ({ data }) => {
     setTotal({
       countInjection,
       countInjected,
-      countSideEffect,
       countSideEffect,
       ratio_injection,
       ratio_sideEffect,

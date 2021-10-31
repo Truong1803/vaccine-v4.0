@@ -25,7 +25,6 @@ function ListUserInjection() {
 
   const [vaccineId, setVaccineId] = useState(0);
   const [dose, setDose] = useState(0);
-  const [callback, setCallback] = useState(false);
 
   const [quanlity, setQuanlity] = useState("Số lượng");
 
@@ -33,15 +32,18 @@ function ListUserInjection() {
   useEffect(() => {
     dispatch(getDataVaccine());
   }, [dispatch]);
-  useEffect(async () => {
+  useEffect(() => {
     if (auth.access_token) {
-      const res = await getAPI(
-        `/user-injection-register/getAll?vaccineId=${vaccineId}&dose=${dose}&sort=injectionDate`,
-        auth.access_token
-      );
-      setListUser(res.data.data);
+      const getData = async () => {
+        const res = await getAPI(
+          `/user-injection-register/getAll?vaccineId=${vaccineId}&dose=${dose}&sort=injectionDate`,
+          auth.access_token
+        );
+        setListUser(res.data.data);
+      };
+      getData();
     }
-  }, [vaccineId, dose, callback, auth.access_token, alert]);
+  }, [vaccineId, dose, auth.access_token, alert]);
 
   const handleOnclickModal = (user) => {
     setUser(user);

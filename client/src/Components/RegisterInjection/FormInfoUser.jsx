@@ -12,9 +12,7 @@ import { getDataVaccine } from '../../redux/actions/vaccineAction';
 function FormInfoUser({ data, setData, setStatus, status }) {
   const dispatch = useDispatch();
 
-  const { auth, vaccine, organization, company } = useSelector(
-    (state) => state
-  );
+  const { auth, vaccine, organization } = useSelector((state) => state);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;

@@ -1,7 +1,8 @@
-import React from "react";
-import Lottie from "react-lottie";
-import * as loading from "./loading.json";
-import * as done from "./done.json";
+import React from 'react';
+
+import Lottie from 'react-lottie';
+
+import * as loading from './loading.json';
 
 const defaultOptions = {
   loop: true,
@@ -12,14 +13,14 @@ const defaultOptions = {
   },
 };
 
-const defaultOptions2 = {
-  loop: false,
-  autoplay: true,
-  animationData: done.default,
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid slice",
-  },
-};
+// const defaultOptions2 = {
+//   loop: false,
+//   autoplay: true,
+//   animationData: done.default,
+//   rendererSettings: {
+//     preserveAspectRatio: "xMidYMid slice",
+//   },
+// };
 
 const Loading = () => {
   return (

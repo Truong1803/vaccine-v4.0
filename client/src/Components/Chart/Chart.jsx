@@ -41,15 +41,18 @@ export const ChartForVaccine = ({ provinceId, startDate, endDate }) => {
   const [dataForVaccine, setDataForVaccine] = useState([]);
 
   const { vaccine } = useSelector((state) => state);
-  useEffect(async () => {
-    const res = await getAPI(
-      `/report/report-injection-organ-chart?provinceId=${provinceId}&startDate=${startDate}&endDate=${endDate}`
-    );
-    setDataForVaccine(res.data.data);
+  useEffect(() => {
+    const getData = async () => {
+      const res = await getAPI(
+        `/report/report-injection-organ-chart?provinceId=${provinceId}&startDate=${startDate}&endDate=${endDate}`
+      );
+      setDataForVaccine(res.data.data);
+    };
+    getData();
   }, [provinceId, startDate, endDate]);
   useEffect(() => {
     distpatch(getDataVaccine());
-  }, []);
+  }, [distpatch]);
   return (
     <div className="row">
       <div className="col">
@@ -96,23 +99,25 @@ export const ChartForVaccine = ({ provinceId, startDate, endDate }) => {
   );
 };
 export const ChartForAge = ({ provinceId, startDate, endDate }) => {
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
   const [dataForAge, setDataForAge] = useState([]);
-  useEffect(async () => {
-    const res = await getAPI(
-      `/report/report-injection-age?provinceId=${provinceId}&startDate=${startDate}&endDate=${endDate}`
-    );
+  useEffect(() => {
+    const getData = async () => {
+      const res = await getAPI(
+        `/report/report-injection-age?provinceId=${provinceId}&startDate=${startDate}&endDate=${endDate}`
+      );
 
-    let data = [];
-    for (const item of res.data.data) {
-      data.push({
-        name: item?.healthOrganization?.name,
-        less_18: item.agelt18,
-        greater_18: item.agegte18,
-        greater_60: item.agegte60,
-      });
-    }
-    setDataForAge(data);
+      let data = [];
+      for (const item of res.data.data) {
+        data.push({
+          name: item?.healthOrganization?.name,
+          less_18: item.agelt18,
+          greater_18: item.agegte18,
+          greater_60: item.agegte60,
+        });
+      }
+      setDataForAge(data);
+    };
+    getData();
   }, [provinceId, startDate, endDate]);
   return (
     <div className="row ">

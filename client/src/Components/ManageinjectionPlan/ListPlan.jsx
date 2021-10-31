@@ -15,8 +15,8 @@ function ListPlan() {
   const dispatch = useDispatch();
   const { auth, schedule } = useSelector((state) => state);
 
-  const [page, setPage] = useState("");
-  const [search, setSearch] = useState("");
+  // const [page, setPage] = useState("");
+  // const [search, setSearch] = useState("");
   const [injectionDate, setInjectionDate] = useState("");
 
   const [showPlan, setShowPlan] = useState(false);

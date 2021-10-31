@@ -19,59 +19,64 @@ function ReportInjectionUnit() {
   let key_data = ["da_dang_ky", "da_tiem", "phan_ung"];
   const [data, setData] = useState([]);
   const { auth } = useSelector((state) => state);
-  useEffect(async () => {
+  useEffect(() => {
     if (auth.access_token) {
-      const res = await getAPI(
-        `/report/report-ward?startDate=${startDate}&endDate=${endDate}`,
-        auth.access_token
-      );
-      setData(res.data.data);
-      let list = [];
-      const { Nam, Nu } = res.data.data;
-      list.push({
-        name: "Nam",
-        ty_le_da_tiem:
-          Nam.num_user_injectionNam === 0
-            ? 0
-            : parseFloat(
-                (
-                  (Nam.countInjectedNam / Nam.num_user_injectionNam) *
-                  100
-                ).toFixed(2)
-              ),
-        ty_le_phan_ung:
-          Nam.countInjectedNam === 0
-            ? 0
-            : parseFloat(
-                ((Nam.countSideEffectNam / Nam.countInjectedNam) * 100).toFixed(
-                  2
-                )
-              ),
-        da_dang_ky: Nam.num_user_injectionNam,
-        da_tiem: Nam.countInjectedNam,
-        phan_ung: Nam.countSideEffectNam,
-      });
-      list.push({
-        name: "Nữ",
-        ty_le_da_tiem:
-          Nu.num_user_injectionNu === 0
-            ? 0
-            : parseFloat(
-                ((Nu.countInjectedNu / Nu.num_user_injectionNu) * 100).toFixed(
-                  2
-                )
-              ),
-        ty_le_phan_ung:
-          Nu.countInjectedNu === 0
-            ? 0
-            : parseFloat(
-                ((Nu.countSideEffectNu / Nu.countInjectedNu) * 100).toFixed(2)
-              ),
-        da_dang_ky: Nu.num_user_injectionNu,
-        da_tiem: Nu.countInjectedNu,
-        phan_ung: Nu.countSideEffectNu,
-      });
-      setDataForInjectionUnit(list);
+      const getData = async () => {
+        const res = await getAPI(
+          `/report/report-ward?startDate=${startDate}&endDate=${endDate}`,
+          auth.access_token
+        );
+        setData(res.data.data);
+        let list = [];
+        const { Nam, Nu } = res.data.data;
+        list.push({
+          name: "Nam",
+          ty_le_da_tiem:
+            Nam.num_user_injectionNam === 0
+              ? 0
+              : parseFloat(
+                  (
+                    (Nam.countInjectedNam / Nam.num_user_injectionNam) *
+                    100
+                  ).toFixed(2)
+                ),
+          ty_le_phan_ung:
+            Nam.countInjectedNam === 0
+              ? 0
+              : parseFloat(
+                  (
+                    (Nam.countSideEffectNam / Nam.countInjectedNam) *
+                    100
+                  ).toFixed(2)
+                ),
+          da_dang_ky: Nam.num_user_injectionNam,
+          da_tiem: Nam.countInjectedNam,
+          phan_ung: Nam.countSideEffectNam,
+        });
+        list.push({
+          name: "Nữ",
+          ty_le_da_tiem:
+            Nu.num_user_injectionNu === 0
+              ? 0
+              : parseFloat(
+                  (
+                    (Nu.countInjectedNu / Nu.num_user_injectionNu) *
+                    100
+                  ).toFixed(2)
+                ),
+          ty_le_phan_ung:
+            Nu.countInjectedNu === 0
+              ? 0
+              : parseFloat(
+                  ((Nu.countSideEffectNu / Nu.countInjectedNu) * 100).toFixed(2)
+                ),
+          da_dang_ky: Nu.num_user_injectionNu,
+          da_tiem: Nu.countInjectedNu,
+          phan_ung: Nu.countSideEffectNu,
+        });
+        setDataForInjectionUnit(list);
+      };
+      getData();
     }
   }, [startDate, endDate, auth.access_token]);
   return (

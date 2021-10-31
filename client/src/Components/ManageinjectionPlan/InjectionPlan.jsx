@@ -23,7 +23,7 @@ function InjectionPlan({
   const [injectionDate, setInjectionDate] = useState("");
   const [listUser1, setListUser1] = useState([]);
   const dispatch = useDispatch();
-  const { vaccine, auth, alert } = useSelector((state) => state);
+  const { vaccine, auth } = useSelector((state) => state);
 
   useEffect(() => {
     dispatch(getDataVaccine());
@@ -54,7 +54,7 @@ function InjectionPlan({
         }
       }
     }
-  }, []);
+  }, [check, auth.user._id, listUser]);
 
   const handleOnclickPlan = () => {
     setShowPlan(false);

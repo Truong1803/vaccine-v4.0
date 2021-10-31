@@ -16,13 +16,13 @@ import Modal from '../alert/Modal';
 import VaccineModal from './VaccineModal';
 
 function ListVaccine() {
-  const { auth, totalItem } = useSelector((state) => state);
+  const { auth } = useSelector((state) => state);
 
   const [action, setAction] = useState("");
   const dispatch = useDispatch();
 
   const [item, setItem] = useState("");
-  const [page, setPage] = useState(1);
+  const page = 1;
   const [search, setSearch] = useState("");
   // const searchItem = useRef();
   const { vaccine } = useSelector((state) => state);
@@ -64,7 +64,7 @@ function ListVaccine() {
 
   useEffect(() => {
     dispatch(getDataVaccine(page, search));
-  }, [page, search]);
+  }, [page, search, dispatch]);
   return (
     <div className={auth.user?.role !== 1 ? "" : "container"}>
       <div className="row">

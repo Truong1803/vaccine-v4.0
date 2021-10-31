@@ -44,7 +44,7 @@ function Home() {
     if (slug) {
       dispatch(activeEmail({ active_token: slug }));
     }
-  }, [slug]);
+  }, [slug, dispatch]);
   return (
     <div style={{ paddingLeft: "2rem", paddingRight: "2rem" }}>
       <TopData />

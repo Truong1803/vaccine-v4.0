@@ -1,7 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 
@@ -9,7 +6,7 @@ import { ALERT } from '../../redux/containt';
 
 function Toast({ title, body, bgColor }) {
   const dispatch = useDispatch();
-  const [show, setShow] = useState(true);
+  // const [show, setShow] = useState(true);
   const handleClose = () => {
     dispatch({ type: ALERT, payload: {} });
   };

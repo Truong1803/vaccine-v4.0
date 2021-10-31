@@ -7,9 +7,12 @@ import { getAPI } from '../../api/FetchData';
 
 function TopData() {
   const [data, setData] = useState("");
-  useEffect(async () => {
-    const res = await getAPI("/report/report-top-data");
-    setData(res.data.data);
+  useEffect(() => {
+    const getData = async () => {
+      const res = await getAPI("/report/report-top-data");
+      setData(res.data.data);
+    };
+    getData();
   }, []);
   return (
     <div className="row mt-5 mb-4">

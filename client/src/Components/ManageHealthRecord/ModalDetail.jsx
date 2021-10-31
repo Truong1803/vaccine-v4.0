@@ -18,13 +18,13 @@ function ModalDetail({ dataLookupDetail, action, userId }) {
 
   const [dataPre, setDataPre] = useState([]);
   const [dataPost, setDataPost] = useState([]);
-  const [disease1, setDisease1] = useState([]);
+
   useEffect(() => {
     setDataPre(dataLookupDetail?.preInjectionReaction);
     setDataPost(dataLookupDetail?.postInjectionReaction);
     dispatch(getDataDisease());
     dispatch(getDataSideEffect());
-  }, []);
+  }, [dispatch]);
 
   const handleOnchangePre = (e) => {
     const { name, value } = e.target;

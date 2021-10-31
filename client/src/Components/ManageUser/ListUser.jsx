@@ -33,7 +33,7 @@ function ListUser() {
   useEffect(() => {
     if (auth.access_token)
       dispatch(getDataUser(page, search, auth.access_token));
-  }, [page, search, auth.access_token]);
+  }, [page, search, auth.access_token, dispatch]);
 
   const handleOnChangeSearch = (e) => {
     e.preventDefault();

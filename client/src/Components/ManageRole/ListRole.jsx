@@ -23,7 +23,8 @@ function ListRole() {
 
   const [item, setItem] = useState("");
 
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
+  const page = 1;
   const [search, setSearch] = useState("");
 
   const [openModal, setOpenModal] = useState(false);

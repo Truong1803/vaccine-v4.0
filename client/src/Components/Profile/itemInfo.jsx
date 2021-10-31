@@ -47,7 +47,7 @@ function ItemInfo() {
   const isFirstRun = useRef(true);
   const isFirstRun1 = useRef(true);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (auth.access_token) {
       if (auth.user.role === 1) {
         dispatch(getUserById(auth.user._id, auth.access_token));
@@ -57,7 +57,7 @@ function ItemInfo() {
         dispatch(getHealthOrganById(auth.user._id, auth.access_token));
       }
     }
-  }, [auth.access_token]);
+  }, [auth.access_token, dispatch]);
 
   useEffect(() => {
     if (isFirstRun1.current) {

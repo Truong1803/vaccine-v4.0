@@ -18,25 +18,28 @@ function ReportHealthOrganization() {
   let key_data = ["da_dang_ky", "da_tiem", "phan_ung"];
   const [data, setData] = useState([]);
   const { auth } = useSelector((state) => state);
-  useEffect(async () => {
+  useEffect(() => {
     if (auth.access_token) {
-      const res = await getAPI(
-        `/report/report-district?startDate=${startDate}&endDate=${endDate}`,
-        auth.access_token
-      );
-      setData(res.data.data);
-      let list = [];
-      for (const item of res.data.data) {
-        list.push({
-          name: item?.healthOrganization?.name,
-          ty_le_da_tiem: item.ratio_injection,
-          ty_le_phan_ung: item.ratio_sideEffect,
-          da_dang_ky: item.countInjection,
-          da_tiem: item.countInjected,
-          phan_ung: item.countSideEffect,
-        });
-      }
-      setDataForHealthOrganiZation(list);
+      const getData = async () => {
+        const res = await getAPI(
+          `/report/report-district?startDate=${startDate}&endDate=${endDate}`,
+          auth.access_token
+        );
+        setData(res.data.data);
+        let list = [];
+        for (const item of res.data.data) {
+          list.push({
+            name: item?.healthOrganization?.name,
+            ty_le_da_tiem: item.ratio_injection,
+            ty_le_phan_ung: item.ratio_sideEffect,
+            da_dang_ky: item.countInjection,
+            da_tiem: item.countInjected,
+            phan_ung: item.countSideEffect,
+          });
+        }
+        setDataForHealthOrganiZation(list);
+      };
+      getData();
     }
   }, [startDate, endDate, auth.access_token]);
   return (

@@ -27,7 +27,7 @@ function ModalHealthRecord({ dataLookup }) {
       dispatch(getDataQH(page, search, auth.access_token));
       dispatch(getDataVaccine(page, search));
     }
-  }, [auth.access_token]);
+  }, [auth.access_token, dispatch]);
 
   const handleSetDataLookupDetail = (item, action) => {
     setDataLookupDetail(item);

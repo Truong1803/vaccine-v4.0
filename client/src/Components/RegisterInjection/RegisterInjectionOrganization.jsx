@@ -17,8 +17,6 @@ import FormImport from './FormImport';
 import ModalRegisterInjection from './ModalRegisterInjection';
 
 function RegisterInjectionOrganization() {
-  const data = [];
-
   const [showModal, setShowModal] = useState(false);
 
   const dispatch = useDispatch();

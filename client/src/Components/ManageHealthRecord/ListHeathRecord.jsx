@@ -25,7 +25,7 @@ function ListHealthRecord() {
     if (auth.access_token) {
       dispatch(getUserInjected(auth.access_token, injectionDate));
     }
-  }, [auth.access_token, injectionDate]);
+  }, [auth.access_token, injectionDate, dispatch]);
 
   return (
     <div className="row justify-content-center">

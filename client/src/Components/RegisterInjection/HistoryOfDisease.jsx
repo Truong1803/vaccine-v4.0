@@ -13,7 +13,7 @@ function HistoryOfDisease({ data, setData, setStatus, status }) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getDataDisease());
-  }, []);
+  }, [dispatch]);
   const handleNextPage = () => {
     setStatus(status + 1);
     setData({ ...data, diseaseId: arrayData });

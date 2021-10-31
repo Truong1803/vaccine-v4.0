@@ -11,7 +11,7 @@ import { getDataVaccine } from '../../redux/actions/vaccineAction';
 
 function ItemCertificate() {
   const dispatch = useDispatch();
-  const { auth, vaccine, organization, user } = useSelector((state) => state);
+  const { auth, vaccine, organization } = useSelector((state) => state);
   const page = 1;
   const search = "";
   useEffect(() => {
@@ -20,7 +20,7 @@ function ItemCertificate() {
       dispatch(getDataVaccine(page, search));
       dispatch(getDataQH(page, search, auth.access_token));
     }
-  }, [auth.access_token]);
+  }, [auth.access_token, dispatch]);
 
   return (
     <div className="row justify-content-center">

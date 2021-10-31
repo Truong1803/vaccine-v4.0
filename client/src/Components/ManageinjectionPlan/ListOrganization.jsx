@@ -11,41 +11,29 @@ import {
 import { getAPI } from '../../api/FetchData';
 import InjectionPlan from './InjectionPlan';
 
-const initialState = {
-  checked: true,
-  diseaseId: [],
-  dose: "",
-  healthOrganizationId: "",
-  injectionDate: "",
-  organization: "",
-  status: "",
-  user: "",
-  userId: "",
-  vaccineId: "",
-};
-
 function ListOrganizationInjection() {
   const dispatch = useDispatch();
-  const { auth, injectionRegisterOrgan, alert } = useSelector((state) => state);
-
-  const [data, setData] = useState(initialState);
+  const { auth, alert } = useSelector((state) => state);
 
   const [vaccineId, setVaccineId] = useState(0);
   const [listOrgan, setListOrgan] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
   const [showPlan, setShowPlan] = useState(false);
 
   const [quanlity, setQuanlity] = useState("Số lượng");
 
-  useEffect(async () => {
+  useEffect(() => {
     if (auth.access_token) {
-      const res = await getAPI(
-        `/organ-injection-register?vaccineId=${vaccineId}`,
-        auth.access_token
-      );
-      setListOrgan(res.data.data);
+      const getData = async () => {
+        const res = await getAPI(
+          `/organ-injection-register?vaccineId=${vaccineId}`,
+          auth.access_token
+        );
+        setListOrgan(res.data.data);
+      };
+      getData();
     }
-  }, [auth.access_token, vaccineId, alert]);
+  }, [auth.access_token, vaccineId, alert, dispatch]);
 
   const handleChangeQuanlity = (e) => {
     setQuanlity(e.target.value);

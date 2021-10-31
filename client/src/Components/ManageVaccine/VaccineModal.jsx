@@ -24,8 +24,6 @@ const initialState = {
 };
 
 function VaccineModal({ action, item }) {
-  const [styles, setStyles] = useState("btn");
-
   const dispatch = useDispatch();
   const { auth } = useSelector((state) => state);
   const [vaccine, setVaccine] = useState(initialState);
