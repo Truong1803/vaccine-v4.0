@@ -39,59 +39,6 @@ export const TableDataForVaccine = ({ provinceId, startDate, endDate }) => {
   };
   return (
     <div className="row mt-5 mb-4">
-      {/* <div className="col-12">
-        <div className="row justify-content-between ml-1 mr-1">
-          <div className="col-5 row">
-            <div className="form-group row align-items-center justify-content-center">
-              <label htmlFor="exampleInputEmail1" className="col-8">
-                Thống kê theo tỉnh/thành phố :
-              </label>
-              <select
-                id="inputState"
-                className="form-control col-4"
-                value={provinceId}
-                onChange={(e) => setProvinceId(e.target.value)}
-              >
-                <option hidden={true}>Tỉnh/Thành phố</option>
-                <option value="">Tất cả</option>
-                {tinh.map((option) => (
-                  <option key={option.ProvinceID} value={option.ProvinceID}>
-                    {option.ProvinceName}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-          <div className="col-3 row">
-            <div className="form-group row align-items-center justify-content-center">
-              <label htmlFor="exampleInputEmail1" className="col-5">
-                Từ ngày :
-              </label>
-              <input
-                type="date"
-                className="form-control col-7"
-                id="exampleInputEmail1"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="col-3 row">
-            <div className="form-group row align-items-center justify-content-center">
-              <label htmlFor="exampleInputEmail1" className="col-5">
-                Đến ngày :
-              </label>
-              <input
-                type="date"
-                className="form-control col-7"
-                id="exampleInputEmail1"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-              />
-            </div>
-          </div>
-        </div>
-      </div> */}
       <div className="col-12">
         <Table striped bordered hover>
           <thead>
@@ -396,48 +343,44 @@ export const TableDataForInjectionUnit = ({ data }) => {
   );
 };
 
-export const TableDataForHealthOrganization = () => {
+export const TableDataForHealthOrganization = ({ data }) => {
   const [openModal, setOpenModal] = useState(false);
+  const [listUser, setListUser] = useState([]);
+  const [total, setTotal] = useState("");
+  useEffect(() => {
+    let countInjection = 0;
+    let countInjected = 0;
+    let countSideEffect = 0;
+    let ratio_injection = 0;
+    let ratio_sideEffect = 0;
+    for (const item of data) {
+      countInjection = countInjection + item.countInjection;
+      countInjected = countInjected + item.countInjected;
+      countSideEffect = countSideEffect + item.countSideEffect;
+      ratio_injection =
+        countInjection === 0
+          ? "0.00"
+          : ((countInjected / countInjection) * 100).toFixed(2);
+      ratio_sideEffect =
+        countInjected === 0
+          ? "0.00"
+          : ((countSideEffect / countInjected) * 100).toFixed(2);
+    }
+    setTotal({
+      countInjection,
+      countInjected,
+      countSideEffect,
+      countSideEffect,
+      ratio_injection,
+      ratio_sideEffect,
+    });
+  }, [data]);
+  const hanleOpenModal = (user) => {
+    setListUser(user);
+    setOpenModal(true);
+  };
   return (
     <div className="row mt-5 mb-4">
-      <div className="col-12">
-        <div className="row justify-content-between ml-1 mr-1">
-          <div className="col-5 row">
-            <div className="form-group row align-items-center justify-content-center">
-              <label htmlFor="exampleInputEmail1" className="col-7">
-                Thống kê theo tỉnh/thành phố :
-              </label>
-              <select id="inputState" className="form-control col-5">
-                <option>Tỉnh/Thành Phố</option>
-              </select>
-            </div>
-          </div>
-          <div className="col-3 row">
-            <div className="form-group row align-items-center justify-content-center">
-              <label htmlFor="exampleInputEmail1" className="col-5">
-                Từ ngày :
-              </label>
-              <input
-                type="date"
-                className="form-control col-7"
-                id="exampleInputEmail1"
-              />
-            </div>
-          </div>
-          <div className="col-3 row">
-            <div className="form-group row align-items-center justify-content-center">
-              <label htmlFor="exampleInputEmail1" className="col-5">
-                Đến ngày :
-              </label>
-              <input
-                type="date"
-                className="form-control col-7"
-                id="exampleInputEmail1"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="col-12">
         <Table striped bordered hover>
           <thead>
@@ -452,125 +395,84 @@ export const TableDataForHealthOrganization = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="text-center">
-              <td>Trạm y tế Hải Hoà</td>
-              <td>50</td>
-              <td>50</td>
-              <td>100</td>
-              <td>20%</td>
-              <td>30%</td>
-              <td className="pl-4">
-                <div className="row justify-content-center align-items-center">
-                  <button
-                    type="button"
-                    className="btn btn-success mr-3 "
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                  >
-                    <i className="far fa-eye"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr className="text-center">
-              <td>Trạm y tế Hải Yên</td>
-              <td>50</td>
-              <td>50</td>
-              <td>100</td>
-              <td>20%</td>
-              <td>30%</td>
-              <td className="pl-4">
-                <div className="row justify-content-center align-items-center">
-                  <button
-                    type="button"
-                    className="btn btn-success mr-3 "
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                  >
-                    <i className="far fa-eye"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr className="text-center">
-              <td>Trạm y tế Ka Long</td>
-              <td>50</td>
-              <td>50</td>
-              <td>100</td>
-              <td>20%</td>
-              <td>30%</td>
-              <td className="pl-4">
-                <div className="row justify-content-center align-items-center">
-                  <button
-                    type="button"
-                    className="btn btn-success mr-3 "
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                  >
-                    <i className="far fa-eye"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
+            {data.map((item, index) => (
+              <tr className="text-center" key={index}>
+                <td>{item?.healthOrganization?.name}</td>
+                <td>{item?.countInjection}</td>
+                <td>{item?.countInjected}</td>
+                <td>{item?.countSideEffect}</td>
+                <td>{item?.ratio_injection}%</td>
+                <td>{item?.ratio_sideEffect}%</td>
+                <td className="pl-4">
+                  <div className="row justify-content-center align-items-center">
+                    <button
+                      type="button"
+                      className="btn btn-success mr-3 "
+                      data-toggle="modal"
+                      data-target="#exampleModal"
+                      onClick={() => hanleOpenModal(item.user)}
+                    >
+                      <i className="far fa-eye"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
             <tr className="text-center">
               <td>Tổng</td>
-              <td>50</td>
-              <td>50</td>
-              <td>100</td>
-              <td>20%</td>
-              <td>30%</td>
+              <td>{total.countInjection}</td>
+              <td>{total.countInjected}</td>
+              <td>{total.countSideEffect}</td>
+              <td>{total.ratio_injection}%</td>
+              <td>{total.ratio_sideEffect}%</td>
               <td className="pl-4"></td>
             </tr>
           </tbody>
         </Table>
       </div>
-      {openModal && <ModalListUser />}
+      {openModal && <ModalListUser listUser={listUser} />}
     </div>
   );
 };
 
-export const TableDataForDeptHealth = () => {
+export const TableDataForDeptHealth = ({ data }) => {
   const [openModal, setOpenModal] = useState(false);
+  const [listUser, setListUser] = useState([]);
+  const [total, setTotal] = useState("");
+  useEffect(() => {
+    let countInjection = 0;
+    let countInjected = 0;
+    let countSideEffect = 0;
+    let ratio_injection = 0;
+    let ratio_sideEffect = 0;
+    for (const item of data) {
+      countInjection = countInjection + item.countInjection;
+      countInjected = countInjected + item.countInjected;
+      countSideEffect = countSideEffect + item.countSideEffect;
+      ratio_injection =
+        countInjection === 0
+          ? "0.00"
+          : ((countInjected / countInjection) * 100).toFixed(2);
+      ratio_sideEffect =
+        countInjected === 0
+          ? "0.00"
+          : ((countSideEffect / countInjected) * 100).toFixed(2);
+    }
+    setTotal({
+      countInjection,
+      countInjected,
+      countSideEffect,
+      countSideEffect,
+      ratio_injection,
+      ratio_sideEffect,
+    });
+  }, [data]);
+  const hanleOpenModal = (user) => {
+    setListUser(user);
+    setOpenModal(true);
+  };
   return (
     <div className="row mt-5 mb-4">
-      <div className="col-12">
-        <div className="row justify-content-between ml-1 mr-1">
-          <div className="col-5 row">
-            <div className="form-group row align-items-center justify-content-center">
-              <label htmlFor="exampleInputEmail1" className="col-7">
-                Thống kê theo tỉnh/thành phố :
-              </label>
-              <select id="inputState" className="form-control col-5">
-                <option>Tỉnh/Thành Phố</option>
-              </select>
-            </div>
-          </div>
-          <div className="col-3 row">
-            <div className="form-group row align-items-center justify-content-center">
-              <label htmlFor="exampleInputEmail1" className="col-5">
-                Từ ngày :
-              </label>
-              <input
-                type="date"
-                className="form-control col-7"
-                id="exampleInputEmail1"
-              />
-            </div>
-          </div>
-          <div className="col-3 row">
-            <div className="form-group row align-items-center justify-content-center">
-              <label htmlFor="exampleInputEmail1" className="col-5">
-                Đến ngày :
-              </label>
-              <input
-                type="date"
-                className="form-control col-7"
-                id="exampleInputEmail1"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="col-12">
         <Table striped bordered hover>
           <thead>
@@ -585,73 +487,36 @@ export const TableDataForDeptHealth = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="text-center">
-              <td>Thanh Xuân </td>
-              <td>50</td>
-              <td>50</td>
-              <td>100</td>
-              <td>20%</td>
-              <td>30%</td>
-              <td className="pl-4">
-                <div className="row justify-content-center align-items-center">
-                  <button
-                    type="button"
-                    className="btn btn-success mr-3 "
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                  >
-                    <i className="far fa-eye"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr className="text-center">
-              <td>Hà Đông</td>
-              <td>50</td>
-              <td>50</td>
-              <td>100</td>
-              <td>20%</td>
-              <td>30%</td>
-              <td className="pl-4">
-                <div className="row justify-content-center align-items-center">
-                  <button
-                    type="button"
-                    className="btn btn-success mr-3 "
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                  >
-                    <i className="far fa-eye"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr className="text-center">
-              <td>Hai Bà Trưng</td>
-              <td>50</td>
-              <td>50</td>
-              <td>100</td>
-              <td>20%</td>
-              <td>30%</td>
-              <td className="pl-4">
-                <div className="row justify-content-center align-items-center">
-                  <button
-                    type="button"
-                    className="btn btn-success mr-3 "
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                  >
-                    <i className="far fa-eye"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
+            {data.map((item, index) => (
+              <tr className="text-center" key={index}>
+                <td>{item?.healthOrganization?.name}</td>
+                <td>{item?.countInjection}</td>
+                <td>{item?.countInjected}</td>
+                <td>{item?.countSideEffect}</td>
+                <td>{item?.ratio_injection}%</td>
+                <td>{item?.ratio_sideEffect}%</td>
+                <td className="pl-4">
+                  <div className="row justify-content-center align-items-center">
+                    <button
+                      type="button"
+                      className="btn btn-success mr-3 "
+                      data-toggle="modal"
+                      data-target="#exampleModal"
+                      onClick={() => hanleOpenModal(item.user)}
+                    >
+                      <i className="far fa-eye"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
             <tr className="text-center">
               <td>Tổng</td>
-              <td>50</td>
-              <td>50</td>
-              <td>100</td>
-              <td>20%</td>
-              <td>30%</td>
+              <td>{total.countInjection}</td>
+              <td>{total.countInjected}</td>
+              <td>{total.countSideEffect}</td>
+              <td>{total.ratio_injection}%</td>
+              <td>{total.ratio_sideEffect}%</td>
               <td className="pl-4"></td>
             </tr>
           </tbody>
