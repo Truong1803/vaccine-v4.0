@@ -522,7 +522,7 @@ export const TableDataForDeptHealth = ({ data }) => {
           </tbody>
         </Table>
       </div>
-      {openModal && <ModalListUser />}
+      {openModal && <ModalListUser listUser={listUser} />}
     </div>
   );
 };
