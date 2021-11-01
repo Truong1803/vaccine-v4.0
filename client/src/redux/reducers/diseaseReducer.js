@@ -1,6 +1,6 @@
-import { GET_DISEASE } from "../containt";
+import { GET_DISEASE } from '../containt';
 
-export default (state = [], action) => {
+const diseaseReducer = (state = [], action) => {
   switch (action.type) {
     case GET_DISEASE:
       return action.payload;
@@ -8,3 +8,5 @@ export default (state = [], action) => {
       return state;
   }
 };
+
+export default diseaseReducer;

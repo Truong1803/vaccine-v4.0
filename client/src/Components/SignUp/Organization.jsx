@@ -1,10 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import { registerOrgan } from "../../redux/actions/authActions";
+import { registerOrgan } from '../../redux/actions/authActions';
 
 function Organization() {
   const email = useRef();
@@ -82,19 +86,19 @@ function Organization() {
   const handleOnSubmit = () => {
     let province, district, ward;
     tinh.forEach((item) => {
-      if (item.ProvinceID == provinceId) {
+      if (item.ProvinceID === provinceId) {
         province = { id: item.ProvinceID, name: item.ProvinceName };
         return;
       }
     });
     huyen.forEach((item) => {
-      if (item.DistrictID == districtId) {
+      if (item.DistrictID === districtId) {
         district = { id: item.DistrictID, name: item.DistrictName };
         return;
       }
     });
     phuong.forEach((item) => {
-      if (item.WardCode == wardId) {
+      if (item.WardCode === wardId) {
         ward = { id: item.WardCode, name: item.WardName };
         return;
       }

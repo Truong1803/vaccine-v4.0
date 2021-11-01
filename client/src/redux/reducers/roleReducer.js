@@ -1,6 +1,11 @@
-import { ADD_ROLE, DELETE_ROLE, EDIT_ROLE, GET_ROLE } from "../containt";
+import {
+  ADD_ROLE,
+  DELETE_ROLE,
+  EDIT_ROLE,
+  GET_ROLE,
+} from '../containt';
 
-export default (state = [], action) => {
+const roleReducer = (state = [], action) => {
   switch (action.type) {
     case GET_ROLE:
       return action.payload;
@@ -19,3 +24,5 @@ export default (state = [], action) => {
       return state;
   }
 };
+
+export default roleReducer;

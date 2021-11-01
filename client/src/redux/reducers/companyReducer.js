@@ -3,9 +3,9 @@ import {
   DELETE_COMPANY,
   EDIT_COMPANY,
   GET_COMPANY,
-} from "../containt";
+} from '../containt';
 
-export default (state = [], action) => {
+const companyReducer = (state = [], action) => {
   switch (action.type) {
     case GET_COMPANY:
       return action.payload;
@@ -25,3 +25,4 @@ export default (state = [], action) => {
       return state;
   }
 };
+export default companyReducer;

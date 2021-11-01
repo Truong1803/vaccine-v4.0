@@ -5,7 +5,7 @@ import {
   GET_VACCINE,
 } from '../containt';
 
-export default (state = [], action) => {
+const vaccineReducer = (state = [], action) => {
   switch (action.type) {
     case GET_VACCINE:
       return action.payload;
@@ -25,3 +25,4 @@ export default (state = [], action) => {
       return state;
   }
 };
+export default vaccineReducer;

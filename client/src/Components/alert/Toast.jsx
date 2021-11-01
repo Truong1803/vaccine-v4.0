@@ -14,7 +14,7 @@ function Toast({ title, body, bgColor }) {
     setTimeout(() => {
       dispatch({ type: ALERT, payload: {} });
     }, 3000);
-  }, []);
+  }, [dispatch]);
   return (
     // <div
     //   className={`toast show position-fixed text-light ${bgColor}`}

@@ -5,7 +5,7 @@ import {
   GET_USER,
 } from '../containt';
 
-export default (state = [], action) => {
+const userReducer = (state = [], action) => {
   switch (action.type) {
     case GET_USER:
       return action.payload;
@@ -24,3 +24,4 @@ export default (state = [], action) => {
       return state;
   }
 };
+export default userReducer;

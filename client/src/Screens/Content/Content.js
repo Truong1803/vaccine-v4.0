@@ -43,7 +43,7 @@ function Content() {
         {auth.user?._id ? <Redirect to="/" /> : <SignIn />}
       </Route>
       <Route path="/sign_up">
-        {auth == "pending" ? <Redirect to="/profile" /> : <SignUp />}
+        {auth === "pending" ? <Redirect to="/profile" /> : <SignUp />}
       </Route>
       <Route path="/profile">
         {auth.user?._id ? <Redirect to="/" /> : <Profile />}

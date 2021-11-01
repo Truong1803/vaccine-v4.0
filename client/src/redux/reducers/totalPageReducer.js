@@ -1,6 +1,9 @@
-import { ADD_PAGE, GET_PAGE } from "../containt";
+import {
+  ADD_PAGE,
+  GET_PAGE,
+} from '../containt';
 
-export default (state = [], action) => {
+const totalPageReducer = (state = [], action) => {
   switch (action.type) {
     case GET_PAGE:
       return action.payload;
@@ -10,3 +13,4 @@ export default (state = [], action) => {
       return state;
   }
 };
+export default totalPageReducer;

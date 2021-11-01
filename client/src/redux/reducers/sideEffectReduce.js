@@ -1,6 +1,6 @@
 import { GET_SIDE_EFFECT } from '../containt';
 
-export default (state = [], action) => {
+const sideEffectReduce = (state = [], action) => {
   switch (action.type) {
     case GET_SIDE_EFFECT:
       return action.payload;
@@ -8,3 +8,4 @@ export default (state = [], action) => {
       return state;
   }
 };
+export default sideEffectReduce;

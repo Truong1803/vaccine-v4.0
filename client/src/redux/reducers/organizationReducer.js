@@ -1,6 +1,11 @@
-import { ADD_QH, DELETE_QH, EDIT_QH, GET_QH } from "../containt";
+import {
+  ADD_QH,
+  DELETE_QH,
+  EDIT_QH,
+  GET_QH,
+} from '../containt';
 
-export default (state = [], action) => {
+const organizationReducer = (state = [], action) => {
   switch (action.type) {
     case GET_QH:
       return action.payload;
@@ -20,3 +25,4 @@ export default (state = [], action) => {
       return state;
   }
 };
+export default organizationReducer;

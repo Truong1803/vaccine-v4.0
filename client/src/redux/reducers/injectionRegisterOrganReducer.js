@@ -3,7 +3,7 @@ import {
   GET_INJECTION_REGISTER_ORGAN,
 } from '../containt';
 
-export default (state = [], action) => {
+const injectionRegisterOrganReducer = (state = [], action) => {
   switch (action.type) {
     case GET_INJECTION_REGISTER_ORGAN:
       return action.payload;
@@ -13,3 +13,5 @@ export default (state = [], action) => {
       return state;
   }
 };
+
+export default injectionRegisterOrganReducer;

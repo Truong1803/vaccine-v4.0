@@ -1,9 +1,6 @@
 import './RegisterinjectionStyles.css';
 
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect } from 'react';
 
 import {
   useDispatch,
@@ -17,15 +14,15 @@ import FormImport from './FormImport';
 import ModalRegisterInjection from './ModalRegisterInjection';
 
 function RegisterInjectionOrganization() {
-  const [showModal, setShowModal] = useState(false);
-
+  // const [showModal, setShowModal] = useState(false);
+  const showModal = false;
   const dispatch = useDispatch();
   const { auth, injectionRegisterOrgan, alert } = useSelector((state) => state);
   useEffect(() => {
     if (auth.access_token) {
       dispatch(GetInjectionRegisterOrgan(auth.user?._id, auth.access_token));
     }
-  }, [auth.access_token, alert]);
+  }, [auth.access_token, alert, auth.user?._id]);
 
   const handleOnChangeSearch = (e) => {
     e.preventDefault();
@@ -35,11 +32,11 @@ function RegisterInjectionOrganization() {
     // setSearch(e.target.value);
   };
 
-  const handleOpenModal = (organId) => {
-    // setAction("");
-    // setOrganId(organId);
-    // setOpenModal(!openModal);
-  };
+  // const handleOpenModal = (organId) => {
+  //   // setAction("");
+  //   // setOrganId(organId);
+  //   // setOpenModal(!openModal);
+  // };
 
   // const handleOnClickDelete = (organId) => {
   //   setAction("");

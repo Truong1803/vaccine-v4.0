@@ -3,7 +3,7 @@ import {
   GET_INJECTION_REGISTER,
 } from '../containt';
 
-export default (state = [], action) => {
+const injectionRegisterReducer = (state = [], action) => {
   switch (action.type) {
     case GET_INJECTION_REGISTER:
       return action.payload;
@@ -13,3 +13,4 @@ export default (state = [], action) => {
       return state;
   }
 };
+export default injectionRegisterReducer;
