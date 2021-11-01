@@ -256,7 +256,7 @@ const healthOganizationCtrl = {
         role,
       } = req.body;
       const user = await HealthOrganization.findByIdAndUpdate(
-        { _id: req.params._id },
+        { _id: req.params.id },
         {
           email,
           password,
@@ -423,7 +423,6 @@ const healthOganizationCtrl = {
         organization,
         role,
       } = req.body;
-      console.log(req.body);
       const user = await HealthOrganization.findOne({ email, organization });
       if (user) return res.status(400).json({ msg: "Tổ chức đã tồn tại" });
 

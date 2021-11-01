@@ -26,7 +26,7 @@ function ListPlan() {
     if (auth.access_token) {
       dispatch(getAllSchedule(auth.access_token, injectionDate));
     }
-  }, [auth.access_token, injectionDate]);
+  }, [auth.access_token, injectionDate, dispatch]);
 
   const handleOnclickPlan = (item) => {
     setDataSchedule(item);

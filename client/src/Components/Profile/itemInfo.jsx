@@ -131,19 +131,19 @@ function ItemInfo() {
   const handleSubmit = () => {
     let province1, district1, ward1;
     tinh.forEach((item) => {
-      if (item.ProvinceID == provinceId) {
+      if (item.ProvinceID === provinceId) {
         province1 = { id: item.ProvinceID, name: item.ProvinceName };
         return;
       }
     });
     huyen.forEach((item) => {
-      if (item.DistrictID == districtId) {
+      if (item.DistrictID === districtId) {
         district1 = { id: item.DistrictID, name: item.DistrictName };
         return;
       }
     });
     phuong.forEach((item) => {
-      if (item.WardCode == wardId) {
+      if (item.WardCode === wardId) {
         ward1 = { id: item.WardCode, name: item.WardName };
         return;
       }

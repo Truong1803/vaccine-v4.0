@@ -24,7 +24,11 @@ function ModalDetail({ dataLookupDetail, action, userId }) {
     setDataPost(dataLookupDetail?.postInjectionReaction);
     dispatch(getDataDisease());
     dispatch(getDataSideEffect());
-  }, [dispatch]);
+  }, [
+    dispatch,
+    dataLookupDetail?.postInjectionReaction,
+    dataLookupDetail?.preInjectionReaction,
+  ]);
 
   const handleOnchangePre = (e) => {
     const { name, value } = e.target;

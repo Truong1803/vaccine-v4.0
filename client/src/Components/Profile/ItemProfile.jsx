@@ -1,7 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
-import axios from "axios";
-import { updateInfor } from "../../redux/actions/authActions";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+
+import { updateInfor } from '../../redux/actions/authActions';
+
 function ItemProfile({ infor }) {
   const dispatch = useDispatch();
   const [tinh, setTinh] = useState([]);
@@ -74,19 +81,19 @@ function ItemProfile({ infor }) {
   const handleSubmit = () => {
     let province1, district1, ward1;
     tinh.forEach((item) => {
-      if (item.ProvinceID == provinceId) {
+      if (item.ProvinceID === provinceId) {
         province1 = { id: item.ProvinceID, name: item.ProvinceName };
         return;
       }
     });
     huyen.forEach((item) => {
-      if (item.DistrictID == districtId) {
+      if (item.DistrictID === districtId) {
         district1 = { id: item.DistrictID, name: item.DistrictName };
         return;
       }
     });
     phuong.forEach((item) => {
-      if (item.WardCode == wardId) {
+      if (item.WardCode === wardId) {
         ward1 = { id: item.WardCode, name: item.WardName };
         return;
       }

@@ -1,9 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import axios from 'axios';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
-import { createUser, updateUser } from "../../redux/actions/userAction";
+import {
+  createUser,
+  updateUser,
+} from '../../redux/actions/userAction';
 
 const initialState = {
   phonenumber: "",
@@ -114,19 +124,19 @@ function UserModal({ action, item, status }) {
     if (action === "Thêm") {
       let province1, district1, ward1;
       tinh.forEach((item) => {
-        if (item.ProvinceID == provinceId) {
+        if (item.ProvinceID === provinceId) {
           province1 = { id: item.ProvinceID, name: item.ProvinceName };
           return;
         }
       });
       huyen.forEach((item) => {
-        if (item.DistrictID == districtId) {
+        if (item.DistrictID === districtId) {
           district1 = { id: item.DistrictID, name: item.DistrictName };
           return;
         }
       });
       phuong.forEach((item) => {
-        if (item.WardCode == wardId) {
+        if (item.WardCode === wardId) {
           ward1 = { id: item.WardCode, name: item.WardName };
           return;
         }
@@ -148,21 +158,21 @@ function UserModal({ action, item, status }) {
       let province2, district2, ward2;
 
       tinh.forEach((item) => {
-        if (item.ProvinceID == provinceId) {
+        if (item.ProvinceID === provinceId) {
           province2 = { id: item.ProvinceID, name: item.ProvinceName };
           return;
         }
       });
 
       huyen.forEach((item) => {
-        if (item.DistrictID == districtId) {
+        if (item.DistrictID === districtId) {
           district2 = { id: item.DistrictID, name: item.DistrictName };
           return;
         }
       });
 
       phuong.forEach((item) => {
-        if (item.WardCode == wardId) {
+        if (item.WardCode === wardId) {
           ward2 = { id: item.WardCode, name: item.WardName };
           return;
         }

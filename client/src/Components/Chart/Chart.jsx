@@ -1,6 +1,5 @@
 import React, {
   useEffect,
-  useRef,
   useState,
 } from 'react';
 
@@ -8,7 +7,6 @@ import {
   useDispatch,
   useSelector,
 } from 'react-redux';
-import { useReactToPrint } from 'react-to-print';
 import {
   Bar,
   BarChart,
@@ -55,13 +53,10 @@ export const ChartForVaccine = ({ provinceId, startDate, endDate }) => {
   useEffect(() => {
     distpatch(getDataVaccine());
   }, [distpatch]);
-  const tableRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => tableRef.current,
-  });
+
   return (
     <div className="row">
-      <div className="col" ref={tableRef}>
+      <div className="col">
         <div
           style={{ margin: "2rem", width: "100%", height: "400px" }}
           className="d-flex justify-content-center align-items-center"

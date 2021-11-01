@@ -123,7 +123,7 @@ function ListOrganization() {
                 <td>{item.represent}</td>
                 <td>{item.phonenumber}</td>
 
-                <td>{role.filter((i) => i.id == item.role)[0].name}</td>
+                <td>{role.filter((i) => i.id === item.role)[0].name}</td>
                 <td>
                   <div className="row justify-content-center">
                     <button

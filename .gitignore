@@ -2,3 +2,4 @@ client/package-lock.json
 client/yarn.lock
 server/package-lock.json
 .idea
+server/.env
