@@ -2,12 +2,14 @@ import './home.css';
 
 import React, {
   useEffect,
+  useRef,
   useState,
 } from 'react';
 
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
+import { useReactToPrint } from 'react-to-print';
 
 import {
   ChartForAge,
@@ -45,19 +47,23 @@ function Home() {
       dispatch(activeEmail({ active_token: slug }));
     }
   }, [slug, dispatch]);
+  const tableRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => tableRef.current,
+  });
   return (
     <div style={{ paddingLeft: "2rem", paddingRight: "2rem" }}>
       <TopData />
       <div className="col-12">
         <div className="row justify-content-between ml-1 mr-1">
-          <div className="col-5 row">
+          <div className="col row ">
             <div className="form-group row align-items-center justify-content-center">
-              <label htmlFor="exampleInputEmail1" className="col-8">
-                Thống kê theo tỉnh/thành phố :
+              <label htmlFor="exampleInputEmail1" className="col-6">
+                Tỉnh/thành phố :
               </label>
               <select
                 id="inputState"
-                className="form-control col-4"
+                className="form-control col-6"
                 value={provinceId}
                 onChange={(e) => setProvinceId(e.target.value)}
               >
@@ -71,7 +77,7 @@ function Home() {
               </select>
             </div>
           </div>
-          <div className="col-3 row">
+          <div className="col row ml-1">
             <div className="form-group row align-items-center justify-content-center">
               <label htmlFor="exampleInputEmail1" className="col-5">
                 Từ ngày :
@@ -85,7 +91,7 @@ function Home() {
               />
             </div>
           </div>
-          <div className="col-3 row">
+          <div className="col row">
             <div className="form-group row align-items-center justify-content-center">
               <label htmlFor="exampleInputEmail1" className="col-5">
                 Đến ngày :
@@ -99,28 +105,40 @@ function Home() {
               />
             </div>
           </div>
+          <div className="col w-50 row justify-content-center">
+            <div className="row">
+              {/* <div className="col"></div> */}
+              <div className="col">
+                <button className="btn btn-primary " onClick={handlePrint}>
+                  Export to pdf
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <TableDataForVaccine
-        provinceId={provinceId}
-        startDate={startDate}
-        endDate={endDate}
-      />
-      <ChartForVaccine
-        provinceId={provinceId}
-        startDate={startDate}
-        endDate={endDate}
-      />
-      <TableDataForAge
-        provinceId={provinceId}
-        startDate={startDate}
-        endDate={endDate}
-      />
-      <ChartForAge
-        provinceId={provinceId}
-        startDate={startDate}
-        endDate={endDate}
-      />
+      <div ref={tableRef}>
+        <TableDataForVaccine
+          provinceId={provinceId}
+          startDate={startDate}
+          endDate={endDate}
+        />
+        <ChartForVaccine
+          provinceId={provinceId}
+          startDate={startDate}
+          endDate={endDate}
+        />
+        <TableDataForAge
+          provinceId={provinceId}
+          startDate={startDate}
+          endDate={endDate}
+        />
+        <ChartForAge
+          provinceId={provinceId}
+          startDate={startDate}
+          endDate={endDate}
+        />
+      </div>
     </div>
   );
 }

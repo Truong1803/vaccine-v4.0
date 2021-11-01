@@ -40,8 +40,9 @@ export const TableDataForVaccine = ({ provinceId, startDate, endDate }) => {
     setListUser(user);
     setOpenModal(true);
   };
+
   return (
-    <div className="row mt-5 mb-4">
+    <div className="row mb-4">
       <div className="col-12">
         <Table striped bordered hover>
           <thead>
@@ -210,7 +211,7 @@ export const TableDataForInjectionUnit = ({ data }) => {
     setOpenModal(true);
   };
   return (
-    <div className="row mt-5 mb-4">
+    <div className="row mt-2 mb-4">
       <div className="col-12">
         <Table striped bordered hover>
           <thead>
@@ -385,7 +386,7 @@ export const TableDataForHealthOrganization = ({ data }) => {
     setOpenModal(true);
   };
   return (
-    <div className="row mt-5 mb-4">
+    <div className="row mt-3 mb-4">
       <div className="col-12">
         <Table striped bordered hover>
           <thead>
@@ -476,7 +477,7 @@ export const TableDataForDeptHealth = ({ data }) => {
     setOpenModal(true);
   };
   return (
-    <div className="row mt-5 mb-4">
+    <div className="row mt-3 mb-4">
       <div className="col-12">
         <Table striped bordered hover>
           <thead>

@@ -1,9 +1,11 @@
 import React, {
   useEffect,
+  useRef,
   useState,
 } from 'react';
 
 import { useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
 
 import { getAPI } from '../../api/FetchData';
 import { BarChartForInjectionUnit } from '../Chart/Chart';
@@ -42,12 +44,15 @@ function ReportHealthOrganization() {
       getData();
     }
   }, [startDate, endDate, auth.access_token]);
+  const tableRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => tableRef.current,
+  });
   return (
     <>
-      <div className="col-12">
-        <div className="row justify-content-between ml-1 mr-1">
-          <div className="col-5 row"></div>
-          <div className="col-3 row">
+      <div className="">
+        <div className="row  ml-1 mr-1 mt-3">
+          <div className="col-4 row justify-content-center">
             <div className="form-group row align-items-center justify-content-center">
               <label htmlFor="exampleInputEmail1" className="col-5">
                 Từ ngày :
@@ -61,7 +66,7 @@ function ReportHealthOrganization() {
               />
             </div>
           </div>
-          <div className="col-3 row">
+          <div className="col-4 row">
             <div className="form-group row align-items-center justify-content-center">
               <label htmlFor="exampleInputEmail1" className="col-5">
                 Đến ngày :
@@ -75,19 +80,31 @@ function ReportHealthOrganization() {
               />
             </div>
           </div>
+          <div className="col-1"></div>
+          <div className="col-3 w-50 row">
+            <div className="row">
+              {/* <div className="col"></div> */}
+              <div className="col">
+                <button className="btn btn-primary " onClick={handlePrint}>
+                  Export to pdf
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <TableDataForHealthOrganization data={data} />
-      <div className="row">
-        <div className="col-6">
-          <BarChartForInjectionUnit
-            label="Biểu đồ thống kê tiêm chủng theo cơ sở tiêm"
-            data={dataForHealthOrganiZation}
-            key_data={key_data}
-          />
-        </div>
-        <div className="col-6">
-          {/* <div className='row'>
+      <div ref={tableRef}>
+        <TableDataForHealthOrganization data={data} />
+        <div className="row">
+          <div className="col-6">
+            <BarChartForInjectionUnit
+              label="Biểu đồ thống kê tiêm chủng theo cơ sở tiêm"
+              data={dataForHealthOrganiZation}
+              key_data={key_data}
+            />
+          </div>
+          <div className="col-6">
+            {/* <div className='row'>
             <div className='col-6'>
               <PieChartForInjectionUnit
                 label=' Biểu đồ thống kê tỷ lệ người đã tiêm / người đăng ký'
@@ -103,6 +120,7 @@ function ReportHealthOrganization() {
               />
             </div>
           </div> */}
+          </div>
         </div>
       </div>
     </>
