@@ -1,4 +1,5 @@
 import React, {
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -26,13 +27,29 @@ function ItemProfile({ infor }) {
   const isFirstRun = useRef(true);
   const isFirstRun1 = useRef(true);
 
+  const handleOnclickDistrict = useCallback(async () => {
+    const res = await axios.get(
+      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${provinceId}`,
+      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
+    );
+    setHuyen(res.data.data);
+  }, [provinceId]);
+
+  const handleOnclickWard = useCallback(async () => {
+    const res = await axios.get(
+      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${districtId}`,
+      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
+    );
+    setPhuong(res.data.data);
+  }, [districtId]);
+
   useEffect(() => {
     if (isFirstRun.current) {
       isFirstRun.current = false;
       return;
     }
     handleOnclickDistrict();
-  }, [provinceId]);
+  }, [provinceId, handleOnclickDistrict]);
 
   useEffect(() => {
     if (isFirstRun1.current) {
@@ -40,7 +57,7 @@ function ItemProfile({ infor }) {
       return;
     }
     handleOnclickWard();
-  }, [districtId]);
+  }, [districtId, handleOnclickWard]);
 
   const handleChangeProvince = async (event) => {
     setProvinceId(event.target.value);
@@ -61,22 +78,6 @@ function ItemProfile({ infor }) {
     };
     getProvince();
   }, []);
-
-  const handleOnclickDistrict = async () => {
-    const res = await axios.get(
-      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${provinceId}`,
-      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
-    );
-    setHuyen(res.data.data);
-  };
-
-  const handleOnclickWard = async () => {
-    const res = await axios.get(
-      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${districtId}`,
-      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
-    );
-    setPhuong(res.data.data);
-  };
 
   const handleSubmit = () => {
     let province1, district1, ward1;

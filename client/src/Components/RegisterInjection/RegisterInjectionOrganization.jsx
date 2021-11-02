@@ -22,7 +22,7 @@ function RegisterInjectionOrganization() {
     if (auth.access_token) {
       dispatch(GetInjectionRegisterOrgan(auth.user?._id, auth.access_token));
     }
-  }, [auth.access_token, alert, auth.user?._id]);
+  }, [auth.access_token, alert, auth.user?._id, dispatch]);
 
   const handleOnChangeSearch = (e) => {
     e.preventDefault();
@@ -116,7 +116,7 @@ function RegisterInjectionOrganization() {
           </thead>
           <tbody>
             {injectionRegisterOrgan[0]?.userPhone.map((item, index) => (
-              <tr className="text-center " key={item._id}>
+              <tr className="text-center " key={index}>
                 <td>{index + 1}</td>
                 <td>{item.phonenumber.name}</td>
                 <td>{item.phonenumber.dob}</td>

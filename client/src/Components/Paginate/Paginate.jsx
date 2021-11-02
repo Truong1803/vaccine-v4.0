@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 function Paginate({ page, setPage }) {
   //   const [page, setPage]
@@ -22,9 +23,9 @@ function Paginate({ page, setPage }) {
     >
       <ul className="pagination justify-content-center">
         <li className={`page-item `} hidden={page <= 1}>
-          <a className="page-link" aria-label="Previous">
+          <Link className="page-link" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
-          </a>
+          </Link>
         </li>
         {pageNumbers.map((number) => (
           <li
@@ -39,9 +40,9 @@ function Paginate({ page, setPage }) {
         ))}
 
         <li className="page-item" hidden={page >= totalPage}>
-          <a className="page-link" aria-label="Next">
+          <Link className="page-link" aria-label="Next">
             <span aria-hidden="true">&raquo;</span>
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>

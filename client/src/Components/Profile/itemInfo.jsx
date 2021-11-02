@@ -1,4 +1,5 @@
 import React, {
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -57,7 +58,23 @@ function ItemInfo() {
         dispatch(getHealthOrganById(auth.user._id, auth.access_token));
       }
     }
-  }, [auth.access_token, dispatch]);
+  }, [auth.access_token, dispatch, auth.user._id, auth.user.role]);
+
+  const handleOnclickDistrict = useCallback(async () => {
+    const res = await axios.get(
+      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${provinceId}`,
+      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
+    );
+    setHuyen(res.data.data);
+  }, [provinceId]);
+
+  const handleOnclickWard = useCallback(async () => {
+    const res = await axios.get(
+      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${districtId}`,
+      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
+    );
+    setPhuong(res.data.data);
+  }, [districtId]);
 
   useEffect(() => {
     if (isFirstRun1.current) {
@@ -82,7 +99,7 @@ function ItemInfo() {
       return;
     }
     handleOnclickDistrict();
-  }, [provinceId]);
+  }, [provinceId, handleOnclickDistrict]);
 
   useEffect(() => {
     if (isFirstRun1.current) {
@@ -90,7 +107,7 @@ function ItemInfo() {
       return;
     }
     handleOnclickWard();
-  }, [districtId]);
+  }, [districtId, handleOnclickWard]);
 
   const handleChangeProvince = async (event) => {
     setProvinceId(event.target.value);
@@ -111,22 +128,6 @@ function ItemInfo() {
     };
     getProvince();
   }, []);
-
-  const handleOnclickDistrict = async () => {
-    const res = await axios.get(
-      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${provinceId}`,
-      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
-    );
-    setHuyen(res.data.data);
-  };
-
-  const handleOnclickWard = async () => {
-    const res = await axios.get(
-      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${districtId}`,
-      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
-    );
-    setPhuong(res.data.data);
-  };
 
   const handleSubmit = () => {
     let province1, district1, ward1;

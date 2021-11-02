@@ -33,7 +33,7 @@ function FormInfoUser({ data, setData, setStatus, status }) {
         });
       }
     }
-  }, [auth.access_token]);
+  }, [auth.access_token, auth.user?.doseInformation, data, dispatch, setData]);
 
   const handleNextPage = () => {
     setStatus(status + 1);
@@ -97,7 +97,6 @@ function FormInfoUser({ data, setData, setStatus, status }) {
                       name="vaccineId"
                       value={item.name_vaccine}
                       onChange={handleOnChange}
-                      name="vaccineId"
                       disabled={true}
                     />
                   )

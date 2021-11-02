@@ -1,4 +1,5 @@
 import React, {
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -41,6 +42,22 @@ function InjectionModal({ action, item, status }) {
   const isFirstRun = useRef(true);
   const isFirstRun1 = useRef(true);
 
+  const handleOnclickDistrict = useCallback(async () => {
+    const res = await axios.get(
+      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${provinceId}`,
+      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
+    );
+    setHuyen(res.data.data);
+  }, [provinceId]);
+
+  const handleOnclickWard = useCallback(async () => {
+    const res = await axios.get(
+      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${districtId}`,
+      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
+    );
+    setPhuong(res.data.data);
+  }, [districtId]);
+
   useEffect(() => {
     if (action === "Xem") {
       setData(item);
@@ -76,7 +93,7 @@ function InjectionModal({ action, item, status }) {
       return;
     }
     handleOnclickDistrict();
-  }, [provinceId]);
+  }, [provinceId, handleOnclickDistrict]);
 
   useEffect(() => {
     if (isFirstRun1.current) {
@@ -84,7 +101,7 @@ function InjectionModal({ action, item, status }) {
       return;
     }
     handleOnclickWard();
-  }, [districtId]);
+  }, [districtId, handleOnclickWard]);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -111,22 +128,6 @@ function InjectionModal({ action, item, status }) {
     };
     getProvince();
   }, []);
-
-  const handleOnclickDistrict = async () => {
-    const res = await axios.get(
-      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${provinceId}`,
-      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
-    );
-    setHuyen(res.data.data);
-  };
-
-  const handleOnclickWard = async () => {
-    const res = await axios.get(
-      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${districtId}`,
-      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
-    );
-    setPhuong(res.data.data);
-  };
 
   const handleSubmit = () => {
     if (action === "Thêm") {

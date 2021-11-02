@@ -64,7 +64,7 @@ function FormImport() {
                 <div className="">Bước 1: Tải file mẫu và cập nhật dữ liệu</div>
                 <div className="">
                   Bước 2: Tải công cụ chuẩn hoá dữ liệu trên file mẫu nếu cần
-                  tại <a href="">đây</a>
+                  tại <button>đây</button>
                 </div>
                 <div className="">Bước 3: Tải file lên hệ thống</div>
               </div>

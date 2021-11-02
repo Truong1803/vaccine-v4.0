@@ -6,11 +6,12 @@ import React, {
 import { getAPI } from '../../api/FetchData';
 
 function TopData() {
-  const [data, setData] = useState("");
+  const [data, setData] = useState(0);
   useEffect(() => {
     const getData = async () => {
       const res = await getAPI("/report/report-top-data");
       setData(res.data.data);
+      console.log(res.data.data);
     };
     getData();
   }, []);

@@ -49,5 +49,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000/api"
+  "proxy": "https://calm-garden-43735.herokuapp.com/api",
+  "homepage": "./"
 }
