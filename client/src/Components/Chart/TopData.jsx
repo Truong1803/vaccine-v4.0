@@ -1,9 +1,6 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import { getAPI } from '../../api/FetchData';
+import { getAPI } from "../../api/FetchData";
 
 function TopData() {
   const [data, setData] = useState(0);
@@ -11,7 +8,6 @@ function TopData() {
     const getData = async () => {
       const res = await getAPI("/report/report-top-data");
       setData(res.data.data);
-      console.log(res.data.data);
     };
     getData();
   }, []);

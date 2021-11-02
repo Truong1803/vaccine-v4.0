@@ -1,21 +1,16 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
-import { getAPI } from '../../api/FetchData';
-import InjectionPlan from './InjectionPlan';
+import { getAPI } from "../../api/FetchData";
+import InjectionPlan from "./InjectionPlan";
 
 function ListOrganizationInjection() {
   const dispatch = useDispatch();
   const { auth, alert } = useSelector((state) => state);
 
-  const [vaccineId, setVaccineId] = useState(0);
+  //const [vaccineId, setVaccineId] = useState(0);
+  const vaccineId = 0;
   const [listOrgan, setListOrgan] = useState([]);
   // const [showModal, setShowModal] = useState(false);
   const [showPlan, setShowPlan] = useState(false);
@@ -56,14 +51,17 @@ function ListOrganizationInjection() {
     listOrgan.forEach((item) => {
       item.checked = false;
     });
-    let size1 = 0;
-    if (size === "0") return;
-    else size1 = parseInt(size);
+    // let size1 = 0;
+    // if (size === "0") return;
+    // else size1 = parseInt(size);
 
-    let value = 0;
     const x = listOrgan.length;
-    if (x > size) value = size;
-    else value = x;
+    // let value = 0;
+    // if (x > size) {
+    //   value = size;
+    // } else {
+    //   value = x;
+    // }
     for (let i = 0; i < x; i++) {
       listOrgan[i].checked = true;
     }

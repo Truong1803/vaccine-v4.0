@@ -1,15 +1,9 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
-import { setScheduleInjection } from '../../redux/actions/scheduleAction';
-import { getDataVaccine } from '../../redux/actions/vaccineAction';
+import { setScheduleInjection } from "../../redux/actions/scheduleAction";
+import { getDataVaccine } from "../../redux/actions/vaccineAction";
 
 function InjectionPlan({
   setShowPlan,
@@ -66,7 +60,7 @@ function InjectionPlan({
 
   const handleSubmit = () => {
     if (check === "user") {
-      listUser1.map((item) => {
+      listUser1.forEach((item) => {
         if (item.checked === true) {
           const { userId, healthOrganizationId, vaccineId, dose } = item;
           data.push({
@@ -80,7 +74,7 @@ function InjectionPlan({
         }
       });
     } else {
-      listUser1.map((item) => {
+      listUser1.forEach((item) => {
         if (item.checked === true) {
           const {
             userId,

@@ -1,18 +1,11 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
-import { getAPI } from '../../api/FetchData';
-import { getDataVaccine } from '../../redux/actions/vaccineAction';
-import ModalRegisterInjection
-  from '../RegisterInjection/ModalRegisterInjection';
-import InjectionPlan from './InjectionPlan';
+import { getAPI } from "../../api/FetchData";
+import { getDataVaccine } from "../../redux/actions/vaccineAction";
+import ModalRegisterInjection from "../RegisterInjection/ModalRegisterInjection";
+import InjectionPlan from "./InjectionPlan";
 
 function ListUserInjection() {
   const dispatch = useDispatch();
@@ -72,14 +65,14 @@ function ListUserInjection() {
     listUser.forEach((item) => {
       item.checked = false;
     });
-    let size1 = 0;
-    if (size === "0") return;
-    else size1 = parseInt(size);
+    // let size1 = 0;
+    // if (size === "0") return;
+    // else size1 = parseInt(size);
 
-    let value = 0;
     const x = listUser.length;
-    if (x > size) value = size;
-    else value = x;
+    // let value = 0;
+    // if (x > size) value = size;
+    // else value = x;
     for (let i = 0; i < x; i++) {
       listUser[i].checked = true;
     }
