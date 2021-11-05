@@ -63,7 +63,13 @@ function ItemInfo() {
   const handleOnclickDistrict = useCallback(async () => {
     const res = await axios.get(
       `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${provinceId}`,
-      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
+      {
+        mode: "no-cors",
+        headers: {
+          token: "66e22083-17df-11ec-b8c6-fade198b4859",
+        },
+        withCredentials: false,
+      }
     );
     setHuyen(res.data.data);
   }, [provinceId]);
@@ -71,7 +77,13 @@ function ItemInfo() {
   const handleOnclickWard = useCallback(async () => {
     const res = await axios.get(
       `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${districtId}`,
-      { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
+      {
+        mode: "no-cors",
+        headers: {
+          token: "66e22083-17df-11ec-b8c6-fade198b4859",
+        },
+        withCredentials: false,
+      }
     );
     setPhuong(res.data.data);
   }, [districtId]);
@@ -122,7 +134,13 @@ function ItemInfo() {
     const getProvince = async () => {
       const res = await axios.get(
         "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province",
-        { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
+        {
+          mode: "no-cors",
+          headers: {
+            token: "66e22083-17df-11ec-b8c6-fade198b4859",
+          },
+          withCredentials: false,
+        }
       );
       setTinh(res.data.data);
     };

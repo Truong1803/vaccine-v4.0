@@ -13,7 +13,7 @@ function LeftBar() {
         <li className="nav-item">
           <Link
             className="nav-link nav-link-collapse"
-            to="/#"
+            to="#"
             id="hasSubItems"
             data-toggle="collapse"
             data-target="#collapseSubItems4"

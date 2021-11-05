@@ -1,39 +1,40 @@
 import axios from 'axios';
 
-console.log(process.env.NODE_ENV);
+axios.defaults.withCredentials = true;
+
 export const apiUrl =
   process.env.NODE_ENV !== "production"
     ? "http://localhost:5000/api"
     : "https://calm-garden-43735.herokuapp.com/api";
 
 export const postAPI = async (url, post, token = "") => {
-  const res = await axios.post(url, post, {
+  const res = await axios.post(apiUrl + url, post, {
     headers: { Authorization: token },
   });
   return res;
 };
 
 export const getAPI = async (url, token = "") => {
-  const res = await axios.get(url, {
+  const res = await axios.get(apiUrl + url, {
     headers: { Authorization: token },
   });
   return res;
 };
 
 export const putAPI = async (url, post, token = "") => {
-  const res = await axios.put(url, post, {
+  const res = await axios.put(apiUrl + url, post, {
     headers: { Authorization: token },
   });
   return res;
 };
 export const patchAPI = async (url, post, token = "") => {
-  const res = await axios.patch(url, post, {
+  const res = await axios.patch(apiUrl + url, post, {
     headers: { Authorization: token },
   });
   return res;
 };
 export const deleteAPI = async (url, token = "") => {
-  const res = await axios.delete(url, {
+  const res = await axios.delete(apiUrl + url, {
     headers: { Authorization: token },
   });
   return res;

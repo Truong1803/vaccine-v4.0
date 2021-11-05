@@ -10,6 +10,7 @@ function Menu() {
   return (
     <>
       {auth.user?.role !== 1 &&
+      auth.user?.role !== 2 &&
       Object.keys(auth).length !== 0 &&
       auth !== "pending" ? (
         <>
