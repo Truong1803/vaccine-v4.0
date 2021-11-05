@@ -37,7 +37,7 @@ export const TableDataForVaccine = ({ provinceId, startDate, endDate }) => {
       distpatch({ type: ALERT, payload: { loading: false } });
     };
     getData();
-  }, [provinceId, startDate, endDate]);
+  }, [provinceId, startDate, endDate, distpatch]);
 
   const hanleOpenModal = (user) => {
     setListUser(user);

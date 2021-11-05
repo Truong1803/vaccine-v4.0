@@ -6,7 +6,6 @@ export const apiUrl =
   process.env.NODE_ENV !== "production"
     ? "http://localhost:5000/api"
     : "https://calm-garden-43735.herokuapp.com/api";
-
 export const postAPI = async (url, post, token = "") => {
   const res = await axios.post(apiUrl + url, post, {
     headers: { Authorization: token },

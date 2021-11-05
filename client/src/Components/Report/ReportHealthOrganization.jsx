@@ -51,7 +51,7 @@ function ReportHealthOrganization() {
       };
       getData();
     }
-  }, [startDate, endDate, auth.access_token]);
+  }, [startDate, endDate, auth.access_token, dispatch]);
   const tableRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => tableRef.current,
