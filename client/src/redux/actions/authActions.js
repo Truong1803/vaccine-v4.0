@@ -10,7 +10,9 @@ import {
 
 export const loginSMS = (phonenumber) => async (dispatch) => {
   try {
+    dispatch({ type: ALERT, payload: { loading: true } });
     await postAPI("/auth/login_sms", { phonenumber });
+    dispatch({ type: ALERT, payload: { loading: false } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
@@ -20,7 +22,7 @@ export const verifySMS =
   (phonenumber, code, identification = "") =>
   async (dispatch) => {
     try {
-      // dispatch({ type: ALERT, payload: { loading: true } });
+      dispatch({ type: ALERT, payload: { loading: true } });
       const res = await postAPI("/auth/verify_otp", { phonenumber, code });
       if (res.data.msg === "Login Success") {
         dispatch({
@@ -40,6 +42,7 @@ export const verifySMS =
         const data = JSON.stringify({ phonenumber, identification });
         localStorage.setItem("infor", data);
       }
+      dispatch({ type: ALERT, payload: { loading: false } });
     } catch (error) {
       dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
       setTimeout(() => {
@@ -49,12 +52,14 @@ export const verifySMS =
   };
 export const activeEmail = (active_token) => async (dispatch) => {
   try {
+    dispatch({ type: ALERT, payload: { loading: true } });
     const res = await postAPI("/active_email", active_token);
     dispatch({
       type: AUTH,
       payload: res.data,
     });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
+    dispatch({ type: ALERT, payload: { loading: false } });
     localStorage.setItem("logged", "true");
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
@@ -62,13 +67,14 @@ export const activeEmail = (active_token) => async (dispatch) => {
 };
 export const loginOrgan = (userLogin) => async (dispatch) => {
   try {
-    // dispatch({ type: ALERT, payload: { loading: true } });
+    dispatch({ type: ALERT, payload: { loading: true } });
     const res = await postAPI("/auth/login_organ", userLogin);
     dispatch({
       type: AUTH,
       payload: res.data,
     });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
+    dispatch({ type: ALERT, payload: { loading: false } });
     localStorage.setItem("logged", "true");
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
@@ -76,13 +82,14 @@ export const loginOrgan = (userLogin) => async (dispatch) => {
 };
 export const updateInfor = (userInfo) => async (dispatch) => {
   try {
-    // dispatch({ type: ALERT, payload: { loading: true } });
+    dispatch({ type: ALERT, payload: { loading: true } });
     const res = await postAPI("/auth/update_infor", userInfo);
     dispatch({
       type: AUTH,
       payload: res.data,
     });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
+    dispatch({ type: ALERT, payload: { loading: false } });
     localStorage.setItem("logged", "true");
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
@@ -90,7 +97,9 @@ export const updateInfor = (userInfo) => async (dispatch) => {
 };
 export const registerUser = (userRegister) => async (dispatch) => {
   try {
+    dispatch({ type: ALERT, payload: { loading: true } });
     await postAPI("/auth/register_sms", userRegister);
+    dispatch({ type: ALERT, payload: { loading: false } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
@@ -104,10 +113,11 @@ export const registerOrgan = (userRegister) => async (dispatch) => {
       payload: { errors: "Email incorrect fomat" },
     });
   try {
-    // dispatch({ type: ALERT, payload: { loading: true } });
+    dispatch({ type: ALERT, payload: { loading: true } });
     const res = await postAPI("/auth/register_organ", userRegister);
 
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
+    dispatch({ type: ALERT, payload: { loading: false } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
@@ -127,11 +137,11 @@ export const refreshToken = () => async (dispatch) => {
   const logged = localStorage.getItem("logged");
   if (logged !== "true") return;
   try {
-    // dispatch({ type: ALERT, payload: { loading: true } });
-    const res = await getAPI(`/auth/refresh_token`);
+    dispatch({ type: ALERT, payload: { loading: true } });
+    const res = await getAPI("/auth/refresh_token");
     dispatch({ type: AUTH, payload: res.data });
 
-    dispatch({ type: ALERT, payload: {} });
+    dispatch({ type: ALERT, payload: { loading: false } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }

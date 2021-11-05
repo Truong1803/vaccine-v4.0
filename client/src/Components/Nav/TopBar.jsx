@@ -1,15 +1,12 @@
-import './Nav.css';
+import "./Nav.css";
 
-import React from 'react';
+import React from "react";
 
-import { Dropdown } from 'react-bootstrap';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Dropdown } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-import { logout } from '../../redux/actions/authActions';
+import { logout } from "../../redux/actions/authActions";
 
 function TopBar() {
   const { auth } = useSelector((state) => state);
@@ -22,15 +19,15 @@ function TopBar() {
   let body;
   if (Object.keys(auth).length === 0) {
     body = (
-      <ul className="navbar-nav mr-auto ">
-        <li className="nav-item itemNavbar ">
-          <Link className="nav-link itemNavbar" to="/">
+      <ul className='navbar-nav mr-auto '>
+        <li className='nav-item itemNavbar '>
+          <Link className='nav-link itemNavbar' to='/'>
             Trang chủ
           </Link>
         </li>
 
         <li>
-          <Link className="nav-link itemNavbar" to="/sign_in">
+          <Link className='nav-link itemNavbar' to='/sign_in'>
             Đăng Nhập
           </Link>
         </li>
@@ -38,56 +35,56 @@ function TopBar() {
     );
   } else if (auth?.user?.role === 1) {
     body = (
-      <ul className="navbar-nav mr-auto ">
-        <li className="nav-item itemNavbar ">
-          <Link className="nav-link itemNavbar" to="/">
+      <ul className='navbar-nav mr-auto '>
+        <li className='nav-item itemNavbar '>
+          <Link className='nav-link itemNavbar' to='/'>
             Trang chủ
           </Link>
         </li>
 
-        <li className="nav-item dropdown">
-          <Link className="nav-link itemNavbar" to="/register_injection_user">
+        <li className='nav-item dropdown'>
+          <Link className='nav-link itemNavbar' to='/register_injection_user'>
             Đăng ký tiêm
           </Link>
         </li>
-        <li className="nav-item dropdown">
+        <li className='nav-item dropdown'>
           <Dropdown>
             <Dropdown.Toggle
-              variant="interhit"
-              id="dropdown-basic"
+              variant='interhit'
+              id='dropdown-basic'
               style={{
                 color: "#fff",
 
                 borderColor: "none",
               }}
-              className="none_outline"
+              className='none_outline'
             >
               Tra cứu
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
               <Dropdown.Item>
-                <Link to="/certificate" className="none_outline">
+                <Link to='/certificate' className='none_outline'>
                   Tra cứu chứng nhận tiêm
                 </Link>
               </Dropdown.Item>
               <Dropdown.Item>
-                <Link to="/look_up" className="none_outline">
+                <Link to='/look_up' className='none_outline'>
                   Tra cứu kết quả đăng ký
                 </Link>
               </Dropdown.Item>
               <Dropdown.Item>
-                <Link to="/health-record-user" className="none_outline">
+                <Link to='/health-record-user' className='none_outline'>
                   Tra cứu hồ sơ tiêm chủng
                 </Link>
               </Dropdown.Item>
               <Dropdown.Item>
-                <Link to="/admin/injection_unit" className="none_outline">
+                <Link to='/admin/injection_unit' className='none_outline'>
                   Tra cứu thông tin đơn vị tiêm chủng
                 </Link>
               </Dropdown.Item>
               <Dropdown.Item>
-                <Link to="/admin/manage_vaccine" className="none_outline">
+                <Link to='/admin/manage_vaccine' className='none_outline'>
                   Tra cứu thông tin vaccine
                 </Link>
               </Dropdown.Item>
@@ -95,7 +92,7 @@ function TopBar() {
           </Dropdown>
         </li>
 
-        <li className="nav-item dropdown">
+        <li className='nav-item dropdown'>
           {auth.user?.name || auth.user?.organization ? (
             // <Link
             //   className="nav-link itemNavbar "
@@ -106,33 +103,33 @@ function TopBar() {
             // </Link>
             <Dropdown>
               <Dropdown.Toggle
-                variant="interhit"
-                id="dropdown-basic"
+                variant='interhit'
+                id='dropdown-basic'
                 style={{
                   color: "#fff",
 
                   borderColor: "none",
                 }}
-                className="none_outline"
+                className='none_outline'
               >
                 {auth.user?.name || auth.user?.organization}
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
                 <Dropdown.Item>
-                  <Link to="/info" className="none_outline">
+                  <Link to='/info' className='none_outline'>
                     Thông tin cá nhân
                   </Link>
                 </Dropdown.Item>
                 <Dropdown.Item>
-                  <Link to="/" onClick={logoutUser} className="none_outline">
+                  <Link to='/' onClick={logoutUser} className='none_outline'>
                     Đăng Xuất
                   </Link>
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           ) : (
-            <Link className="nav-link itemNavbar" to="/sign_in">
+            <Link className='nav-link itemNavbar' to='/sign_in'>
               Đăng Nhập
             </Link>
           )}
@@ -141,111 +138,131 @@ function TopBar() {
     );
   } else if (auth?.user?.role === 2) {
     body = (
-      <ul className="navbar-nav mr-auto ">
-        <li className="nav-item itemNavbar ">
-          <Link className="nav-link itemNavbar" to="/">
-            Trang chủ
-          </Link>
-        </li>
+      <div className='col'>
+        <button
+          className='navbar-toggler'
+          type='button'
+          data-toggle='collapse'
+          data-target='#navbarSupportedContent'
+          aria-controls='navbarSupportedContent'
+          aria-expanded='false'
+          aria-label='Toggle navigation'
+        >
+          <span className='navbar-toggler-icon'></span>
+        </button>
 
-        <li className="nav-item dropdown">
-          <Link
-            className="nav-link itemNavbar"
-            to="/register_injection_organization"
-          >
-            Đăng ký tiêm
-          </Link>
-        </li>
-        <li className="nav-item dropdown">
-          <Dropdown>
-            <Dropdown.Toggle
-              variant="interhit"
-              id="dropdown-basic"
-              style={{
-                color: "#fff",
+        <div className='collapse navbar-collapse  ' id='navbarSupportedContent'>
+          <ul className='navbar-nav mr-auto '>
+            <li className='nav-item itemNavbar '>
+              <Link className='nav-link itemNavbar' to='/'>
+                Trang chủ
+              </Link>
+            </li>
 
-                borderColor: "none",
-              }}
-              className="none_outline"
-            >
-              Tra cứu
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              <Dropdown.Item>
-                <Link to="/look_up" className="none_outline">
-                  Tra cứu kết quả đăng ký
-                </Link>
-              </Dropdown.Item>
-
-              <Dropdown.Item>
-                <Link to="/admin/injection_unit" className="none_outline">
-                  Tra cứu thông tin đơn vị tiêm chủng
-                </Link>
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <Link to="/admin/manage_vaccine" className="none_outline">
-                  Tra cứu thông tin vaccine
-                </Link>
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </li>
-
-        <li className="nav-item dropdown">
-          {auth.user?.name || auth.user?.organization ? (
-            // <Link
-            //   className="nav-link itemNavbar "
-            //   to="#"
-            //   onClick={logoutUser}
-            // >
-            //   {auth.user?.name || auth.user?.organization}
-            // </Link>
-            <Dropdown>
-              <Dropdown.Toggle
-                variant="interhit"
-                id="dropdown-basic"
-                style={{
-                  color: "#fff",
-
-                  borderColor: "none",
-                }}
-                className="none_outline"
+            <li className='nav-item dropdown'>
+              <Link
+                className='nav-link itemNavbar'
+                to='/register_injection_organization'
               >
-                {auth.user?.name || auth.user?.organization}
-              </Dropdown.Toggle>
+                Đăng ký tiêm
+              </Link>
+            </li>
+            <li className='nav-item dropdown'>
+              <Dropdown>
+                <Dropdown.Toggle
+                  variant='interhit'
+                  id='dropdown-basic'
+                  style={{
+                    color: "#fff",
 
-              <Dropdown.Menu>
-                <Dropdown.Item>
-                  <Link to="/info" className="none_outline">
-                    Thông tin cá nhân
-                  </Link>
-                </Dropdown.Item>
-                <Dropdown.Item>
-                  <Link to="/" onClick={logoutUser} className="none_outline">
-                    Đăng Xuất
-                  </Link>
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          ) : (
-            <Link className="nav-link itemNavbar" to="/sign_in">
-              Đăng Nhập
-            </Link>
-          )}
-        </li>
-      </ul>
+                    borderColor: "none",
+                  }}
+                  className='none_outline'
+                >
+                  Tra cứu
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item>
+                    <Link to='/look_up' className='none_outline'>
+                      Tra cứu kết quả đăng ký
+                    </Link>
+                  </Dropdown.Item>
+
+                  <Dropdown.Item>
+                    <Link to='/admin/injection_unit' className='none_outline'>
+                      Tra cứu thông tin đơn vị tiêm chủng
+                    </Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <Link to='/admin/manage_vaccine' className='none_outline'>
+                      Tra cứu thông tin vaccine
+                    </Link>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </li>
+
+            <li className='nav-item dropdown'>
+              {auth.user?.name || auth.user?.organization ? (
+                // <Link
+                //   className="nav-link itemNavbar "
+                //   to="#"
+                //   onClick={logoutUser}
+                // >
+                //   {auth.user?.name || auth.user?.organization}
+                // </Link>
+                <Dropdown>
+                  <Dropdown.Toggle
+                    variant='interhit'
+                    id='dropdown-basic'
+                    style={{
+                      color: "#fff",
+
+                      borderColor: "none",
+                    }}
+                    className='none_outline'
+                  >
+                    {auth.user?.name || auth.user?.organization}
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item>
+                      <Link to='/info' className='none_outline'>
+                        Thông tin cá nhân
+                      </Link>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                      <Link
+                        to='/'
+                        onClick={logoutUser}
+                        className='none_outline'
+                      >
+                        Đăng Xuất
+                      </Link>
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              ) : (
+                <Link className='nav-link itemNavbar' to='/sign_in'>
+                  Đăng Nhập
+                </Link>
+              )}
+            </li>
+          </ul>
+        </div>
+      </div>
     );
   } else {
     body = (
-      <ul className="navbar-nav mr-auto ">
-        <li className="nav-item itemNavbar ">
-          <Link className="nav-link itemNavbar" to="/">
+      <ul className='navbar-nav mr-auto '>
+        <li className='nav-item itemNavbar '>
+          <Link className='nav-link itemNavbar' to='/'>
             Trang chủ
           </Link>
         </li>
 
-        <li className="nav-item dropdown">
+        <li className='nav-item dropdown'>
           {auth.user?.name || auth.user?.organization ? (
             // <Link
             //   className="nav-link itemNavbar "
@@ -256,33 +273,33 @@ function TopBar() {
             // </Link>
             <Dropdown>
               <Dropdown.Toggle
-                variant="interhit"
-                id="dropdown-basic"
+                variant='interhit'
+                id='dropdown-basic'
                 style={{
                   color: "#fff",
 
                   borderColor: "none",
                 }}
-                className="none_outline"
+                className='none_outline'
               >
                 {auth.user?.name || auth.user?.organization}
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
                 <Dropdown.Item>
-                  <Link to="/info" className="none_outline">
+                  <Link to='/info' className='none_outline'>
                     Thông tin cá nhân
                   </Link>
                 </Dropdown.Item>
                 <Dropdown.Item>
-                  <Link to="/" onClick={logoutUser} className="none_outline">
+                  <Link to='/' onClick={logoutUser} className='none_outline'>
                     Đăng Xuất
                   </Link>
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           ) : (
-            <Link className="nav-link itemNavbar" to="/sign_in">
+            <Link className='nav-link itemNavbar' to='/sign_in'>
               Đăng Nhập
             </Link>
           )}
@@ -293,31 +310,14 @@ function TopBar() {
 
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-light bgTopBar d-flex ">
-        <div className="col-6">
-          <Link className="navbar-brand titleHome itemNavbar ml-5" to="/">
+      <nav className='navbar navbar-expand-lg navbar-light bgTopBar d-flex '>
+        <div className='col'>
+          <Link className='navbar-brand titleHome itemNavbar ml-5' to='/'>
             Cổng thông tin tiêm chủng
           </Link>
         </div>
-        <div className="col-6">
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div
-            className="collapse navbar-collapse  "
-            id="navbarSupportedContent"
-          >
-            {body}
-            {/* <ul className="navbar-nav mr-auto ">
+        {body}
+        {/* <ul className="navbar-nav mr-auto ">
               <li className="nav-item itemNavbar ">
                 <Link className="nav-link itemNavbar" to="/">
                   Trang chủ
@@ -451,8 +451,6 @@ function TopBar() {
                 )}
               </li>
             </ul> */}
-          </div>
-        </div>
       </nav>
     </div>
   );
