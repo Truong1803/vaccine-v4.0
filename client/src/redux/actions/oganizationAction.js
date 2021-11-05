@@ -52,7 +52,7 @@ export const createOrgan = (newOrgan, access_token) => async (dispatch) => {
     dispatch({ type: ADD_QH, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
     dispatch({ type: ADD_PAGE, payload: 1 });
-    dispatch({ type: ALERT, payload: { loading: false } });
+    // dispatch({ type: ALERT, payload: { loading: false } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
@@ -68,7 +68,7 @@ export const updateOrgan = (newOrgan, access_token) => async (dispatch) => {
     );
     dispatch({ type: EDIT_QH, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
-    dispatch({ type: ALERT, payload: { loading: false } });
+    // dispatch({ type: ALERT, payload: { loading: false } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
@@ -85,7 +85,7 @@ export const createOrganWard = (newOrgan, access_token) => async (dispatch) => {
     dispatch({ type: ADD_QH, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
     dispatch({ type: ADD_PAGE, payload: 1 });
-    dispatch({ type: ALERT, payload: { loading: false } });
+    // dispatch({ type: ALERT, payload: { loading: false } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
@@ -101,7 +101,7 @@ export const updateOrganWard = (newOrgan, access_token) => async (dispatch) => {
     );
     dispatch({ type: EDIT_QH, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
-    dispatch({ type: ALERT, payload: { loading: false } });
+    // dispatch({ type: ALERT, payload: { loading: false } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
@@ -113,7 +113,7 @@ export const deleteOrgan = (organId, token) => async (dispatch) => {
     const res = await deleteAPI(`/health-organization/${organId}`, token);
     dispatch({ type: DELETE_QH, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
-    dispatch({ type: ALERT, payload: { loading: false } });
+    // dispatch({ type: ALERT, payload: { loading: false } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
@@ -122,6 +122,7 @@ export const deleteOrgan = (organId, token) => async (dispatch) => {
 export const updateOrganAdmin =
   (newOrgan, access_token) => async (dispatch) => {
     try {
+      dispatch({ type: ALERT, payload: { loading: true } });
       const res = await patchAPI(
         `/health-organization/admin/${newOrgan._id}`,
         newOrgan,
@@ -136,6 +137,7 @@ export const updateOrganAdmin =
 export const createOrganAdmin =
   (newOrgan, access_token) => async (dispatch) => {
     try {
+      dispatch({ type: ALERT, payload: { loading: true } });
       const res = await postAPI(
         "/health-organization/admin",
         newOrgan,

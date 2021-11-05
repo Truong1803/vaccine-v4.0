@@ -45,7 +45,7 @@ export const deleteCompany = (organId, token) => async (dispatch) => {
     const res = await deleteAPI(`/organization/${organId}`, token);
     dispatch({ type: DELETE_COMPANY, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
-    dispatch({ type: ALERT, payload: { loading: false } });
+    // dispatch({ type: ALERT, payload: { loading: false } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
@@ -62,7 +62,7 @@ export const updateCompanyAdmin =
       );
       dispatch({ type: EDIT_COMPANY, payload: res.data.data });
       dispatch({ type: ALERT, payload: { success: res.data.msg } });
-      dispatch({ type: ALERT, payload: { loading: false } });
+      // dispatch({ type: ALERT, payload: { loading: false } });
     } catch (error) {
       dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
     }
@@ -75,7 +75,7 @@ export const createCompanyAdmin =
       dispatch({ type: ADD_COMPANY, payload: res.data.data });
       dispatch({ type: ALERT, payload: { success: res.data.msg } });
       dispatch({ type: ADD_PAGE, payload: 1 });
-      dispatch({ type: ALERT, payload: { loading: false } });
+      // dispatch({ type: ALERT, payload: { loading: false } });
     } catch (error) {
       dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
     }

@@ -74,7 +74,7 @@ export const loginOrgan = (userLogin) => async (dispatch) => {
       payload: res.data,
     });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
-    dispatch({ type: ALERT, payload: { loading: false } });
+    // dispatch({ type: ALERT, payload: { loading: false } });
     localStorage.setItem("logged", "true");
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
@@ -82,14 +82,15 @@ export const loginOrgan = (userLogin) => async (dispatch) => {
 };
 export const updateInfor = (userInfo) => async (dispatch) => {
   try {
-    dispatch({ type: ALERT, payload: { loading: true } });
+    // dispatch({ type: ALERT, payload: { loading: true } });
     const res = await postAPI("/auth/update_infor", userInfo);
     dispatch({
       type: AUTH,
       payload: res.data,
     });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
-    dispatch({ type: ALERT, payload: { loading: false } });
+    // console.log(res.data.msg);
+    // dispatch({ type: ALERT, payload: { loading: false } });
     localStorage.setItem("logged", "true");
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
@@ -117,7 +118,7 @@ export const registerOrgan = (userRegister) => async (dispatch) => {
     const res = await postAPI("/auth/register_organ", userRegister);
 
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
-    dispatch({ type: ALERT, payload: { loading: false } });
+    // dispatch({ type: ALERT, payload: { loading: false } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
@@ -137,11 +138,11 @@ export const refreshToken = () => async (dispatch) => {
   const logged = localStorage.getItem("logged");
   if (logged !== "true") return;
   try {
-    dispatch({ type: ALERT, payload: { loading: true } });
+    // dispatch({ type: ALERT, payload: { loading: true } });
     const res = await getAPI("/auth/refresh_token");
     dispatch({ type: AUTH, payload: res.data });
 
-    dispatch({ type: ALERT, payload: { loading: false } });
+    // dispatch({ type: ALERT, payload: { loading: false } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }

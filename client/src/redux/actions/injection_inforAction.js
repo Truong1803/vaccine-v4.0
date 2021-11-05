@@ -47,7 +47,7 @@ export const updatePreInjection =
         access_token
       );
       dispatch({ type: ALERT, payload: { success: res.data.msg } });
-      dispatch({ type: ALERT, payload: { loading: false } });
+      // dispatch({ type: ALERT, payload: { loading: false } });
     } catch (error) {
       dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
     }
@@ -63,7 +63,7 @@ export const updatePostInjection =
         access_token
       );
       dispatch({ type: ALERT, payload: { success: res.data.msg } });
-      dispatch({ type: ALERT, payload: { loading: false } });
+      // dispatch({ type: ALERT, payload: { loading: false } });
     } catch (error) {
       dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
     }

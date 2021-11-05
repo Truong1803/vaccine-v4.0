@@ -37,7 +37,7 @@ export const createVaccine = (newVaccine, token) => async (dispatch) => {
     dispatch({ type: ADD_VACCINE, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
     dispatch({ type: ADD_PAGE, payload: 1 });
-    dispatch({ type: ALERT, payload: { loading: false } });
+    // dispatch({ type: ALERT, payload: { loading: false } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
@@ -49,7 +49,7 @@ export const updateVaccine = (newVaccine, token) => async (dispatch) => {
     const res = await putAPI(`/vaccine/${newVaccine._id}`, newVaccine, token);
     dispatch({ type: EDIT_VACCINE, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
-    dispatch({ type: ALERT, payload: { loading: false } });
+    // dispatch({ type: ALERT, payload: { loading: false } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
@@ -60,7 +60,7 @@ export const deleteVaccine = (vaccineId, token) => async (dispatch) => {
     const res = await deleteAPI(`/vaccine/${vaccineId}`, token);
     dispatch({ type: DELETE_VACCINE, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
-    dispatch({ type: ALERT, payload: { loading: true } });
+    // dispatch({ type: ALERT, payload: { loading: true } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }

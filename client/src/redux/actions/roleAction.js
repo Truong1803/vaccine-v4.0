@@ -32,7 +32,7 @@ export const createRole = (newRole, token) => async (dispatch) => {
     const res = await postAPI("/role", newRole, token);
     dispatch({ type: ADD_ROLE, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
-    dispatch({ type: ALERT, payload: { loading: false } });
+    // dispatch({ type: ALERT, payload: { loading: false } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
@@ -44,7 +44,7 @@ export const updateRole = (newRole, token) => async (dispatch) => {
     const res = await putAPI(`/role/${newRole._id}`, newRole, token);
     dispatch({ type: EDIT_ROLE, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
-    dispatch({ type: ALERT, payload: { loading: false } });
+    // dispatch({ type: ALERT, payload: { loading: false } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
@@ -55,7 +55,7 @@ export const deleteRole = (roleId, token) => async (dispatch) => {
     const res = await deleteAPI(`/role/${roleId}`, token);
     dispatch({ type: DELETE_ROLE, payload: res.data.data });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
-    dispatch({ type: ALERT, payload: { loading: false } });
+    // dispatch({ type: ALERT, payload: { loading: false } });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }

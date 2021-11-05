@@ -23,7 +23,7 @@ export const InjectionRegisterOrgan =
         payload: { success: res.data.data },
       });
       dispatch({ type: ALERT, payload: { success: res.data.msg } });
-      dispatch({ type: ALERT, payload: { loading: false } });
+      // dispatch({ type: ALERT, payload: { loading: false } });
     } catch (error) {
       dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
     }
