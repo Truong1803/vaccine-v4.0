@@ -7,8 +7,10 @@ import { getAPI } from '../../api/FetchData';
 
 function TopData() {
   const [data, setData] = useState(0);
+  // const dispatch = useDispatch();
   useEffect(() => {
     const getData = async () => {
+      // dispatch({ type: ALERT, payload: { loading: true } });
       const res = await getAPI("/report/report-top-data");
       setData(res.data.data);
     };

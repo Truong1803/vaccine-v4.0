@@ -1,4 +1,9 @@
-import { deleteAPI, getAPI, postAPI, putAPI } from "../../api/FetchData";
+import {
+  deleteAPI,
+  getAPI,
+  postAPI,
+  putAPI,
+} from '../../api/FetchData';
 import {
   ADD_PAGE,
   ADD_VACCINE,
@@ -7,7 +12,7 @@ import {
   EDIT_VACCINE,
   GET_PAGE,
   GET_VACCINE,
-} from "../containt";
+} from '../containt';
 
 export const getDataVaccine =
   (page = 1, search = "") =>
@@ -19,7 +24,7 @@ export const getDataVaccine =
       );
       dispatch({ type: GET_PAGE, payload: res.data.total });
       dispatch({ type: GET_VACCINE, payload: res.data.data });
-      // dispatch({ type: ALERT, payload: { loading: false } });
+      // dispatch({ type: ALERT, payload: { loading: true } });
     } catch (error) {
       dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
     }

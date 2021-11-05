@@ -297,11 +297,7 @@ const sendToken = (user, res, txt) => {
     // secure: true,
     httpOnly: true,
     path: `auth/refresh_token`,
-<<<<<<< HEAD
     maxAge: 7 * 24 * 60 * 60 * 1000,
-=======
-    maxAge: 30 * 24 * 60 * 60 * 1000, // 30days
->>>>>>> c0068f39feb9a84ab44969bf158e5d9518224031
   });
 
   res.json({
