@@ -14,39 +14,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
+    methods: "GET,POST,PATCH,DELETE,OPTIONS",
+    optionsSuccessStatus: 200,
     origin: `${process.env.BASE_URL}`,
-    credentials: true,
   })
 );
+app.options("*", cors());
 
-// app.use(
-//   cors({
-//     origin: "https://dev-online-gateway.ghn.vn/shiip/public-api/master-dat",
-//     credentials: true,
-//   })
-// );
 app.use(morgan("dev"));
 app.use(cookieParser());
 
-// // SET STORAGE
-// const upload = multer({ dest: "./public/data/uploads/" });
-
-// app.use(
-//   fileUpload({
-//     useTempFiles: true,
-//   })
-// );
-
 db.connectDB();
 //routes
-
-if (process.env.NODE_ENV == "production") {
-  app.use(express.static("client/build"));
-  const path = require("path");
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
-}
 
 app.use("/api/auth", routes.authRouter);
 app.use("/api/vaccine", routes.vaccineRouter);
