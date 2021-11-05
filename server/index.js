@@ -12,7 +12,19 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+app.use(
+  cors({
+    origin: `${process.env.BASE_URL}`,
+    credentials: true,
+  })
+);
+
+// app.use(
+//   cors({
+//     origin: "https://dev-online-gateway.ghn.vn/shiip/public-api/master-dat",
+//     credentials: true,
+//   })
+// );
 app.use(morgan("dev"));
 app.use(cookieParser());
 
@@ -27,6 +39,14 @@ app.use(cookieParser());
 
 db.connectDB();
 //routes
+
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static("client/build"));
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 app.use("/api/auth", routes.authRouter);
 app.use("/api/vaccine", routes.vaccineRouter);
