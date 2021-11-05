@@ -14,15 +14,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    methods: "GET,POST,PATCH,DELETE,OPTIONS",
-    optionsSuccessStatus: 200,
     origin: `${process.env.BASE_URL}`,
+    credentials: true,
   })
 );
-app.options("*", cors());
 app.use(morgan("dev"));
 app.use(cookieParser());
-
+app.use(function (req, res, next) {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://vaccination-truong1803.vercel.app"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  next();
+});
 db.connectDB();
 //routes
 
