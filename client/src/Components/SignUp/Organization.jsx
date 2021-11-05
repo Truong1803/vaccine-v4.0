@@ -1,15 +1,10 @@
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
-import { registerOrgan } from '../../redux/actions/authActions';
+import { registerOrgan } from "../../redux/actions/authActions";
 
 function Organization() {
   const email = useRef();
@@ -28,9 +23,6 @@ function Organization() {
   const [districtId, setDistrictId] = useState("");
   const [wardId, setWardId] = useState("");
 
-  const isFirstRun = useRef(true);
-  const isFirstRun1 = useRef(true);
-
   const handleOnclickDistrict = useCallback(async () => {
     const res = await axios.get(
       `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${provinceId}`,
@@ -48,19 +40,11 @@ function Organization() {
   }, [districtId]);
 
   useEffect(() => {
-    if (isFirstRun.current) {
-      isFirstRun.current = false;
-      return;
-    }
-    handleOnclickDistrict();
+    if (provinceId) handleOnclickDistrict();
   }, [provinceId, handleOnclickDistrict]);
 
   useEffect(() => {
-    if (isFirstRun1.current) {
-      isFirstRun1.current = false;
-      return;
-    }
-    handleOnclickWard();
+    if (districtId) handleOnclickWard();
   }, [districtId, handleOnclickWard]);
 
   const handleChangeProvince = async (event) => {

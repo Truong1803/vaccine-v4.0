@@ -1,6 +1,7 @@
-import axios from 'axios';
-
-import { getAPI } from '../../api/FetchData';
+import {
+  getAPI,
+  postAPI,
+} from '../../api/FetchData';
 import {
   ALERT,
   GET_INJECTION_REGISTER_ORGAN,
@@ -10,7 +11,7 @@ export const InjectionRegisterOrgan =
   (data, access_token) => async (dispatch) => {
     try {
       dispatch({ type: ALERT, payload: { loading: true } });
-      const res = await axios.post("/organ-injection-register", data, {
+      const res = await postAPI(`/organ-injection-register`, data, {
         headers: {
           "content-type": "multipart/form-data",
           Authorization: access_token,

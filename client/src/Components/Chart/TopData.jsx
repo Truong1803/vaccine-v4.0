@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import { getAPI } from "../../api/FetchData";
+import { getAPI } from '../../api/FetchData';
 
 function TopData() {
   const [data, setData] = useState(0);

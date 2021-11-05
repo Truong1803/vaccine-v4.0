@@ -1,9 +1,16 @@
-import { AUTH, ALERT } from "../containt";
-import { postAPI, getAPI } from "../../api/FetchData";
-import { validateEmail } from "../../middleware/valid";
+import {
+  getAPI,
+  postAPI,
+} from '../../api/FetchData';
+import { validateEmail } from '../../middleware/valid';
+import {
+  ALERT,
+  AUTH,
+} from '../containt';
+
 export const loginSMS = (phonenumber) => async (dispatch) => {
   try {
-    await postAPI("auth/login_sms", { phonenumber });
+    await postAPI("/auth/login_sms", { phonenumber });
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
   }
@@ -42,7 +49,7 @@ export const verifySMS =
   };
 export const activeEmail = (active_token) => async (dispatch) => {
   try {
-    const res = await postAPI("active_email", active_token);
+    const res = await postAPI("/active_email", active_token);
     dispatch({
       type: AUTH,
       payload: res.data,
@@ -121,7 +128,7 @@ export const refreshToken = () => async (dispatch) => {
   if (logged !== "true") return;
   try {
     // dispatch({ type: ALERT, payload: { loading: true } });
-    const res = await getAPI("/auth/refresh_token");
+    const res = await getAPI(`/auth/refresh_token`);
     dispatch({ type: AUTH, payload: res.data });
 
     dispatch({ type: ALERT, payload: {} });

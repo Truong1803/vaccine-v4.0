@@ -33,7 +33,7 @@ function FormInfoUser({ data, setData, setStatus, status }) {
         });
       }
     }
-  }, [auth.access_token, auth.user?.doseInformation, data, dispatch, setData]);
+  }, [auth.access_token, auth.user?.doseInformation, dispatch]);
 
   const handleNextPage = () => {
     setStatus(status + 1);
@@ -92,6 +92,7 @@ function FormInfoUser({ data, setData, setStatus, status }) {
                       auth.user?.doseInformation.length - 1
                     ].vaccineId && (
                     <input
+                      key={item._id}
                       type="text"
                       className="form-control"
                       name="vaccineId"

@@ -281,7 +281,7 @@ const authCtrl = {
    */
   logout: async (req, res) => {
     try {
-      res.clearCookie("refreshtoken", { path: `/api/refresh_token` });
+      res.clearCookie("refreshtoken", { path: `auth/refresh_token` });
       return res.json({ msg: "Logged out" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
@@ -292,10 +292,9 @@ const authCtrl = {
 const sendToken = (user, res, txt) => {
   const access_token = createAccessToken({ id: user._id });
   const refresh_token = createRefreshToken({ id: user._id });
-
   res.cookie("refreshtoken", refresh_token, {
     httpOnly: true,
-    path: `api/refresh_token`,
+    path: `auth/refresh_token`,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
