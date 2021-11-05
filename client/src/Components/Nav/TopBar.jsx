@@ -19,6 +19,278 @@ function TopBar() {
     dispatch(logout());
   };
 
+  let body;
+  if (Object.keys(auth).length === 0) {
+    body = (
+      <ul className="navbar-nav mr-auto ">
+        <li className="nav-item itemNavbar ">
+          <Link className="nav-link itemNavbar" to="/">
+            Trang chủ
+          </Link>
+        </li>
+
+        <li>
+          <Link className="nav-link itemNavbar" to="/sign_in">
+            Đăng Nhập
+          </Link>
+        </li>
+      </ul>
+    );
+  } else if (auth?.user?.role === 1) {
+    body = (
+      <ul className="navbar-nav mr-auto ">
+        <li className="nav-item itemNavbar ">
+          <Link className="nav-link itemNavbar" to="/">
+            Trang chủ
+          </Link>
+        </li>
+
+        <li className="nav-item dropdown">
+          <Link className="nav-link itemNavbar" to="/register_injection_user">
+            Đăng ký tiêm
+          </Link>
+        </li>
+        <li className="nav-item dropdown">
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="interhit"
+              id="dropdown-basic"
+              style={{
+                color: "#fff",
+
+                borderColor: "none",
+              }}
+              className="none_outline"
+            >
+              Tra cứu
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <Link to="/certificate" className="none_outline">
+                  Tra cứu chứng nhận tiêm
+                </Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Link to="/look_up" className="none_outline">
+                  Tra cứu kết quả đăng ký
+                </Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Link to="/health-record-user" className="none_outline">
+                  Tra cứu hồ sơ tiêm chủng
+                </Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Link to="/admin/injection_unit" className="none_outline">
+                  Tra cứu thông tin đơn vị tiêm chủng
+                </Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Link to="/admin/manage_vaccine" className="none_outline">
+                  Tra cứu thông tin vaccine
+                </Link>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </li>
+
+        <li className="nav-item dropdown">
+          {auth.user?.name || auth.user?.organization ? (
+            // <Link
+            //   className="nav-link itemNavbar "
+            //   to="#"
+            //   onClick={logoutUser}
+            // >
+            //   {auth.user?.name || auth.user?.organization}
+            // </Link>
+            <Dropdown>
+              <Dropdown.Toggle
+                variant="interhit"
+                id="dropdown-basic"
+                style={{
+                  color: "#fff",
+
+                  borderColor: "none",
+                }}
+                className="none_outline"
+              >
+                {auth.user?.name || auth.user?.organization}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item>
+                  <Link to="/info" className="none_outline">
+                    Thông tin cá nhân
+                  </Link>
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <Link to="/" onClick={logoutUser} className="none_outline">
+                    Đăng Xuất
+                  </Link>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : (
+            <Link className="nav-link itemNavbar" to="/sign_in">
+              Đăng Nhập
+            </Link>
+          )}
+        </li>
+      </ul>
+    );
+  } else if (auth?.user?.role === 2) {
+    body = (
+      <ul className="navbar-nav mr-auto ">
+        <li className="nav-item itemNavbar ">
+          <Link className="nav-link itemNavbar" to="/">
+            Trang chủ
+          </Link>
+        </li>
+
+        <li className="nav-item dropdown">
+          <Link
+            className="nav-link itemNavbar"
+            to="/register_injection_organization"
+          >
+            Đăng ký tiêm
+          </Link>
+        </li>
+        <li className="nav-item dropdown">
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="interhit"
+              id="dropdown-basic"
+              style={{
+                color: "#fff",
+
+                borderColor: "none",
+              }}
+              className="none_outline"
+            >
+              Tra cứu
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <Link to="/look_up" className="none_outline">
+                  Tra cứu kết quả đăng ký
+                </Link>
+              </Dropdown.Item>
+
+              <Dropdown.Item>
+                <Link to="/admin/injection_unit" className="none_outline">
+                  Tra cứu thông tin đơn vị tiêm chủng
+                </Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Link to="/admin/manage_vaccine" className="none_outline">
+                  Tra cứu thông tin vaccine
+                </Link>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </li>
+
+        <li className="nav-item dropdown">
+          {auth.user?.name || auth.user?.organization ? (
+            // <Link
+            //   className="nav-link itemNavbar "
+            //   to="#"
+            //   onClick={logoutUser}
+            // >
+            //   {auth.user?.name || auth.user?.organization}
+            // </Link>
+            <Dropdown>
+              <Dropdown.Toggle
+                variant="interhit"
+                id="dropdown-basic"
+                style={{
+                  color: "#fff",
+
+                  borderColor: "none",
+                }}
+                className="none_outline"
+              >
+                {auth.user?.name || auth.user?.organization}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item>
+                  <Link to="/info" className="none_outline">
+                    Thông tin cá nhân
+                  </Link>
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <Link to="/" onClick={logoutUser} className="none_outline">
+                    Đăng Xuất
+                  </Link>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : (
+            <Link className="nav-link itemNavbar" to="/sign_in">
+              Đăng Nhập
+            </Link>
+          )}
+        </li>
+      </ul>
+    );
+  } else {
+    body = (
+      <ul className="navbar-nav mr-auto ">
+        <li className="nav-item itemNavbar ">
+          <Link className="nav-link itemNavbar" to="/">
+            Trang chủ
+          </Link>
+        </li>
+
+        <li className="nav-item dropdown">
+          {auth.user?.name || auth.user?.organization ? (
+            // <Link
+            //   className="nav-link itemNavbar "
+            //   to="#"
+            //   onClick={logoutUser}
+            // >
+            //   {auth.user?.name || auth.user?.organization}
+            // </Link>
+            <Dropdown>
+              <Dropdown.Toggle
+                variant="interhit"
+                id="dropdown-basic"
+                style={{
+                  color: "#fff",
+
+                  borderColor: "none",
+                }}
+                className="none_outline"
+              >
+                {auth.user?.name || auth.user?.organization}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item>
+                  <Link to="/info" className="none_outline">
+                    Thông tin cá nhân
+                  </Link>
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <Link to="/" onClick={logoutUser} className="none_outline">
+                    Đăng Xuất
+                  </Link>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : (
+            <Link className="nav-link itemNavbar" to="/sign_in">
+              Đăng Nhập
+            </Link>
+          )}
+        </li>
+      </ul>
+    );
+  }
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bgTopBar d-flex ">
@@ -44,7 +316,8 @@ function TopBar() {
             className="collapse navbar-collapse  "
             id="navbarSupportedContent"
           >
-            <ul className="navbar-nav mr-auto ">
+            {body}
+            {/* <ul className="navbar-nav mr-auto ">
               <li className="nav-item itemNavbar ">
                 <Link className="nav-link itemNavbar" to="/">
                   Trang chủ
@@ -177,7 +450,7 @@ function TopBar() {
                   </Link>
                 )}
               </li>
-            </ul>
+            </ul> */}
           </div>
         </div>
       </nav>
