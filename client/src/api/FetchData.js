@@ -6,7 +6,7 @@ axios.defaults.withCredentials = true;
 //   process.env.NODE_ENV !== "production"
 //     ? "http://localhost:5000/api"
 //     : "https://calm-garden-43735.herokuapp.com/api";
-export const apiUrl = "https://calm-garden-43735.herokuapp.com/api";
+export const apiUrl = "http://calm-garden-43735.herokuapp.com/api";
 
 export const postAPI = async (url, post, token = "") => {
   const res = await axios.post(apiUrl + url, post, {
