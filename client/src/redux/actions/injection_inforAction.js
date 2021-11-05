@@ -10,13 +10,13 @@ import {
 export const getPreInjection =
   (access_token, injectionDate) => async (dispatch) => {
     try {
-      dispatch({ type: ALERT, payload: { loading: true } });
+      // dispatch({ type: ALERT, payload: { loading: true } });
       const res = await getAPI(
         `/injection-infor/pre-injection?injectionDate=${injectionDate}`,
         access_token
       );
       dispatch({ type: GET_INJECTION_INFOR, payload: res.data.data });
-      dispatch({ type: ALERT, payload: { loading: false } });
+      // dispatch({ type: ALERT, payload: { loading: false } });
     } catch (error) {
       dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
     }
@@ -25,13 +25,13 @@ export const getPreInjection =
 export const getPostInjection =
   (access_token, injectionDate) => async (dispatch) => {
     try {
-      dispatch({ type: ALERT, payload: { loading: true } });
+      // dispatch({ type: ALERT, payload: { loading: true } });
       const res = await getAPI(
         `/injection-infor/post-injection?injectionDate=${injectionDate}`,
         access_token
       );
       dispatch({ type: GET_INJECTION_INFOR, payload: res.data.data });
-      dispatch({ type: ALERT, payload: { loading: false } });
+      // dispatch({ type: ALERT, payload: { loading: false } });
     } catch (error) {
       dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
     }
