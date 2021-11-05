@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import Lottie from 'react-lottie';
+import Lottie from "react-lottie";
 
-import * as loading from './loading.json';
+import * as loading from "./loading.json";
 
 const defaultOptions = {
   loop: true,
@@ -26,12 +26,18 @@ const Loading = () => {
   return (
     <div
       style={{
-        marginTop: "10rem",
+        // marginTop: "10rem",
         zIndex: "100",
-        position: "fixed",
-        right: "0",
-        top: "20%",
+        position: "absolute",
+        // right: "0",
+        // top: "20%",
         width: "100%",
+        backgroundColor: "#fff",
+        height: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        opacity: 0.8,
       }}
     >
       <Lottie options={defaultOptions} height={120} width={120} />

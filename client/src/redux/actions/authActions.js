@@ -20,7 +20,7 @@ export const verifySMS =
   (phonenumber, code, identification = "") =>
   async (dispatch) => {
     try {
-      // dispatch({ type: ALERT, payload: { loading: true } });
+      dispatch({ type: ALERT, payload: { loading: true } });
       const res = await postAPI("/auth/verify_otp", { phonenumber, code });
       if (res.data.msg === "Login Success") {
         dispatch({
@@ -62,7 +62,7 @@ export const activeEmail = (active_token) => async (dispatch) => {
 };
 export const loginOrgan = (userLogin) => async (dispatch) => {
   try {
-    // dispatch({ type: ALERT, payload: { loading: true } });
+    dispatch({ type: ALERT, payload: { loading: true } });
     const res = await postAPI("/auth/login_organ", userLogin);
     dispatch({
       type: AUTH,
@@ -76,7 +76,7 @@ export const loginOrgan = (userLogin) => async (dispatch) => {
 };
 export const updateInfor = (userInfo) => async (dispatch) => {
   try {
-    // dispatch({ type: ALERT, payload: { loading: true } });
+    dispatch({ type: ALERT, payload: { loading: true } });
     const res = await postAPI("/auth/update_infor", userInfo);
     dispatch({
       type: AUTH,
@@ -104,7 +104,7 @@ export const registerOrgan = (userRegister) => async (dispatch) => {
       payload: { errors: "Email incorrect fomat" },
     });
   try {
-    // dispatch({ type: ALERT, payload: { loading: true } });
+    dispatch({ type: ALERT, payload: { loading: true } });
     const res = await postAPI("/auth/register_organ", userRegister);
 
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
@@ -127,7 +127,7 @@ export const refreshToken = () => async (dispatch) => {
   const logged = localStorage.getItem("logged");
   if (logged !== "true") return;
   try {
-    // dispatch({ type: ALERT, payload: { loading: true } });
+    dispatch({ type: ALERT, payload: { loading: true } });
     const res = await getAPI("/auth/refresh_token");
     dispatch({ type: AUTH, payload: res.data });
 

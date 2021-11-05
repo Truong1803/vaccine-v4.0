@@ -13,7 +13,7 @@ export const getDataVaccine =
   (page = 1, search = "") =>
   async (dispatch) => {
     try {
-      // dispatch({ type: ALERT, payload: { loading: true } });
+      dispatch({ type: ALERT, payload: { loading: true } });
       const res = await getAPI(
         `/vaccine?page=${page}&limit=${5}&name_vaccine[regex]=${search}`
       );
