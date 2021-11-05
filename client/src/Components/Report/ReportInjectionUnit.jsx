@@ -4,10 +4,14 @@ import React, {
   useState,
 } from 'react';
 
-import { useSelector } from 'react-redux';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 
 import { getAPI } from '../../api/FetchData';
+import { ALERT } from '../../redux/containt';
 import {
   BarChartForInjectionUnit,
   PieChartForInjectionUnit,
@@ -21,9 +25,12 @@ function ReportInjectionUnit() {
   let key_data = ["da_dang_ky", "da_tiem", "phan_ung"];
   const [data, setData] = useState([]);
   const { auth } = useSelector((state) => state);
+
+  const dispatch = useDispatch();
   useEffect(() => {
     if (auth.access_token) {
       const getData = async () => {
+        dispatch({ type: ALERT, payload: { loading: true } });
         const res = await getAPI(
           `/report/report-ward?startDate=${startDate}&endDate=${endDate}`,
           auth.access_token
@@ -77,6 +84,7 @@ function ReportInjectionUnit() {
           phan_ung: Nu.countSideEffectNu,
         });
         setDataForInjectionUnit(list);
+        dispatch({ type: ALERT, payload: { loading: false } });
       };
       getData();
     }

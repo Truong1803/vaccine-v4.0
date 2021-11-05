@@ -4,10 +4,14 @@ import React, {
   useState,
 } from 'react';
 
-import { useSelector } from 'react-redux';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 
 import { getAPI } from '../../api/FetchData';
+import { ALERT } from '../../redux/containt';
 import { BarChartForInjectionUnit } from '../Chart/Chart';
 import { TableDataForHealthOrganization } from '../Chart/TableData';
 
@@ -20,9 +24,12 @@ function ReportHealthOrganization() {
   let key_data = ["da_dang_ky", "da_tiem", "phan_ung"];
   const [data, setData] = useState([]);
   const { auth } = useSelector((state) => state);
+
+  const dispatch = useDispatch();
   useEffect(() => {
     if (auth.access_token) {
       const getData = async () => {
+        dispatch({ type: ALERT, payload: { loading: true } });
         const res = await getAPI(
           `/report/report-district?startDate=${startDate}&endDate=${endDate}`,
           auth.access_token
@@ -40,6 +47,7 @@ function ReportHealthOrganization() {
           });
         }
         setDataForHealthOrganiZation(list);
+        dispatch({ type: ALERT, payload: { loading: false } });
       };
       getData();
     }

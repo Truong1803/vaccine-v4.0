@@ -11,6 +11,7 @@ import {
 
 import { getAPI } from '../../api/FetchData';
 import { getDataVaccine } from '../../redux/actions/vaccineAction';
+import { ALERT } from '../../redux/containt';
 import ModalListUser from './ModalListUser';
 
 export const TableDataForVaccine = ({ provinceId, startDate, endDate }) => {
@@ -28,10 +29,12 @@ export const TableDataForVaccine = ({ provinceId, startDate, endDate }) => {
 
   useEffect(() => {
     const getData = async () => {
+      distpatch({ type: ALERT, payload: { loading: true } });
       const res = await getAPI(
         `/report/report-injection-organ?provinceId=${provinceId}&startDate=${startDate}&endDate=${endDate}`
       );
       setData(res.data.data);
+      distpatch({ type: ALERT, payload: { loading: false } });
     };
     getData();
   }, [provinceId, startDate, endDate]);
