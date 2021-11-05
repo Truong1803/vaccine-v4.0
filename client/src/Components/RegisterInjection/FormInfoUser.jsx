@@ -33,7 +33,7 @@ function FormInfoUser({ data, setData, setStatus, status }) {
         });
       }
     }
-  }, [auth.access_token, auth.user?.doseInformation, data, dispatch, setData]);
+  }, [auth.access_token, auth.user?.doseInformation, dispatch]);
 
   const handleNextPage = () => {
     setStatus(status + 1);
