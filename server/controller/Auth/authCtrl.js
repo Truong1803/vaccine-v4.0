@@ -293,8 +293,8 @@ const sendToken = (user, res, txt) => {
   const access_token = createAccessToken({ id: user._id });
   const refresh_token = createRefreshToken({ id: user._id });
   res.cookie("refreshtoken", refresh_token, {
-    // sameSite: "none",
-    // secure: true,
+    sameSite: "none",
+    secure: true,
     httpOnly: true,
     path: `auth/refresh_token`,
     maxAge: 7 * 24 * 60 * 60 * 1000,
