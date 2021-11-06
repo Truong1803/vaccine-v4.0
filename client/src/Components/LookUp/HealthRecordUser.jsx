@@ -24,12 +24,12 @@ function HealthRecordUser() {
   const [action, setAction] = useState("");
   const [openModal, setOpenModal] = useState(false);
   useEffect(() => {
-    if (auth.access_token) {
+    if (Object.keys(auth).length !== 0) {
       dispatch(refreshToken());
       dispatch(getDataQH(page, search, auth.access_token));
       dispatch(getDataVaccine(page, search));
     }
-  }, [auth.access_token, dispatch]);
+  }, [dispatch]);
 
   const handleSetDataLookupDetail = (item, action) => {
     setDataLookupDetail(item);

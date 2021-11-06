@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import { useDispatch, useSelector } from "react-redux";
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
-import { setScheduleInjection } from "../../redux/actions/scheduleAction";
-import { getDataVaccine } from "../../redux/actions/vaccineAction";
+import { setScheduleInjection } from '../../redux/actions/scheduleAction';
+import { getDataVaccine } from '../../redux/actions/vaccineAction';
 
 function InjectionPlan({
   setShowPlan,
   listUser,
-  // setCallback,
-  // callback,
+  setCallback,
+  callback,
   check,
 }) {
   const [data, setData] = useState([]);
@@ -48,7 +54,7 @@ function InjectionPlan({
         }
       }
     }
-  }, [check, auth.user._id, listUser]);
+  }, [check, auth.user._id]);
 
   const handleOnclickPlan = () => {
     setShowPlan(false);
@@ -98,7 +104,7 @@ function InjectionPlan({
     setTime("");
     setInjectionDate("");
     dispatch(setScheduleInjection(data, auth.access_token));
-
+    setCallback(!callback);
     setData([]);
     setShowPlan(false);
   };

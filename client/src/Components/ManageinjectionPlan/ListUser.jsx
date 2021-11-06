@@ -1,15 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import { useDispatch, useSelector } from "react-redux";
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
-import { getAPI } from "../../api/FetchData";
-import { getDataVaccine } from "../../redux/actions/vaccineAction";
-import ModalRegisterInjection from "../RegisterInjection/ModalRegisterInjection";
-import InjectionPlan from "./InjectionPlan";
+import { getAPI } from '../../api/FetchData';
+import { getDataVaccine } from '../../redux/actions/vaccineAction';
+import ModalRegisterInjection
+  from '../RegisterInjection/ModalRegisterInjection';
+import InjectionPlan from './InjectionPlan';
 
 function ListUserInjection() {
   const dispatch = useDispatch();
   const { vaccine, alert } = useSelector((state) => state);
+
+  const [callback, setCallback] = useState(false);
 
   const [listUser, setListUser] = useState([]);
   const { auth } = useSelector((state) => state);
@@ -36,7 +45,7 @@ function ListUserInjection() {
       };
       getData();
     }
-  }, [vaccineId, dose, auth.access_token, alert]);
+  }, [vaccineId, dose, auth.access_token, alert, callback]);
 
   const handleOnclickModal = (user) => {
     setUser(user);
@@ -65,14 +74,14 @@ function ListUserInjection() {
     listUser.forEach((item) => {
       item.checked = false;
     });
-    // let size1 = 0;
-    // if (size === "0") return;
-    // else size1 = parseInt(size);
+    let size1 = 0;
+    if (size === "0") return;
+    else size1 = parseInt(size);
 
     const x = listUser.length;
-    // let value = 0;
-    // if (x > size) value = size;
-    // else value = x;
+    let value = 0;
+    if (x > size) value = size;
+    else value = x;
     for (let i = 0; i < x; i++) {
       listUser[i].checked = true;
     }
@@ -244,11 +253,12 @@ function ListUserInjection() {
         <InjectionPlan
           listUser={listUser}
           setShowPlan={setShowPlan}
-          // setCallback={setCallback}
-          // callback={callback}
+          setCallback={setCallback}
+          callback={callback}
           check="user"
         />
       )}
+
       {/* {action !== "" && (
         <UserModal action={action} item={item} status={status} />
       )} */}

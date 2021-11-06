@@ -15,12 +15,12 @@ function ItemCertificate() {
   const page = 1;
   const search = "";
   useEffect(() => {
-    if (auth.access_token) {
+    if (Object.keys(auth).length !== 0) {
       dispatch(refreshToken());
       dispatch(getDataVaccine(page, search));
       dispatch(getDataQH(page, search, auth.access_token));
     }
-  }, [auth.access_token, dispatch]);
+  }, [dispatch]);
 
   return (
     <div className="row justify-content-center">

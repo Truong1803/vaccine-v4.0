@@ -13,7 +13,7 @@ function Complete({ data, setData, setStatus, status }) {
   const { auth } = useSelector((state) => state);
 
   const [check, setCheck] = useState(false);
-
+  const [checkRegis, setCheckRegis] = useState(false);
   const handlePrePage = () => {
     setStatus(status - 1);
     // setData({ ...data, userId: auth.user._id });
@@ -21,6 +21,7 @@ function Complete({ data, setData, setStatus, status }) {
 
   const handleSubmit = () => {
     dispatch(InjectionRegister(data, auth.access_token));
+    setCheckRegis(true);
   };
   return (
     <div className="row justify-content-between mt-4">
@@ -48,22 +49,35 @@ function Complete({ data, setData, setStatus, status }) {
           <div className="col-8"></div>
           <div className="col-4">
             <div className="row ">
-              <button
-                type="button"
-                className="btn btn-danger  mr-5 col-4"
-                onClick={handlePrePage}
-              >
-                Quay lại
-              </button>
-
-              <Link
-                type="button"
-                className={`btn btn-primary  col-4 ${check ? "" : "disabled"} `}
-                onClick={handleSubmit}
-                to="/"
-              >
-                Xác nhận
-              </Link>
+              {!checkRegis ? (
+                <>
+                  <button
+                    type="button"
+                    className="btn btn-danger  mr-5 col-4"
+                    onClick={handlePrePage}
+                  >
+                    Quay lại
+                  </button>
+                  <button
+                    type="button"
+                    className={`btn btn-primary col-4 ${
+                      check ? "" : "disabled"
+                    } `}
+                    onClick={handleSubmit}
+                  >
+                    Xác nhận
+                  </button>
+                </>
+              ) : (
+                <Link
+                  type="button"
+                  className={`btn btn-primary  col-4 `}
+                  onClick={handleSubmit}
+                  to="/"
+                >
+                  Trang chủ
+                </Link>
+              )}
             </div>
           </div>
         </div>
