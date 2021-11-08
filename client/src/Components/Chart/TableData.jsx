@@ -200,8 +200,8 @@ export const TableDataForAge = ({ provinceId, startDate, endDate }) => {
             ))}
           </tbody>
         </Table>
-        {openModal && <ModalListUser listUser={listUser} />}
       </div>
+      {openModal && <ModalListUser listUser={listUser} />}
     </div>
   );
 };

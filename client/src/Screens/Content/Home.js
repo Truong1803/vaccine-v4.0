@@ -60,90 +60,98 @@ function Home() {
   return (
     <div style={{ paddingLeft: "2rem", paddingRight: "2rem" }}>
       <TopData />
-      <div className="col-12">
-        <div className="row justify-content-between ml-1 mr-1">
-          <div className="col row ">
-            <div className="form-group row align-items-center justify-content-center">
-              <label htmlFor="exampleInputEmail1" className="col-6">
-                Tỉnh/thành phố :
-              </label>
-              <select
-                id="inputState"
-                className="form-control col-6"
-                value={provinceId}
-                onChange={(e) => setProvinceId(e.target.value)}
-              >
-                <option hidden={true}>Tỉnh/Thành phố</option>
-                <option value="">Tất cả</option>
-                {tinh.map((option) => (
-                  <option key={option.ProvinceID} value={option.ProvinceID}>
-                    {option.ProvinceName}
-                  </option>
-                ))}
-              </select>
+      <div ref={tableRef}>
+        <div className="col-12">
+          <h1 className=" mb-5 justify-content-between">
+            Báo cáo thống kê chung
+          </h1>
+        </div>
+        <div className="col-12">
+          <div className="row justify-content-between ml-1 mr-1">
+            <div className="col row ">
+              <div className="form-group row align-items-center justify-content-center">
+                <label htmlFor="exampleInputEmail1" className="col-6">
+                  Tỉnh/thành phố :
+                </label>
+                <select
+                  id="inputState"
+                  className="form-control col-6"
+                  value={provinceId}
+                  onChange={(e) => setProvinceId(e.target.value)}
+                >
+                  <option hidden={true}>Tỉnh/Thành phố</option>
+                  <option value="">Tất cả</option>
+                  {tinh.map((option) => (
+                    <option key={option.ProvinceID} value={option.ProvinceID}>
+                      {option.ProvinceName}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-          </div>
-          <div className="col row ml-1">
-            <div className="form-group row align-items-center justify-content-center">
-              <label htmlFor="exampleInputEmail1" className="col-5">
-                Từ ngày :
-              </label>
-              <input
-                type="date"
-                className="form-control col-7"
-                id="exampleInputEmail1"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
+            <div className="col row ml-1">
+              <div className="form-group row align-items-center justify-content-center">
+                <label htmlFor="exampleInputEmail1" className="col-5">
+                  Từ ngày :
+                </label>
+                <input
+                  type="date"
+                  className="form-control col-7"
+                  id="exampleInputEmail1"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+              </div>
             </div>
-          </div>
-          <div className="col row">
-            <div className="form-group row align-items-center justify-content-center">
-              <label htmlFor="exampleInputEmail1" className="col-5">
-                Đến ngày :
-              </label>
-              <input
-                type="date"
-                className="form-control col-7"
-                id="exampleInputEmail1"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-              />
+            <div className="col row">
+              <div className="form-group row align-items-center justify-content-center">
+                <label htmlFor="exampleInputEmail1" className="col-5">
+                  Đến ngày :
+                </label>
+                <input
+                  type="date"
+                  className="form-control col-7"
+                  id="exampleInputEmail1"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+              </div>
             </div>
-          </div>
-          <div className="col w-50 row justify-content-center">
-            <div className="row">
-              {/* <div className="col"></div> */}
-              <div className="col">
-                <button className="btn btn-primary " onClick={handlePrint}>
-                  Export to pdf
-                </button>
+            <div className="col w-50 row justify-content-center">
+              <div className="row">
+                {/* <div className="col"></div> */}
+                <div className="col">
+                  <button className="btn btn-primary " onClick={handlePrint}>
+                    Export to pdf
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div ref={tableRef}>
-        <TableDataForVaccine
-          provinceId={provinceId}
-          startDate={startDate}
-          endDate={endDate}
-        />
-        <ChartForVaccine
-          provinceId={provinceId}
-          startDate={startDate}
-          endDate={endDate}
-        />
-        <TableDataForAge
-          provinceId={provinceId}
-          startDate={startDate}
-          endDate={endDate}
-        />
-        <ChartForAge
-          provinceId={provinceId}
-          startDate={startDate}
-          endDate={endDate}
-        />
+        <div>
+          <h1 hidden={true}>Xin chào</h1>
+          <TableDataForVaccine
+            provinceId={provinceId}
+            startDate={startDate}
+            endDate={endDate}
+          />
+          <ChartForVaccine
+            provinceId={provinceId}
+            startDate={startDate}
+            endDate={endDate}
+          />
+          <TableDataForAge
+            provinceId={provinceId}
+            startDate={startDate}
+            endDate={endDate}
+          />
+          <ChartForAge
+            provinceId={provinceId}
+            startDate={startDate}
+            endDate={endDate}
+          />
+        </div>
       </div>
     </div>
   );
