@@ -31,7 +31,11 @@ function InjectionPlan({
 
   useEffect(() => {
     if (check === "user" && listUser) {
-      setListUser1(listUser);
+      for (const item of listUser) {
+        if (item.checked === true) {
+          setListUser1((oldData) => [...oldData, item]);
+        }
+      }
     } else {
       for (const item of listUser) {
         for (const u of item?.userPhone) {
@@ -215,29 +219,16 @@ function InjectionPlan({
                       <div className="col-2 ">
                         <div className="form-group">
                           <label htmlFor="exampleFormControlSelect1">
-                            Đăng ký mũi tiêm:
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={listUser1[0]?.dose}
-                            disabled={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-2 ">
-                        <div className="form-group">
-                          <label htmlFor="exampleFormControlSelect1">
                             Loại vaccine:
                           </label>
                           {vaccine.map(
-                            (item) =>
-                              item._id === listUser1[0]?.vaccineId && (
+                            (v) =>
+                              v._id === listUser1[0]?.vaccineId && (
                                 <input
-                                  key={item._id}
+                                  key={v._id}
                                   type="text"
                                   className="form-control"
-                                  value={item.name_vaccine}
+                                  value={v.name_vaccine}
                                   disabled={true}
                                 />
                               )
