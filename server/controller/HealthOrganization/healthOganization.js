@@ -479,34 +479,26 @@ const healthOganizationCtrl = {
    */
   updateAdmin: async (req, res) => {
     try {
-      const {
-        represent,
-        phonenumber,
-        email,
-        province,
-        district,
-        ward,
-        password,
-        organization,
-        role,
-      } = req.body;
-      const passwordHash = await bcrypt.hash(password, 10);
-      const newUser = await HealthOrganization.findByIdAndUpdate(
-        { _id: req.params.id },
-        {
-          represent,
-          phonenumber,
-          email,
-          province,
-          district,
-          ward,
-          password: passwordHash,
-          organization,
-          role,
-        },
-        { new: true }
-      );
-      return res.json({ msg: "Cập nhật thành công", data: newUser });
+      const organ = await HealthOrganization.findById({ _id: req.params.id });
+      if (req.body.password !== organ.password) {
+        const passwordHash = await bcrypt.hash(req.body.password, 10);
+        const newUser = await HealthOrganization.findByIdAndUpdate(
+          { _id: req.params.id },
+          {
+            ...req.body,
+            password: passwordHash,
+          },
+          { new: true }
+        );
+        return res.json({ msg: "Cập nhật thành công", data: newUser });
+      } else {
+        const newUser = await HealthOrganization.findByIdAndUpdate(
+          { _id: req.params.id },
+          req.body,
+          { new: true }
+        );
+        return res.json({ msg: "Cập nhật thành công", data: newUser });
+      }
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
