@@ -4,6 +4,7 @@ import {
   useDispatch,
   useSelector,
 } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import {
   InjectionRegisterOrgan,
@@ -24,8 +25,8 @@ function FormImport() {
     setFile(formData);
   };
 
-  const handleOnSubmit = () => {
-    dispatch(InjectionRegisterOrgan(file, auth.access_token));
+  const handleOnSubmit = async () => {
+    dispatch(InjectionRegisterOrgan(file, auth.access_token, auth?.user._id));
   };
   return (
     <div
@@ -63,8 +64,17 @@ function FormImport() {
               <div className="col-6">
                 <div className="">Bước 1: Tải file mẫu và cập nhật dữ liệu</div>
                 <div className="">
-                  Bước 2: Tải công cụ chuẩn hoá dữ liệu trên file mẫu nếu cần
-                  tại <button>đây</button>
+                  Bước 2: Tải công cụ chuẩn hoá dữ liệu trên file mẫu
+                  <span>
+                    <Link
+                      className="btn btn-primary btn-block w-50"
+                      target="_blank"
+                      to="/Mau_dang_ky_tiem_chung.xlsx"
+                      download
+                    >
+                      Download
+                    </Link>
+                  </span>
                 </div>
                 <div className="">Bước 3: Tải file lên hệ thống</div>
               </div>

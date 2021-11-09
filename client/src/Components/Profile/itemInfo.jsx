@@ -150,13 +150,13 @@ function ItemInfo() {
   const handleSubmit = () => {
     let province1, district1, ward1;
     tinh.forEach((item) => {
-      if (item.ProvinceID === provinceId) {
+      if (item.ProvinceID === parseInt(provinceId)) {
         province1 = { id: item.ProvinceID, name: item.ProvinceName };
         return;
       }
     });
     huyen.forEach((item) => {
-      if (item.DistrictID === districtId) {
+      if (item.DistrictID === parseInt(districtId)) {
         district1 = { id: item.DistrictID, name: item.DistrictName };
         return;
       }

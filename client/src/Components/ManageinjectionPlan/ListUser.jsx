@@ -1,4 +1,4 @@
-import React, {
+import {
   useEffect,
   useState,
 } from 'react';
@@ -13,6 +13,7 @@ import { getDataVaccine } from '../../redux/actions/vaccineAction';
 import ModalRegisterInjection
   from '../RegisterInjection/ModalRegisterInjection';
 import InjectionPlan from './InjectionPlan';
+import ModalImportInjectionUser from './ModalImportInjectionUser';
 
 function ListUserInjection() {
   const dispatch = useDispatch();
@@ -24,6 +25,9 @@ function ListUserInjection() {
   const { auth } = useSelector((state) => state);
   const [showModal, setShowModal] = useState(false);
   const [showPlan, setShowPlan] = useState(false);
+  const [showImport, setShowImport] = useState(false);
+
+  const [checkDisable, setCheckDissable] = useState(false);
 
   const [vaccineId, setVaccineId] = useState(0);
   const [dose, setDose] = useState(0);
@@ -68,6 +72,17 @@ function ListUserInjection() {
       }
     });
     setListUser([...listUser]);
+    let c = false;
+    listUser.forEach((item) => {
+      if (item.checked) {
+        setCheckDissable(item.checked);
+        c = true;
+        return;
+      }
+    });
+    if (!c) {
+      setCheckDissable(false);
+    }
   };
 
   const handleCheckQuanlity = (size) => {
@@ -75,8 +90,10 @@ function ListUserInjection() {
       item.checked = false;
     });
     let size1 = 0;
-    if (size === "0") return;
-    else size1 = parseInt(size);
+    if (size === "0") {
+      setCheckDissable(false);
+      return;
+    } else size1 = parseInt(size);
 
     const x = listUser.length;
     let value = 0;
@@ -86,6 +103,17 @@ function ListUserInjection() {
       listUser[i].checked = true;
     }
     setListUser([...listUser]);
+    let c = false;
+    listUser.forEach((item) => {
+      if (item.checked) {
+        setCheckDissable(item.checked);
+        c = true;
+        return;
+      }
+    });
+    if (!c) {
+      setCheckDissable(false);
+    }
   };
 
   return (
@@ -151,7 +179,8 @@ function ListUserInjection() {
                   type="button"
                   className="btn btn-primary"
                   data-toggle="modal"
-                  data-target="#exampleModal2"
+                  data-target="#exampleModal13"
+                  onClick={() => setShowImport(true)}
                 >
                   Thêm người đăng ký
                 </button>
@@ -164,6 +193,7 @@ function ListUserInjection() {
                   className="btn btn-success"
                   data-toggle="modal"
                   data-target="#exampleModal2"
+                  disabled={!checkDisable}
                   onClick={handleOnclickPlan}
                 >
                   Thiết lập kế hoạch
@@ -246,6 +276,7 @@ function ListUserInjection() {
           </tbody>
         </table>
       </div>
+      {showImport && <ModalImportInjectionUser />}
       {showModal && (
         <ModalRegisterInjection setShowModal={setShowModal} user={user} />
       )}

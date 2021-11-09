@@ -132,7 +132,7 @@ function DeptHeathModal({ action, item, status }) {
     if (action === "Thêm") {
       let province1, district1, ward1;
       tinh.forEach((item) => {
-        if (item.ProvinceID === provinceId) {
+        if (item.ProvinceID === parseInt(provinceId)) {
           province1 = { id: item.ProvinceID, name: item.ProvinceName };
           return;
         }
@@ -165,7 +165,7 @@ function DeptHeathModal({ action, item, status }) {
       let province2, district2, ward2;
 
       tinh.forEach((item) => {
-        if (item.ProvinceID === provinceId) {
+        if (item.ProvinceID === parseInt(provinceId)) {
           province2 = { id: item.ProvinceID, name: item.ProvinceName };
           return;
         }

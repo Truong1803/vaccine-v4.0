@@ -54,8 +54,16 @@ function LookUp() {
                   <thead className="thead-dark">
                     <tr className="text-center">
                       <th scope="col">STT</th>
-                      <th scope="col">Họ và tên</th>
-                      <th scope="col">Đăng ký mũi tiêm</th>
+                      {auth?.user?.role === 1 ? (
+                        <th scope="col">Họ và tên</th>
+                      ) : (
+                        <th scope="col">Tên tổ chức</th>
+                      )}
+
+                      {auth?.user?.role === 1 && (
+                        <th scope="col">Đăng ký mũi tiêm</th>
+                      )}
+
                       <th scope="col">Loại vắc xin</th>
                       <th scope="col">Ngày tiêm</th>
                       {injectionRegister.status === "success" && (
@@ -69,12 +77,16 @@ function LookUp() {
                   <tbody>
                     <tr className="text-center ">
                       <td>1</td>
-                      <td>{auth.user?.name}</td>
-                      <td>
-                        {injectionRegister.dose === 1
-                          ? "Mũi tiêm thứ nhất"
-                          : "Mũi tiêm thứ hai"}
-                      </td>
+                      {auth?.user?.role === 1 ? (
+                        <td>{auth?.user?.name}</td>
+                      ) : (
+                        <td>{injectionRegister?.company?.organization}</td>
+                      )}
+
+                      {auth?.user?.role === 1 && (
+                        <td>{`Mũi tiêm thứ ${injectionRegister.dose}`}</td>
+                      )}
+
                       <td>
                         {vaccine.map(
                           (item) =>
@@ -100,15 +112,17 @@ function LookUp() {
                       </td>
                       <td>
                         <div className="row justify-content-center">
-                          <button
-                            type="button"
-                            className="btn btn-success mr-3 "
-                            data-toggle="modal"
-                            data-target="#exampleModal"
-                            onClick={handleOnchange}
-                          >
-                            <i className="far fa-eye"></i>
-                          </button>
+                          {auth?.user?.role === 1 && (
+                            <button
+                              type="button"
+                              className="btn btn-success mr-3 "
+                              data-toggle="modal"
+                              data-target="#exampleModal"
+                              onClick={handleOnchange}
+                            >
+                              <i className="far fa-eye"></i>
+                            </button>
+                          )}
 
                           {injectionRegister.status === "pendding" && (
                             <button

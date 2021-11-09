@@ -1,6 +1,9 @@
 import './RegisterinjectionStyles.css';
 
-import React, { useEffect } from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
 import {
   useDispatch,
@@ -8,21 +11,30 @@ import {
 } from 'react-redux';
 
 import {
+  DeleteUserRegister,
   GetInjectionRegisterOrgan,
 } from '../../redux/actions/injectionRegisterOrganAction';
+import Modal from '../alert/Modal';
+import ModalImportInjectionUser
+  from '../ManageinjectionPlan/ModalImportInjectionUser';
 import FormImport from './FormImport';
 import ModalRegisterInjection from './ModalRegisterInjection';
 
 function RegisterInjectionOrganization() {
-  // const [showModal, setShowModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const showModal = false;
+  const [showImport, setShowImport] = useState(false);
+
   const dispatch = useDispatch();
   const { auth, injectionRegisterOrgan, alert } = useSelector((state) => state);
+
+  const [phonenumber, setPhonenumber] = useState("");
+
   useEffect(() => {
     if (auth.access_token) {
       dispatch(GetInjectionRegisterOrgan(auth.user?._id, auth.access_token));
     }
-  }, [auth.access_token, alert, auth.user?._id, dispatch]);
+  }, [auth.access_token, auth.user?._id, dispatch]);
 
   const handleOnChangeSearch = (e) => {
     e.preventDefault();
@@ -32,11 +44,10 @@ function RegisterInjectionOrganization() {
     // setSearch(e.target.value);
   };
 
-  // const handleOpenModal = (organId) => {
-  //   // setAction("");
-  //   // setOrganId(organId);
-  //   // setOpenModal(!openModal);
-  // };
+  const handleOpenModal = (phonenumber) => {
+    setPhonenumber(phonenumber);
+    setOpenModal(!openModal);
+  };
 
   // const handleOnClickDelete = (organId) => {
   //   setAction("");
@@ -87,10 +98,8 @@ function RegisterInjectionOrganization() {
                 type="button"
                 className="btn btn-primary"
                 data-toggle="modal"
-                data-target="#exampleModal"
-                onClick={() => {
-                  handleOnClick("", "Thêm", false);
-                }}
+                data-target="#exampleModal13"
+                onClick={() => setShowImport(true)}
               >
                 Thêm người đăng ký
               </button>
@@ -134,12 +143,12 @@ function RegisterInjectionOrganization() {
                       data-toggle="modal"
                       data-target="#exampleModal"
                       onClick={() => {
-                        // handleOpenModal(item._id);
+                        handleOpenModal(item.phonenumber.phonenumber);
                       }}
                     >
                       <i className="fas fa-trash"></i>
                     </button>
-                    <button
+                    {/* <button
                       type="button"
                       className="btn btn-warning  mr-4"
                       data-toggle="modal"
@@ -149,7 +158,7 @@ function RegisterInjectionOrganization() {
                       }}
                     >
                       <i className="fas fa-edit"></i>
-                    </button>
+                    </button> */}
                   </div>
                 </td>
               </tr>
@@ -159,6 +168,16 @@ function RegisterInjectionOrganization() {
       </div>
       {showModal && <ModalRegisterInjection />}
       <FormImport />
+      {openModal && (
+        <Modal
+          body="người dân"
+          handleOpenModal={handleOpenModal}
+          itemId={phonenumber}
+          functDelete={DeleteUserRegister}
+          auth={auth}
+        />
+      )}
+      {showImport && <ModalImportInjectionUser setShowImport={setShowImport} />}
     </div>
   );
 }
