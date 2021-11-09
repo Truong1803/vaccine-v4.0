@@ -1,5 +1,7 @@
 const OrganInjectionRegister = require("../../model/organ_injection_register");
 const HealthOrganization = require("../../model/healthOrganization");
+const InjectionRegister = require("../../model/injection_register");
+const ScheduleInjection = require("../../model/schedule_injection");
 const Wards = require("../../model/ward");
 const Districts = require("../../model/district");
 const Provinces = require("../../model/province");
@@ -396,7 +398,6 @@ const OrganInjectionRegisterCtrl = {
   },
 
   getById: async (req, res) => {
-    console.log(1);
     try {
       OrganInjectionRegister.aggregate([
         {
@@ -448,6 +449,207 @@ const OrganInjectionRegisterCtrl = {
       ])
         .then((result) => {
           res.json({ data: result });
+        })
+        .catch((error) => {
+          return res.status(500).json({ msg: error.message });
+        });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  deleteUserRegister: async (req, res) => {
+    try {
+      const listRegister = await OrganInjectionRegister.findOne({
+        organizationId: req.user.id,
+      });
+      const newData = listRegister.userPhone.filter(
+        (item) => item.phonenumber !== req.body.phonenumber
+      );
+      await OrganInjectionRegister.findOneAndUpdate(
+        {
+          organizationId: req.user.id,
+        },
+        { userPhone: newData }
+      );
+      OrganInjectionRegister.aggregate([
+        {
+          $match: {
+            organizationId: mongoose.Types.ObjectId(req.user.id),
+          },
+        },
+        {
+          $addFields: {
+            userPhone: { $ifNull: ["$userPhone", []] },
+          },
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "userPhone.phonenumber",
+            foreignField: "phonenumber",
+            as: "users",
+          },
+        },
+        {
+          $addFields: {
+            userPhone: {
+              $map: {
+                input: "$userPhone",
+                in: {
+                  $mergeObjects: [
+                    "$$this",
+                    {
+                      phonenumber: {
+                        $arrayElemAt: [
+                          "$users",
+                          {
+                            $indexOfArray: [
+                              "$users.phonenumber",
+                              "$$this.phonenumber",
+                            ],
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+        { $project: { users: 0 } },
+      ])
+        .then((result) => {
+          res.json({ data: result, msg: "Xoá thành công" });
+        })
+        .catch((error) => {
+          return res.status(500).json({ msg: error.message });
+        });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  addUserRegister: async (req, res) => {
+    try {
+      const user = await Users.findOne({
+        phonenumber: req.body.phonenumber,
+      });
+      if (user) {
+        const checkRegis = await InjectionRegister.findOne({
+          userId: user._id,
+        });
+        const checkSche = await ScheduleInjection.findOne({ userId: user._id });
+        if (checkRegis || checkSche) {
+          return res
+            .status(400)
+            .json({ msg: "Người dùng này đang đăng ký tiêm tại nơi khác" });
+        }
+      } else {
+        const {
+          phonenumber,
+          identification,
+          name,
+          gender,
+          dob,
+          email,
+          province,
+          district,
+          ward,
+          address,
+          bhyt,
+          job,
+          company,
+          role,
+        } = req.body;
+        const newUser = new Users({
+          phonenumber,
+          identification,
+          name,
+          gender,
+          dob,
+          email,
+          province,
+          district,
+          ward,
+          address,
+          bhyt,
+          job,
+          company,
+          role,
+        });
+        await newUser.save();
+      }
+      const listRegister = await OrganInjectionRegister.findOne({
+        organizationId: req.user.id,
+      });
+      const user1 = await Users.findOne({
+        phonenumber: req.body.phonenumber,
+      });
+      if (!listRegister.userPhone.includes(req.body.phonenumber)) {
+        await listRegister.updateOne({
+          $push: {
+            userPhone: {
+              phonenumber: req.body.phonenumber,
+              dose: user1.doseInformation.length + 1,
+            },
+          },
+        });
+      } else {
+        return res
+          .status(400)
+          .json({ msg: "Người dân này đã có trong danh sách đăng ký" });
+      }
+      OrganInjectionRegister.aggregate([
+        {
+          $match: {
+            organizationId: mongoose.Types.ObjectId(req.user.id),
+          },
+        },
+        {
+          $addFields: {
+            userPhone: { $ifNull: ["$userPhone", []] },
+          },
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "userPhone.phonenumber",
+            foreignField: "phonenumber",
+            as: "users",
+          },
+        },
+        {
+          $addFields: {
+            userPhone: {
+              $map: {
+                input: "$userPhone",
+                in: {
+                  $mergeObjects: [
+                    "$$this",
+                    {
+                      phonenumber: {
+                        $arrayElemAt: [
+                          "$users",
+                          {
+                            $indexOfArray: [
+                              "$users.phonenumber",
+                              "$$this.phonenumber",
+                            ],
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+        { $project: { users: 0 } },
+      ])
+        .then((result) => {
+          res.json({ data: result, msg: "Thêm thành công" });
         })
         .catch((error) => {
           return res.status(500).json({ msg: error.message });

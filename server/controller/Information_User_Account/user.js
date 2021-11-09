@@ -1,6 +1,7 @@
 const Users = require("../../model/user");
 const InjectionRegister = require("../../model/injection_register");
 const ScheduleInjection = require("../../model/schedule_injection");
+const OrganInjectionRegister = require("../../model/organ_injection_register");
 const mongoose = require("mongoose");
 class APIfeature {
   constructor(query, queryString) {
@@ -270,7 +271,48 @@ const userCtrl = {
               return res.status(500).json({ msg: error.message });
             });
         } else {
-          return res.json({ data: "notFound" });
+          const result = await OrganInjectionRegister.findOne({
+            organizationId: req.user.id,
+          });
+          if (result) {
+            OrganInjectionRegister.aggregate([
+              {
+                $match: {
+                  organizationId: mongoose.Types.ObjectId(req.user.id),
+                },
+              },
+              {
+                $lookup: {
+                  from: "healthorganizations",
+                  localField: "healthOrganizationId",
+                  foreignField: "_id",
+                  as: "organization",
+                },
+              },
+              {
+                $lookup: {
+                  from: "organizations",
+                  localField: "organizationId",
+                  foreignField: "_id",
+                  as: "company",
+                },
+              },
+              {
+                $unwind: "$organization",
+              },
+              {
+                $unwind: "$company",
+              },
+            ])
+              .then((result) => {
+                res.json({ data: result[0] });
+              })
+              .catch((error) => {
+                return res.status(500).json({ msg: error.message });
+              });
+          } else {
+            return res.json({ data: "notFound" });
+          }
         }
       }
     } catch (error) {

@@ -1,5 +1,6 @@
 const InjectionRegister = require("../../model/injection_register");
 const ScheduleInjection = require("../../model/schedule_injection");
+const OrganInjectionRegister = require("../../model/organ_injection_register");
 const mongoose = require("mongoose");
 class APIfeature {
   constructor(query, queryString) {
@@ -317,10 +318,11 @@ const UserInjectionRegisterCtrl = {
 
   deleteInjectionRegister: async (req, res) => {
     try {
-      const result = await InjectionRegister.findByIdAndDelete({
+      await InjectionRegister.findByIdAndDelete({
         _id: req.params.id,
       });
-      return res.json({ data: result, msg: "Huỷ đăng ký tiêm thành công" });
+      await OrganInjectionRegister.findByIdAndDelete({ _id: req.params.id });
+      return res.json({ msg: "Huỷ đăng ký tiêm thành công" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

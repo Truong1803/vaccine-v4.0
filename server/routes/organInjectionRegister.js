@@ -13,6 +13,20 @@ router.post(
   OrganInjectionRegisterCtrl.registerInjection
 );
 
+router.patch(
+  "/deleteUser",
+  auth,
+  authCTY,
+  OrganInjectionRegisterCtrl.deleteUserRegister
+);
+
+router.patch(
+  "/addUser",
+  auth,
+  authCTY,
+  OrganInjectionRegisterCtrl.addUserRegister
+);
+
 router.get("/", auth, authDVT, OrganInjectionRegisterCtrl.getListOrganRegister);
 
 router.get(
