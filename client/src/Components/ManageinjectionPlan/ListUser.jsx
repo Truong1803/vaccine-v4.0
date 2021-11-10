@@ -287,6 +287,7 @@ function ListUserInjection() {
           setCallback={setCallback}
           callback={callback}
           check="user"
+          setCheckDissable={setCheckDissable}
         />
       )}
 

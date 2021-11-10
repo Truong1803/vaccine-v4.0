@@ -33,3 +33,19 @@ export const getAllSchedule =
       dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
     }
   };
+export const importUserRegister = (user, access_token) => async (dispatch) => {
+  try {
+    dispatch({ type: ALERT, payload: { loading: true } });
+    const res = await postAPI(
+      `/schedule-injection/import-user`,
+      user,
+      access_token
+    );
+    dispatch(getAllSchedule(access_token, ""));
+    setTimeout(() => {
+      dispatch({ type: ALERT, payload: { success: res.data.msg } });
+    }, 500);
+  } catch (error) {
+    dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
+  }
+};
