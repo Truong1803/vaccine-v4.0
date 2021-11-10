@@ -89,10 +89,12 @@ function ReportInjectionUnit() {
   return (
     <>
       <div className=''>
-        <div className='col-12'>
-          <h1 className=' mt-5 mb-5 text-center'>Báo cáo thống kê theo giới tính </h1>
-        </div>
         <div className='row  ml-1 mr-1 mt-3'>
+          <div className='col-12'>
+            <h1 className=' mt-5 mb-5 text-center'>
+              Báo cáo thống kê theo giới tính
+            </h1>
+          </div>
           <div className='col-4 row justify-content-center'>
             <div className='form-group row align-items-center justify-content-center'>
               <label htmlFor='exampleInputEmail1' className='col-5'>
