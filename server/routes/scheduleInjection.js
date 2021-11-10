@@ -6,4 +6,5 @@ router.get("/", auth, ScheduleInjectionCtrl.getAll);
 
 router.post("/", auth, ScheduleInjectionCtrl.setScheduleInjection);
 
+router.post("/import-user", auth, ScheduleInjectionCtrl.importUserRegister);
 module.exports = router;

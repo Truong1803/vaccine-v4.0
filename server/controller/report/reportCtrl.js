@@ -1084,10 +1084,12 @@ const reportCtrl = {
       const user_injection = await InjectionRegister.find({
         healthOrganizationId: req.user.id,
       });
+      console.log(user_injection);
       let num_user_injectionNam = 0;
       let num_user_injectionNu = 0;
       for (const item of user_injection) {
         const userGender = await Users.findById({ _id: item.userId });
+        console.log(userGender);
         if (userGender.gender === "Nam") {
           num_user_injectionNam = num_user_injectionNam + 1;
         } else {

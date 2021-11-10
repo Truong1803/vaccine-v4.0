@@ -284,6 +284,71 @@ const ScheduleInjectionCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  importUserRegister: async (req, res) => {
+    try {
+      const { phonenumber, injectionDate, vaccineId } = req.body;
+      const user = await Users.findOne({
+        phonenumber: req.body.phonenumber,
+      });
+      if (user) {
+        const checkRegis = await InjectionRegister.findOne({
+          userId: user._id,
+        });
+        const checkSche = await ScheduleInjection.findOne({ userId: user._id });
+        if (checkRegis || checkSche) {
+          return res
+            .status(400)
+            .json({ msg: "Người dùng này đang đăng ký tiêm tại nơi khác" });
+        }
+      } else {
+        const {
+          phonenumber,
+          identification,
+          name,
+          gender,
+          dob,
+          email,
+          province,
+          district,
+          ward,
+          address,
+          bhyt,
+          job,
+          company,
+          role,
+        } = req.body;
+        const newUser = new Users({
+          phonenumber,
+          identification,
+          name,
+          gender,
+          dob,
+          email,
+          province,
+          district,
+          ward,
+          address,
+          bhyt,
+          job,
+          company,
+          role,
+        });
+        await newUser.save();
+      }
+      const newUser = await Users.findOne({ phonenumber });
+      const newRegister = await new InjectionRegister({
+        userId: newUser._id,
+        healthOrganizationId: req.user.id,
+        dose: newUser.doseInformation.length,
+        injectionDate,
+        vaccineId: parseInt(vaccineId),
+      });
+      await newRegister.save();
+      return res.json({ msg: "Đăng ký tiêm chủng thành công" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 function convertHMS(value) {
   const sec = parseInt(value, 10);
