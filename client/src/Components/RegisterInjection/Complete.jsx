@@ -64,10 +64,9 @@ function Complete({ data, setData, setStatus, status }) {
                   </button>
                   <button
                     type='button'
-                    className={`btn btn-primary col-4 ${
-                      check ? "" : "disabled"
-                    } `}
+                    className={`btn btn-primary col-4 `}
                     onClick={handleSubmit}
+                    disabled={!check}
                   >
                     Xác nhận
                   </button>
