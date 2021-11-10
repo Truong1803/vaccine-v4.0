@@ -1,18 +1,12 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import { Table } from 'react-bootstrap';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { Table } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 
-import { getAPI } from '../../api/FetchData';
-import { getDataVaccine } from '../../redux/actions/vaccineAction';
-import { ALERT } from '../../redux/containt';
-import ModalListUser from './ModalListUser';
+import { getAPI } from "../../api/FetchData";
+import { getDataVaccine } from "../../redux/actions/vaccineAction";
+import { ALERT } from "../../redux/containt";
+import ModalListUser from "./ModalListUser";
 
 export const TableDataForVaccine = ({ provinceId, startDate, endDate }) => {
   const distpatch = useDispatch();
@@ -45,11 +39,11 @@ export const TableDataForVaccine = ({ provinceId, startDate, endDate }) => {
   };
 
   return (
-    <div className="row mb-4">
-      <div className="col-12">
+    <div className='row mb-4'>
+      <div className='col-12'>
         <Table striped bordered hover>
           <thead>
-            <tr className="text-center">
+            <tr className='text-center'>
               <th>Đơn vị tiêm</th>
               <th colSpan={`${Object.keys(vaccine).length}`}>
                 Số lượng vaccine đã thực hiện tiêm
@@ -59,7 +53,7 @@ export const TableDataForVaccine = ({ provinceId, startDate, endDate }) => {
             </tr>
           </thead>
           <tbody>
-            <tr className="text-center">
+            <tr className='text-center'>
               <td></td>
               {vaccine.map((item) => (
                 <td key={item._id}>{item.name_vaccine}</td>
@@ -69,7 +63,7 @@ export const TableDataForVaccine = ({ provinceId, startDate, endDate }) => {
             {data.map(
               (item, index) =>
                 item.healthOrganization?.name !== "ADMIN" && (
-                  <tr className="text-center" key={index}>
+                  <tr className='text-center' key={index}>
                     <td>{item.healthOrganization?.name}</td>
                     {item.vaccine.map((v) => (
                       <td key={v._id}>{v.quanlity}</td>
@@ -77,15 +71,15 @@ export const TableDataForVaccine = ({ provinceId, startDate, endDate }) => {
 
                     <td>{item.total}</td>
                     <td>
-                      <div className="row justify-content-center">
+                      <div className='row justify-content-center'>
                         <button
-                          type="button"
-                          className="btn btn-success mr-3 "
-                          data-toggle="modal"
-                          data-target="#exampleModal"
+                          type='button'
+                          className='btn btn-success mr-3 '
+                          data-toggle='modal'
+                          data-target='#exampleModal'
                           onClick={() => hanleOpenModal(item.user)}
                         >
-                          <i className="far fa-eye"></i>
+                          <i className='far fa-eye'></i>
                         </button>
                       </div>
                     </td>
@@ -118,23 +112,26 @@ export const TableDataForAge = ({ provinceId, startDate, endDate }) => {
     setOpenModal(true);
   };
   return (
-    <div className="row">
-      <div className="col">
+    <div className='row'>
+      <div className='col-12'>
+        <h1 className=' mb-5 text-center'>Báo cáo thống kê theo độ tuổi</h1>
+      </div>
+      <div className='col'>
         <Table striped bordered hover>
           <thead>
-            <tr className="text-center">
+            <tr className='text-center'>
               <th>Đơn vị tiêm</th>
-              <th colSpan="3">Số lượng vaccine đã tiêm theo độ tuổi</th>
+              <th colSpan='3'>Số lượng vaccine đã tiêm theo độ tuổi</th>
               <th>Tổng</th>
 
-              <th colSpan="3">
+              <th colSpan='3'>
                 Tỷ lệ vaccine tiêm theo độ tuổi/số lượng mũi tiêm thực hiện
               </th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            <tr className="text-center">
+            <tr className='text-center'>
               <td></td>
               <td> &lt; 18 tuổi</td>
               <td> &gt;= 18 tuổi</td>
@@ -147,7 +144,7 @@ export const TableDataForAge = ({ provinceId, startDate, endDate }) => {
               <td></td>
             </tr>
             {data.map((item, index) => (
-              <tr className="text-center" key={index}>
+              <tr className='text-center' key={index}>
                 <td>{item.healthOrganization.name}</td>
                 <td>{item.agelt18}</td>
                 <td>{item.agegte18}</td>
@@ -184,15 +181,15 @@ export const TableDataForAge = ({ provinceId, startDate, endDate }) => {
                   %
                 </td>
                 <td>
-                  <div className="row justify-content-center">
+                  <div className='row justify-content-center'>
                     <button
-                      type="button"
-                      className="btn btn-success mr-3 "
-                      data-toggle="modal"
-                      data-target="#exampleModal"
+                      type='button'
+                      className='btn btn-success mr-3 '
+                      data-toggle='modal'
+                      data-target='#exampleModal'
                       onClick={() => hanleOpenModal(item.user)}
                     >
-                      <i className="far fa-eye"></i>
+                      <i className='far fa-eye'></i>
                     </button>
                   </div>
                 </td>
@@ -214,11 +211,11 @@ export const TableDataForInjectionUnit = ({ data }) => {
     setOpenModal(true);
   };
   return (
-    <div className="row mt-2 mb-4">
-      <div className="col-12">
+    <div className='row mt-2 mb-4'>
+      <div className='col-12'>
         <Table striped bordered hover>
           <thead>
-            <tr className="text-center ">
+            <tr className='text-center '>
               <th></th>
               <th>Số lượt đăng ký</th>
               <th>Số mũi đã tiêm</th>
@@ -229,7 +226,7 @@ export const TableDataForInjectionUnit = ({ data }) => {
             </tr>
           </thead>
           <tbody>
-            <tr className="text-center">
+            <tr className='text-center'>
               <td>Nam</td>
               <td>{data?.Nam?.num_user_injectionNam}</td>
               <td>{data?.Nam?.countInjectedNam}</td>
@@ -254,21 +251,21 @@ export const TableDataForInjectionUnit = ({ data }) => {
                     ).toFixed(2)}
                 %
               </td>
-              <td className="pl-4">
-                <div className="row justify-content-center align-items-center">
+              <td className='pl-4'>
+                <div className='row justify-content-center align-items-center'>
                   <button
-                    type="button"
-                    className="btn btn-success mr-3 "
-                    data-toggle="modal"
-                    data-target="#exampleModal"
+                    type='button'
+                    className='btn btn-success mr-3 '
+                    data-toggle='modal'
+                    data-target='#exampleModal'
                     onClick={() => hanleOpenModal(data?.userNam)}
                   >
-                    <i className="far fa-eye"></i>
+                    <i className='far fa-eye'></i>
                   </button>
                 </div>
               </td>
             </tr>
-            <tr className="text-center">
+            <tr className='text-center'>
               <td>Nữ</td>
               <td>{data?.Nu?.num_user_injectionNu}</td>
               <td>{data?.Nu?.countInjectedNu}</td>
@@ -293,21 +290,21 @@ export const TableDataForInjectionUnit = ({ data }) => {
                     ).toFixed(2)}
                 %
               </td>
-              <td className="pl-4">
-                <div className="row justify-content-center align-items-center">
+              <td className='pl-4'>
+                <div className='row justify-content-center align-items-center'>
                   <button
-                    type="button"
-                    className="btn btn-success mr-3 "
-                    data-toggle="modal"
-                    data-target="#exampleModal"
+                    type='button'
+                    className='btn btn-success mr-3 '
+                    data-toggle='modal'
+                    data-target='#exampleModal'
                     onClick={() => hanleOpenModal(data?.userNu)}
                   >
-                    <i className="far fa-eye"></i>
+                    <i className='far fa-eye'></i>
                   </button>
                 </div>
               </td>
             </tr>
-            <tr className="text-center">
+            <tr className='text-center'>
               <td>Tổng</td>
               <td>
                 {data?.Nam?.num_user_injectionNam +
@@ -343,7 +340,7 @@ export const TableDataForInjectionUnit = ({ data }) => {
                     ).toFixed(2)}
                 %
               </td>
-              <td className="pl-4"></td>
+              <td className='pl-4'></td>
             </tr>
           </tbody>
         </Table>
@@ -389,11 +386,11 @@ export const TableDataForHealthOrganization = ({ data }) => {
     setOpenModal(true);
   };
   return (
-    <div className="row mt-3 mb-4">
-      <div className="col-12">
+    <div className='row mt-3 mb-4'>
+      <div className='col-12'>
         <Table striped bordered hover>
           <thead>
-            <tr className="text-center ">
+            <tr className='text-center '>
               <th>Đơn vị tiêm chủng</th>
               <th>Số lượng người đăng ký</th>
               <th>Số lượng người đã tiêm</th>
@@ -405,36 +402,36 @@ export const TableDataForHealthOrganization = ({ data }) => {
           </thead>
           <tbody>
             {data.map((item, index) => (
-              <tr className="text-center" key={index}>
+              <tr className='text-center' key={index}>
                 <td>{item?.healthOrganization?.name}</td>
                 <td>{item?.countInjection}</td>
                 <td>{item?.countInjected}</td>
                 <td>{item?.countSideEffect}</td>
                 <td>{item?.ratio_injection}%</td>
                 <td>{item?.ratio_sideEffect}%</td>
-                <td className="pl-4">
-                  <div className="row justify-content-center align-items-center">
+                <td className='pl-4'>
+                  <div className='row justify-content-center align-items-center'>
                     <button
-                      type="button"
-                      className="btn btn-success mr-3 "
-                      data-toggle="modal"
-                      data-target="#exampleModal"
+                      type='button'
+                      className='btn btn-success mr-3 '
+                      data-toggle='modal'
+                      data-target='#exampleModal'
                       onClick={() => hanleOpenModal(item.user)}
                     >
-                      <i className="far fa-eye"></i>
+                      <i className='far fa-eye'></i>
                     </button>
                   </div>
                 </td>
               </tr>
             ))}
-            <tr className="text-center">
+            <tr className='text-center'>
               <td>Tổng</td>
               <td>{total.countInjection}</td>
               <td>{total.countInjected}</td>
               <td>{total.countSideEffect}</td>
               <td>{total.ratio_injection}%</td>
               <td>{total.ratio_sideEffect}%</td>
-              <td className="pl-4"></td>
+              <td className='pl-4'></td>
             </tr>
           </tbody>
         </Table>
@@ -480,11 +477,11 @@ export const TableDataForDeptHealth = ({ data }) => {
     setOpenModal(true);
   };
   return (
-    <div className="row mt-3 mb-4">
-      <div className="col-12">
+    <div className='row mt-3 mb-4'>
+      <div className='col-12'>
         <Table striped bordered hover>
           <thead>
-            <tr className="text-center ">
+            <tr className='text-center '>
               <th>Quận/Huyện</th>
               <th>Số lượng người đăng ký</th>
               <th>Số lượng người đã tiêm</th>
@@ -496,36 +493,36 @@ export const TableDataForDeptHealth = ({ data }) => {
           </thead>
           <tbody>
             {data.map((item, index) => (
-              <tr className="text-center" key={index}>
+              <tr className='text-center' key={index}>
                 <td>{item?.healthOrganization?.name}</td>
                 <td>{item?.countInjection}</td>
                 <td>{item?.countInjected}</td>
                 <td>{item?.countSideEffect}</td>
                 <td>{item?.ratio_injection}%</td>
                 <td>{item?.ratio_sideEffect}%</td>
-                <td className="pl-4">
-                  <div className="row justify-content-center align-items-center">
+                <td className='pl-4'>
+                  <div className='row justify-content-center align-items-center'>
                     <button
-                      type="button"
-                      className="btn btn-success mr-3 "
-                      data-toggle="modal"
-                      data-target="#exampleModal"
+                      type='button'
+                      className='btn btn-success mr-3 '
+                      data-toggle='modal'
+                      data-target='#exampleModal'
                       onClick={() => hanleOpenModal(item.user)}
                     >
-                      <i className="far fa-eye"></i>
+                      <i className='far fa-eye'></i>
                     </button>
                   </div>
                 </td>
               </tr>
             ))}
-            <tr className="text-center">
+            <tr className='text-center'>
               <td>Tổng</td>
               <td>{total.countInjection}</td>
               <td>{total.countInjected}</td>
               <td>{total.countSideEffect}</td>
               <td>{total.ratio_injection}%</td>
               <td>{total.ratio_sideEffect}%</td>
-              <td className="pl-4"></td>
+              <td className='pl-4'></td>
             </tr>
           </tbody>
         </Table>
