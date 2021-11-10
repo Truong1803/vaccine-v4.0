@@ -1,14 +1,11 @@
-import './Nav.css';
+import "./Nav.css";
 
-import React from 'react';
+import React from "react";
 
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-import { logout } from '../../redux/actions/authActions';
+import { logout } from "../../redux/actions/authActions";
 
 function TopBar() {
   const { auth } = useSelector((state) => state);
@@ -21,15 +18,15 @@ function TopBar() {
   let body;
   if (Object.keys(auth).length === 0) {
     body = (
-      <ul className="navbar-nav mr-auto ">
-        <li className="nav-item itemNavbar ">
-          <Link className="nav-link itemNavbar" to="/">
+      <ul className='navbar-nav mr-auto '>
+        <li className='nav-item itemNavbar '>
+          <Link className='nav-link itemNavbar' to='/'>
             Trang chủ
           </Link>
         </li>
 
         <li>
-          <Link className="nav-link itemNavbar" to="/sign_in">
+          <Link className='nav-link itemNavbar' to='/sign_in'>
             Đăng Nhập
           </Link>
         </li>
@@ -37,25 +34,25 @@ function TopBar() {
     );
   } else if (auth?.user?.role === 1) {
     body = (
-      <ul className="navbar-nav mr-auto ">
-        <li className="nav-item itemNavbar ">
-          <Link className="nav-link itemNavbar" to="/">
+      <ul className='navbar-nav mr-auto '>
+        <li className='nav-item itemNavbar '>
+          <Link className='nav-link itemNavbar' to='/'>
             Trang chủ
           </Link>
         </li>
 
-        <li className="nav-item dropdown">
-          <Link className="nav-link itemNavbar" to="/register_injection_user">
+        <li className='nav-item dropdown'>
+          <Link className='nav-link itemNavbar' to='/register_injection_user'>
             Đăng ký tiêm
           </Link>
         </li>
-        <li class=" nav-item dropdown">
+        <li className=' nav-item dropdown'>
           <Link
-            className="nav-link dropdown-toggle "
-            to="#"
-            id="dropdownMenuButton"
-            data-toggle="dropdown"
-            aria-expanded="false"
+            className='nav-link dropdown-toggle '
+            to='#'
+            id='dropdownMenuButton'
+            data-toggle='dropdown'
+            aria-expanded='false'
             style={{
               color: "#fff",
 
@@ -64,48 +61,48 @@ function TopBar() {
           >
             Tra cứu
           </Link>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <Link to="/certificate" className="none_outline dropdown-item">
+          <div className='dropdown-menu' aria-labelledby='dropdownMenuButton'>
+            <Link to='/certificate' className='none_outline dropdown-item'>
               Tra cứu chứng nhận tiêm
             </Link>
-            <Link to="/look_up" className="none_outline dropdown-item">
+            <Link to='/look_up' className='none_outline dropdown-item'>
               Tra cứu kết quả đăng ký
             </Link>
             <Link
-              to="/health-record-user"
-              className="none_outline dropdown-item"
+              to='/health-record-user'
+              className='none_outline dropdown-item'
             >
               Tra cứu hồ sơ tiêm chủng
             </Link>
             <Link
-              to="/health-record-user"
-              className="none_outline dropdown-item"
+              to='/health-record-user'
+              className='none_outline dropdown-item'
             >
               Tra cứu hồ sơ tiêm chủng
             </Link>
             <Link
-              to="/admin/injection_unit"
-              className="none_outline dropdown-item"
+              to='/admin/injection_unit'
+              className='none_outline dropdown-item'
             >
               Tra cứu thông tin đơn vị tiêm chủng
             </Link>
             <Link
-              to="/admin/manage_vaccine"
-              className="none_outline dropdown-item"
+              to='/admin/manage_vaccine'
+              className='none_outline dropdown-item'
             >
               Tra cứu thông tin vaccine
             </Link>
           </div>
         </li>
-        <li className="nav-item dropdown">
+        <li className='nav-item dropdown'>
           {auth.user?.name || auth.user?.organization ? (
-            <div class="dropdown nav-link">
+            <div className='dropdown nav-link'>
               <Link
-                class=" dropdown-toggle"
-                id="dropdownMenuButton"
-                data-toggle="dropdown"
-                aria-expanded="false"
-                to="#"
+                className=' dropdown-toggle'
+                id='dropdownMenuButton'
+                data-toggle='dropdown'
+                aria-expanded='false'
+                to='#'
                 style={{
                   color: "#fff",
 
@@ -114,21 +111,24 @@ function TopBar() {
               >
                 {auth.user?.name || auth.user?.organization}
               </Link>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <Link to="/info" className="none_outline dropdown-item">
+              <div
+                className='dropdown-menu'
+                aria-labelledby='dropdownMenuButton'
+              >
+                <Link to='/info' className='none_outline dropdown-item'>
                   Thông tin cá nhân
                 </Link>
                 <Link
-                  to="/"
+                  to='/'
                   onClick={logoutUser}
-                  className="none_outline dropdown-item"
+                  className='none_outline dropdown-item'
                 >
                   Đăng Xuất
                 </Link>
               </div>
             </div>
           ) : (
-            <Link className="nav-link itemNavbar" to="/sign_in">
+            <Link className='nav-link itemNavbar' to='/sign_in'>
               Đăng Nhập
             </Link>
           )}
@@ -137,42 +137,42 @@ function TopBar() {
     );
   } else if (auth?.user?.role === 2) {
     body = (
-      <div className="col">
+      <div className='col'>
         <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+          className='navbar-toggler'
+          type='button'
+          data-toggle='collapse'
+          data-target='#navbarSupportedContent'
+          aria-controls='navbarSupportedContent'
+          aria-expanded='false'
+          aria-label='Toggle navigation'
         >
-          <span className="navbar-toggler-icon"></span>
+          <span className='navbar-toggler-icon'></span>
         </button>
 
-        <div className="collapse navbar-collapse  " id="navbarSupportedContent">
-          <ul className="navbar-nav mr-auto ">
-            <li className="nav-item itemNavbar ">
-              <Link className="nav-link itemNavbar" to="/">
+        <div className='collapse navbar-collapse  ' id='navbarSupportedContent'>
+          <ul className='navbar-nav mr-auto '>
+            <li className='nav-item itemNavbar '>
+              <Link className='nav-link itemNavbar' to='/'>
                 Trang chủ
               </Link>
             </li>
 
-            <li className="nav-item dropdown">
+            <li className='nav-item dropdown'>
               <Link
-                className="nav-link itemNavbar"
-                to="/register_injection_organization"
+                className='nav-link itemNavbar'
+                to='/register_injection_organization'
               >
                 Đăng ký tiêm
               </Link>
             </li>
-            <li className="nav-item dropdown">
+            <li className='nav-item dropdown'>
               <Link
-                className="nav-link dropdown-toggle "
-                to="#"
-                id="dropdownMenuButton"
-                data-toggle="dropdown"
-                aria-expanded="false"
+                className='nav-link dropdown-toggle '
+                to='#'
+                id='dropdownMenuButton'
+                data-toggle='dropdown'
+                aria-expanded='false'
                 style={{
                   color: "#fff",
 
@@ -181,34 +181,37 @@ function TopBar() {
               >
                 Tra cứu
               </Link>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <Link to="/look_up" className="none_outline dropdown-item">
+              <div
+                className='dropdown-menu'
+                aria-labelledby='dropdownMenuButton'
+              >
+                <Link to='/look_up' className='none_outline dropdown-item'>
                   Tra cứu kết quả đăng ký
                 </Link>
                 <Link
-                  to="/admin/injection_unit"
-                  className="none_outline dropdown-item"
+                  to='/admin/injection_unit'
+                  className='none_outline dropdown-item'
                 >
                   Tra cứu thông tin đơn vị tiêm chủng
                 </Link>
                 <Link
-                  to="/admin/manage_vaccine"
-                  className="none_outline dropdown-item"
+                  to='/admin/manage_vaccine'
+                  className='none_outline dropdown-item'
                 >
                   Tra cứu thông tin vaccine
                 </Link>
               </div>
             </li>
 
-            <li className="nav-item dropdown">
+            <li className='nav-item dropdown'>
               {auth.user?.name || auth.user?.organization ? (
-                <div class="dropdown nav-link">
+                <div className='dropdown nav-link'>
                   <Link
-                    class=" dropdown-toggle"
-                    id="dropdownMenuButton"
-                    data-toggle="dropdown"
-                    aria-expanded="false"
-                    to="#"
+                    className=' dropdown-toggle'
+                    id='dropdownMenuButton'
+                    data-toggle='dropdown'
+                    aria-expanded='false'
+                    to='#'
                     style={{
                       color: "#fff",
 
@@ -218,23 +221,23 @@ function TopBar() {
                     {auth.user?.name || auth.user?.organization}
                   </Link>
                   <div
-                    class="dropdown-menu"
-                    aria-labelledby="dropdownMenuButton"
+                    className='dropdown-menu'
+                    aria-labelledby='dropdownMenuButton'
                   >
-                    <Link to="/info" className="none_outline dropdown-item">
+                    <Link to='/info' className='none_outline dropdown-item'>
                       Thông tin cá nhân
                     </Link>
                     <Link
-                      to="/"
+                      to='/'
                       onClick={logoutUser}
-                      className="none_outline dropdown-item"
+                      className='none_outline dropdown-item'
                     >
                       Đăng Xuất
                     </Link>
                   </div>
                 </div>
               ) : (
-                <Link className="nav-link itemNavbar" to="/sign_in">
+                <Link className='nav-link itemNavbar' to='/sign_in'>
                   Đăng Nhập
                 </Link>
               )}
@@ -245,22 +248,22 @@ function TopBar() {
     );
   } else {
     body = (
-      <ul className="navbar-nav mr-auto ">
-        <li className="nav-item itemNavbar ">
-          <Link className="nav-link itemNavbar" to="/">
+      <ul className='navbar-nav mr-auto '>
+        <li className='nav-item itemNavbar '>
+          <Link className='nav-link itemNavbar' to='/'>
             Trang chủ
           </Link>
         </li>
 
-        <li className="nav-item dropdown">
+        <li className='nav-item dropdown'>
           {auth.user?.name || auth.user?.organization ? (
-            <div class="dropdown nav-link">
+            <div className='dropdown nav-link'>
               <Link
-                class=" dropdown-toggle"
-                id="dropdownMenuButton"
-                data-toggle="dropdown"
-                aria-expanded="false"
-                to="#"
+                className=' dropdown-toggle'
+                id='dropdownMenuButton'
+                data-toggle='dropdown'
+                aria-expanded='false'
+                to='#'
                 style={{
                   color: "#fff",
 
@@ -270,21 +273,21 @@ function TopBar() {
                 {auth.user?.name || auth.user?.organization}
               </Link>
               <div
-                class="dropdown-menu"
-                aria-labelledby="dropdownMenuButton"
+                className='dropdown-menu'
+                aria-labelledby='dropdownMenuButton'
                 style={{ left: "-3rem" }}
               >
                 <Link
-                  to="/"
+                  to='/'
                   onClick={logoutUser}
-                  className="none_outline dropdown-item"
+                  className='none_outline dropdown-item'
                 >
                   Đăng Xuất
                 </Link>
               </div>
             </div>
           ) : (
-            <Link className="nav-link itemNavbar" to="/sign_in">
+            <Link className='nav-link itemNavbar' to='/sign_in'>
               Đăng Nhập
             </Link>
           )}
@@ -295,9 +298,9 @@ function TopBar() {
 
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-light bgTopBar d-flex ">
-        <div className="col">
-          <Link className="navbar-brand titleHome itemNavbar ml-5" to="/">
+      <nav className='navbar navbar-expand-lg navbar-light bgTopBar d-flex '>
+        <div className='col'>
+          <Link className='navbar-brand titleHome itemNavbar ml-5' to='/'>
             Cổng thông tin tiêm chủng
           </Link>
         </div>
