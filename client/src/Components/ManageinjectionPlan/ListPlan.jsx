@@ -14,7 +14,7 @@ import InjectionPlan from './InjectionPlan';
 function ListPlan() {
   const dispatch = useDispatch();
   const { auth, schedule } = useSelector((state) => state);
-
+  const [checkDisable, setCheckDissable] = useState(false);
   // const [page, setPage] = useState("");
   // const [search, setSearch] = useState("");
   const [injectionDate, setInjectionDate] = useState("");
@@ -95,7 +95,8 @@ function ListPlan() {
         <InjectionPlan
           listUser={dataSchedule}
           setShowPlan={setShowPlan}
-          check="user"
+          check="xem"
+          setCheckDissable={setCheckDissable}
         />
       )}
     </div>

@@ -13,6 +13,7 @@ import {
 import {
   AddUserRegister,
 } from '../../redux/actions/injectionRegisterOrganAction';
+import { importUserRegister } from '../../redux/actions/scheduleAction';
 import { getDataVaccine } from '../../redux/actions/vaccineAction';
 
 let initialState = {
@@ -138,17 +139,31 @@ function ModalImportInjectionUser() {
         return;
       }
     });
-    dispatch(
-      AddUserRegister(
-        {
-          ...data,
-          province: province1,
-          district: district1,
-          ward: ward1,
-        },
-        auth.access_token
-      )
-    );
+    if (auth?.user?.role === 2) {
+      dispatch(
+        AddUserRegister(
+          {
+            ...data,
+            province: province1,
+            district: district1,
+            ward: ward1,
+          },
+          auth.access_token
+        )
+      );
+    } else if (auth?.user?.role === 3) {
+      dispatch(
+        importUserRegister(
+          {
+            ...data,
+            province: province1,
+            district: district1,
+            ward: ward1,
+          },
+          auth.access_token
+        )
+      );
+    }
     setData(initialState);
   };
 

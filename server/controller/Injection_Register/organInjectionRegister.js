@@ -74,7 +74,6 @@ const OrganInjectionRegisterCtrl = {
         const user = await Users.findOne({
           phonenumber: item.phonenumber,
         });
-
         if (user) {
           if (user.doseInformation[0]) {
             if (user.doseInformation[0].vaccineId === vaccineIdReg._id) {

@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import { useDispatch, useSelector } from "react-redux";
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
-import { getAPI } from "../../api/FetchData";
-import InjectionPlan from "./InjectionPlan";
+import { getAPI } from '../../api/FetchData';
+import InjectionPlan from './InjectionPlan';
 
 function ListOrganizationInjection() {
   const dispatch = useDispatch();
@@ -14,6 +20,8 @@ function ListOrganizationInjection() {
   const [listOrgan, setListOrgan] = useState([]);
   // const [showModal, setShowModal] = useState(false);
   const [showPlan, setShowPlan] = useState(false);
+
+  const [checkDisable, setCheckDissable] = useState(false);
 
   const [quanlity, setQuanlity] = useState("Số lượng");
 
@@ -41,7 +49,18 @@ function ListOrganizationInjection() {
         item.checked = !item.checked;
       }
     });
+    let c = false;
+    listOrgan.forEach((item) => {
+      if (item.checked) {
+        setCheckDissable(item.checked);
+        c = true;
+        return;
+      }
+    });
     setListOrgan([...listOrgan]);
+    if (!c) {
+      setCheckDissable(false);
+    }
   };
   const handleOnclickPlan = () => {
     setShowPlan(true);
@@ -51,21 +70,34 @@ function ListOrganizationInjection() {
     listOrgan.forEach((item) => {
       item.checked = false;
     });
-    // let size1 = 0;
-    // if (size === "0") return;
-    // else size1 = parseInt(size);
+    let size1 = 0;
+    if (size === "0") {
+      setCheckDissable(false);
+      return;
+    } else size1 = parseInt(size);
 
     const x = listOrgan.length;
-    // let value = 0;
-    // if (x > size) {
-    //   value = size;
-    // } else {
-    //   value = x;
-    // }
+    let value = 0;
+    if (x > size) {
+      value = size;
+    } else {
+      value = x;
+    }
     for (let i = 0; i < x; i++) {
       listOrgan[i].checked = true;
     }
     setListOrgan([...listOrgan]);
+    let c = false;
+    listOrgan.forEach((item) => {
+      if (item.checked) {
+        setCheckDissable(item.checked);
+        c = true;
+        return;
+      }
+    });
+    if (!c) {
+      setCheckDissable(false);
+    }
   };
 
   return (
@@ -98,6 +130,7 @@ function ListOrganizationInjection() {
                 data-toggle="modal"
                 data-target="#exampleModal2"
                 onClick={handleOnclickPlan}
+                disabled={!checkDisable}
               >
                 Thiết lập kế hoạch
               </button>
@@ -152,7 +185,7 @@ function ListOrganizationInjection() {
                 <td className="text-danger">chưa duyệt</td>
 
                 <td>
-                  <div className="row justify-content-center">
+                  {/* <div className="row justify-content-center">
                     <button
                       type="button"
                       className="btn btn-info col-6"
@@ -164,7 +197,7 @@ function ListOrganizationInjection() {
                     >
                       <i className="far fa-eye"></i>
                     </button>
-                  </div>
+                  </div> */}
                 </td>
               </tr>
             ))}
@@ -176,6 +209,7 @@ function ListOrganizationInjection() {
           listUser={listOrgan}
           setShowPlan={setShowPlan}
           check="organ"
+          setCheckDissable={setCheckDissable}
         />
       )}
     </div>

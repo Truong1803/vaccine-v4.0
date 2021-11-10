@@ -17,6 +17,7 @@ function InjectionPlan({
   setCallback,
   callback,
   check,
+  setCheckDissable,
 }) {
   const [data, setData] = useState([]);
   const [time, setTime] = useState("");
@@ -36,6 +37,8 @@ function InjectionPlan({
           setListUser1((oldData) => [...oldData, item]);
         }
       }
+    } else if (check === "xem") {
+      setListUser1(listUser);
     } else {
       for (const item of listUser) {
         for (const u of item?.userPhone) {
@@ -62,6 +65,7 @@ function InjectionPlan({
 
   const handleOnclickPlan = () => {
     setShowPlan(false);
+    setCheckDissable(false);
   };
 
   const handleChangeDate = (e) => {
