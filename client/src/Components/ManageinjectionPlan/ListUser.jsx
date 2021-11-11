@@ -252,9 +252,7 @@ function ListUserInjection() {
                       item1._id === item.vaccineId && item1.name_vaccine
                   )}
                 </td>
-                <td>
-                  {item.dose === 1 ? "Mũi tiêm thứ nhất" : "Mũi tiêm thứ hai"}
-                </td>
+                <td>Mũi tiêm thứ {item.dose}</td>
                 <td>{item.injectionDate}</td>
                 <td className="text-danger">chưa duyệt</td>
 

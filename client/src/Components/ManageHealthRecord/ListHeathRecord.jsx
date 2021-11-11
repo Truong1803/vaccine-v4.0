@@ -33,14 +33,14 @@ function ListHealthRecord() {
         <div className="row mt-4 justify-content-center align-items-center">
           <div className="col-3">
             <form className="form-inline my-2 my-lg-0 ">
-              <input
+              {/* <input
                 className="form-control mr-sm-2"
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
 
                 //onKeyDown={handleSubmitSearch}
-              />
+              /> */}
             </form>
           </div>
           <div className="col-6 text-center">

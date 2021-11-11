@@ -46,7 +46,7 @@ function UpdateInjection({ status }) {
         <div className="row mt-4 justify-content-center align-items-center">
           <div className="col-3">
             <form className="form-inline my-2 my-lg-0 ">
-              <input
+              {/* <input
                 className="form-control mr-sm-2"
                 type="search"
                 placeholder="Search"
@@ -54,7 +54,7 @@ function UpdateInjection({ status }) {
                 value={search1}
                 onChange={handleOnChangeSearch}
                 //onKeyDown={handleSubmitSearch}
-              />
+              /> */}
             </form>
           </div>
           <div className="col-6 text-center">
@@ -104,11 +104,7 @@ function UpdateInjection({ status }) {
 
                     <td>{item.vaccine?.name_vaccine}</td>
 
-                    <td>
-                      {item.dose === 1
-                        ? "Mũi tiêm thứ nhất"
-                        : "Mũi tiêm thứ hai"}
-                    </td>
+                    <td>Mũi tiêm thứ {item.dose}</td>
                     <td>{item.injectionDate}</td>
                     <td>{item.time}</td>
                     {/* <td>

@@ -248,14 +248,18 @@ function ModalRegisterInjection({ setShowModal, user }) {
                           <label htmlFor="exampleFormControlSelect1">
                             Đăng ký mũi tiêm:
                           </label>
-                          <input
-                            type="text"
+                          <select
                             className="form-control"
-                            value={
-                              user.dose === 1 ? "Mũi thứ nhất" : "Mũi thứ hai"
-                            }
+                            id="exampleFormControlSelect1"
+                            name="dose"
+                            value={user?.dose}
                             disabled={true}
-                          />
+                            defaultValue={user?.dose}
+                          >
+                            <option selected={true} value={user?.dose}>
+                              Mũi tiêm thứ {user?.dose}
+                            </option>
+                          </select>
                         </div>
                       </div>
 
