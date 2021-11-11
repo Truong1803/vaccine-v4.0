@@ -1080,23 +1080,30 @@ const reportCtrl = {
   getDateInjectionForWard: async (req, res) => {
     try {
       const { startDate, endDate } = req.query;
-
+      let endDate1 = "";
+      if (endDate === "") {
+        endDate1 = "2999-10-11";
+      } else {
+        endDate1 = endDate;
+      }
       const user_injection = await InjectionRegister.find({
         healthOrganizationId: req.user.id,
+        injectionDate: { $gte: startDate, $lte: endDate1 },
       });
-      console.log(user_injection);
       let num_user_injectionNam = 0;
       let num_user_injectionNu = 0;
       for (const item of user_injection) {
         const userGender = await Users.findById({ _id: item.userId });
-        console.log(userGender);
         if (userGender.gender === "Nam") {
           num_user_injectionNam = num_user_injectionNam + 1;
         } else {
           num_user_injectionNu = num_user_injectionNu + 1;
         }
       }
-      const organ_injection = await InjectionRegisterOrgan.find();
+      const organ_injection = await InjectionRegisterOrgan.find({
+        healthOrganizationId: req.user.id,
+        injectionDate: { $gte: startDate, $lte: endDate1 },
+      });
       for (const item of organ_injection) {
         for (const u of item.userPhone) {
           const userGender = await Users.findOne({
@@ -1197,12 +1204,14 @@ const reportCtrl = {
                   userNam: listUserNam,
                   userNu: listUserNu,
                   Nam: {
-                    num_user_injectionNam,
+                    num_user_injectionNam:
+                      num_user_injectionNam + countInjectedNam,
                     countInjectedNam,
                     countSideEffectNam,
                   },
                   Nu: {
-                    num_user_injectionNu,
+                    num_user_injectionNu:
+                      num_user_injectionNu + countInjectedNu,
                     countInjectedNu,
                     countSideEffectNu,
                   },
@@ -1299,12 +1308,14 @@ const reportCtrl = {
                   userNam: listUserNam,
                   userNu: listUserNu,
                   Nam: {
-                    num_user_injectionNam,
+                    num_user_injectionNam:
+                      num_user_injectionNam + countInjectedNam,
                     countInjectedNam,
                     countSideEffectNam,
                   },
                   Nu: {
-                    num_user_injectionNu,
+                    num_user_injectionNu:
+                      num_user_injectionNu + countInjectedNu,
                     countInjectedNu,
                     countSideEffectNu,
                   },
@@ -1401,12 +1412,14 @@ const reportCtrl = {
                   userNam: listUserNam,
                   userNu: listUserNu,
                   Nam: {
-                    num_user_injectionNam,
+                    num_user_injectionNam:
+                      num_user_injectionNam + countInjectedNam,
                     countInjectedNam,
                     countSideEffectNam,
                   },
                   Nu: {
-                    num_user_injectionNu,
+                    num_user_injectionNu:
+                      num_user_injectionNu + countInjectedNu,
                     countInjectedNu,
                     countSideEffectNu,
                   },
@@ -1506,12 +1519,14 @@ const reportCtrl = {
                   userNam: listUserNam,
                   userNu: listUserNu,
                   Nam: {
-                    num_user_injectionNam,
+                    num_user_injectionNam:
+                      num_user_injectionNam + countInjectedNam,
                     countInjectedNam,
                     countSideEffectNam,
                   },
                   Nu: {
-                    num_user_injectionNu,
+                    num_user_injectionNu:
+                      num_user_injectionNu + countInjectedNu,
                     countInjectedNu,
                     countSideEffectNu,
                   },
