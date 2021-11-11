@@ -28,6 +28,7 @@ function FormInfoUser({ data, setData, setStatus, status }) {
       if (auth.user?.doseInformation.length !== 0) {
         setData({
           ...data,
+          dose: auth?.user?.doseInformation.length + 1,
           vaccineId:
             auth.user?.doseInformation[auth.user?.doseInformation.length - 1]
               .vaccineId,
