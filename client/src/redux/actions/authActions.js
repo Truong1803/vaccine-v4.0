@@ -53,7 +53,7 @@ export const verifySMS =
 export const activeEmail = (active_token) => async (dispatch) => {
   try {
     dispatch({ type: ALERT, payload: { loading: true } });
-    const res = await postAPI("/active_email", active_token);
+    const res = await postAPI("/auth/active_email", active_token);
     dispatch({
       type: AUTH,
       payload: res.data,
