@@ -120,8 +120,14 @@ function DeptHeathModal({ action, item, status }) {
   useEffect(() => {
     const getProvince = async () => {
       const res = await axios.get(
-        "://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province",
-        { headers: { token: "66e22083-17df-11ec-b8c6-fade198b4859" } }
+        "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province",
+        {
+          mode: "no-cors",
+          headers: {
+            token: "66e22083-17df-11ec-b8c6-fade198b4859",
+          },
+          withCredentials: false,
+        }
       );
       setTinh(res.data.data);
     };
