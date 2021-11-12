@@ -59,7 +59,6 @@ export const activeEmail = (active_token) => async (dispatch) => {
       payload: res.data,
     });
     dispatch({ type: ALERT, payload: { success: res.data.msg } });
-    dispatch({ type: ALERT, payload: { loading: false } });
     localStorage.setItem("logged", "true");
   } catch (error) {
     dispatch({ type: ALERT, payload: { errors: error.response.data.msg } });
