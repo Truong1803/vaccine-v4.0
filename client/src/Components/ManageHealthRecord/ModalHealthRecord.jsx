@@ -274,22 +274,25 @@ function ModalHealthRecord({ dataLookup }) {
                                   </div>
                                 </td>
                                 <td>
-                                  <div className="row justify-content-center">
-                                    <button
-                                      type="button"
-                                      className="btn btn-warning mr-3 "
-                                      data-toggle="modal"
-                                      data-target="#exampleModal2"
-                                      onClick={() =>
-                                        handleSetDataLookupDetail(
-                                          item,
-                                          "update"
-                                        )
-                                      }
-                                    >
-                                      <i className="far fa-edit"></i>
-                                    </button>
-                                  </div>
+                                  {auth?.user?._id ===
+                                    item.healthOrganizationId && (
+                                    <div className="row justify-content-center">
+                                      <button
+                                        type="button"
+                                        className="btn btn-warning mr-3 "
+                                        data-toggle="modal"
+                                        data-target="#exampleModal2"
+                                        onClick={() =>
+                                          handleSetDataLookupDetail(
+                                            item,
+                                            "update"
+                                          )
+                                        }
+                                      >
+                                        <i className="far fa-edit"></i>
+                                      </button>
+                                    </div>
+                                  )}
                                 </td>
                               </tr>
                             ))}
