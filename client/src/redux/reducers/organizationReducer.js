@@ -10,7 +10,7 @@ const organizationReducer = (state = [], action) => {
     case GET_QH:
       return action.payload;
     case ADD_QH:
-      if (state.length < 5) return [...state, action.payload];
+      if (state.length < 10) return [...state, action.payload];
       else return [...state];
     case EDIT_QH:
       const newQH = state.map((qh) =>

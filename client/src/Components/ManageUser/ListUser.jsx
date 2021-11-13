@@ -176,7 +176,7 @@ function ListUser() {
           auth={auth}
         />
       )}
-      {totalItem > 5 && <Paginate page={page} setPage={setPage} />}
+      {totalItem > 10 && <Paginate page={page} setPage={setPage} />}
     </div>
   );
 }

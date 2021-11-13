@@ -14,7 +14,7 @@ import InjectionPlan from './InjectionPlan';
 function ListOrganizationInjection() {
   const dispatch = useDispatch();
   const { auth, alert } = useSelector((state) => state);
-
+  const [callback, setCallback] = useState(false);
   //const [vaccineId, setVaccineId] = useState(0);
   const vaccineId = 0;
   const [listOrgan, setListOrgan] = useState([]);
@@ -36,7 +36,7 @@ function ListOrganizationInjection() {
       };
       getData();
     }
-  }, [auth.access_token, vaccineId, alert, dispatch]);
+  }, [auth.access_token, vaccineId, alert, dispatch, callback]);
 
   const handleChangeQuanlity = (e) => {
     setQuanlity(e.target.value);
@@ -210,6 +210,8 @@ function ListOrganizationInjection() {
           setShowPlan={setShowPlan}
           check="organ"
           setCheckDissable={setCheckDissable}
+          setCallback={setCallback}
+          callback={callback}
         />
       )}
     </div>

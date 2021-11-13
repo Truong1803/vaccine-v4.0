@@ -10,7 +10,7 @@ const companyReducer = (state = [], action) => {
     case GET_COMPANY:
       return action.payload;
     case ADD_COMPANY:
-      if (state.length < 5) return [...state, action.payload];
+      if (state.length < 10) return [...state, action.payload];
       else return [...state];
     case EDIT_COMPANY:
       const newCP = state.map((cp) =>

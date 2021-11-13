@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 function Paginate({ page, setPage }) {
   //   const [page, setPage]
   const { totalItem } = useSelector((state) => state);
-  const totalPage = Math.ceil(totalItem / 5);
+  const totalPage = Math.ceil(totalItem / 10);
   const [pageCurrent, setPageCurrent] = useState(1);
   const handlePageChange = (newPage) => {
     setPage(newPage);
