@@ -4,6 +4,8 @@ const Users = require("../../model/user");
 const InjectionRegister = require("../../model/injection_register");
 const InjectionRegisterOrgan = require("../../model/organ_injection_register");
 const InjectionInfor = require("../../model/injection_infor");
+const Organization = require("../../model/organization");
+const sendScheduleOrgan = require("../../config/sendEmailScheduleOrgan");
 const mongoose = require("mongoose");
 const HealthOrganization = require("../../model/healthOrganization");
 class APIfeature {
@@ -207,7 +209,6 @@ const ScheduleInjectionCtrl = {
   setScheduleInjection: async (req, res) => {
     try {
       const data = req.body;
-
       const organ = await HealthOrganization.findById(
         data[0].healthOrganizationId
       );
@@ -278,6 +279,18 @@ const ScheduleInjectionCtrl = {
         if ((index + 1) % num_table === 0) {
           timeCount = timeCount + 300;
         }
+      }
+      if (data[0].organizationId) {
+        const timeSend = data[0].time === "Sáng" ? "7h:00" : "13h00";
+        const company = await Organization.findById({
+          _id: data[0].organizationId,
+        });
+        sendScheduleOrgan(
+          company.email,
+          data[0].injectionDate,
+          timeSend,
+          organ.organization
+        );
       }
       return res.json({ msg: "Thiết lập kế hoạch tiêm thành công" });
     } catch (error) {
