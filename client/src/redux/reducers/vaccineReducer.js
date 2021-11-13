@@ -3,7 +3,7 @@ import {
   DELETE_VACCINE,
   EDIT_VACCINE,
   GET_VACCINE,
-} from "../containt";
+} from '../containt';
 
 const vaccineReducer = (state = [], action) => {
   switch (action.type) {
