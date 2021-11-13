@@ -75,12 +75,6 @@ function TopBar() {
               Tra cứu hồ sơ tiêm chủng
             </Link>
             <Link
-              to='/health-record-user'
-              className='none_outline dropdown-item'
-            >
-              Tra cứu hồ sơ tiêm chủng
-            </Link>
-            <Link
               to='/admin/injection_unit'
               className='none_outline dropdown-item'
             >
