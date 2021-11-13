@@ -44,6 +44,7 @@ function Organization() {
                     className="form-control"
                     placeholder="Email"
                     ref={email}
+                    onKeyPress={handleKeyPress}
                   />
                   <div className="input-group-append">
                     <div className="input-group-text">
@@ -57,6 +58,7 @@ function Organization() {
                     className="form-control"
                     placeholder="Password"
                     ref={password}
+                    onKeyPress={handleKeyPress}
                   />
                   <div className="input-group-append">
                     <div className="input-group-text">
@@ -71,7 +73,6 @@ function Organization() {
                       className="btn btn-primary btn-block"
                       onClick={handleOnSubmit}
                       onKeyPress={handleKeyPress}
-                      IsDefault={true}
                     >
                       Đăng Nhập
                     </button>

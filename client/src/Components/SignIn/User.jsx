@@ -1,15 +1,24 @@
-import React, { useState } from "react";
-import MuiPhoneNumber from "material-ui-phone-number";
-import { Link } from "react-router-dom";
-import Otp from "../OTP/Otp";
-import { useDispatch } from "react-redux";
-import { loginSMS } from "../../redux/actions/authActions";
+import React, { useState } from 'react';
+
+import MuiPhoneNumber from 'material-ui-phone-number';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import { loginSMS } from '../../redux/actions/authActions';
+import Otp from '../OTP/Otp';
+
 function User() {
   const dispatch = useDispatch();
 
   const [phone, setPhone] = useState("");
   const handelSubmit = () => {
     dispatch(loginSMS(phone));
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handelSubmit();
+    }
   };
   return (
     <div className="row justify-content-center align-items-center p-5 ">
@@ -33,6 +42,7 @@ function User() {
               }}
               onChange={(phone) => setPhone(phone)}
               style={{ paddingTop: 20 }}
+              onKeyPress={handleKeyPress}
             />
             <button
               type="button"
@@ -40,6 +50,7 @@ function User() {
               data-toggle="modal"
               data-target="#exampleModal"
               onClick={handelSubmit}
+              onKeyPress={handleKeyPress}
             >
               Đăng Nhập
             </button>
