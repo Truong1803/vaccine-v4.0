@@ -3,15 +3,14 @@ import {
   DELETE_VACCINE,
   EDIT_VACCINE,
   GET_VACCINE,
-} from '../containt';
+} from "../containt";
 
 const vaccineReducer = (state = [], action) => {
   switch (action.type) {
     case GET_VACCINE:
       return action.payload;
     case ADD_VACCINE:
-      if (state.length < 5) return [...state, action.payload];
-      else return [...state];
+      return [...state, action.payload];
     case EDIT_VACCINE:
       const newVaccine = state.map((vaccine) =>
         vaccine._id === action.payload._id ? action.payload : vaccine

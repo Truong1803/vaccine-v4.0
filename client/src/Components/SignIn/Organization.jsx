@@ -1,8 +1,12 @@
-import React, { useRef } from "react";
-import "./SignIn.css";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { loginOrgan } from "../../redux/actions/authActions";
+import './SignIn.css';
+
+import React, { useRef } from 'react';
+
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import { loginOrgan } from '../../redux/actions/authActions';
+
 function Organization() {
   const dispatch = useDispatch();
 
@@ -16,6 +20,12 @@ function Organization() {
         password: password.current.value,
       })
     );
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleOnSubmit();
+    }
   };
 
   return (
@@ -60,6 +70,8 @@ function Organization() {
                       type="submit"
                       className="btn btn-primary btn-block"
                       onClick={handleOnSubmit}
+                      onKeyPress={handleKeyPress}
+                      IsDefault={true}
                     >
                       Đăng Nhập
                     </button>
