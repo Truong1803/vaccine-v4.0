@@ -1,12 +1,6 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import {
   Bar,
   BarChart,
@@ -20,10 +14,10 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from 'recharts';
+} from "recharts";
 
-import { getAPI } from '../../api/FetchData';
-import { getDataVaccine } from '../../redux/actions/vaccineAction';
+import { getAPI } from "../../api/FetchData";
+import { getDataVaccine } from "../../redux/actions/vaccineAction";
 
 export const ChartForVaccine = ({ provinceId, startDate, endDate }) => {
   const COLORS = [
@@ -55,13 +49,13 @@ export const ChartForVaccine = ({ provinceId, startDate, endDate }) => {
   }, [distpatch]);
 
   return (
-    <div className="row">
-      <div className="col">
+    <div className='row justify-content-center align-items-center'>
+      <div className='col-10'>
         <div
           style={{ margin: "2rem", width: "100%", height: "400px" }}
-          className="d-flex justify-content-center align-items-center"
+          className='d-flex justify-content-center align-items-center'
         >
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width='100%' height='100%'>
             <BarChart
               data={dataForVaccine}
               margin={{
@@ -70,24 +64,24 @@ export const ChartForVaccine = ({ provinceId, startDate, endDate }) => {
                 bottom: 20,
               }}
               maxBarSize={50}
-              barCategoryGap={"2%"}
+              barCategoryGap={"5%"}
             >
-              <CartesianGrid strokeDasharray="5 5" />
-              <XAxis dataKey="name">
+              <CartesianGrid strokeDasharray='5 5' />
+              <XAxis dataKey='name'>
                 <Label
-                  value="Biểu đồ tiêm chủng theo vaccine"
+                  value='Biểu đồ tiêm chủng theo vaccine'
                   offset={0}
-                  position="bottom"
+                  position='bottom'
                   style={{ fontSize: 20, fontWeight: "600" }}
                 />
               </XAxis>
               <YAxis />
               <Tooltip />
-              <Legend verticalAlign="top" height={50} />
+              <Legend verticalAlign='top' height={70} />
               {vaccine.map((item, index) => (
                 <Bar
                   dataKey={item.name_vaccine}
-                  stackId="a"
+                  stackId={1}
                   fill={COLORS[index]}
                   key={item._id}
                 />
@@ -121,27 +115,30 @@ export const ChartForAge = ({ provinceId, startDate, endDate }) => {
     getData();
   }, [provinceId, startDate, endDate]);
   return (
-    <div className="row ">
-      <div className="col">
+    <div className='row justify-content-center align-items-center'>
+      <div className='col-10'>
         <div
           style={{ margin: "2rem", width: "100%", height: "400px" }}
-          className="d-flex justify-content-center align-items-center "
+          className='d-flex justify-content-center align-items-center '
         >
-          <ResponsiveContainer>
+          <ResponsiveContainer width='100%' height='100%'>
             <BarChart
               data={dataForAge}
               margin={{
                 top: 20,
                 right: 0,
                 bottom: 20,
+                left: 90,
               }}
+              maxBarSize={50}
+              barCategoryGap={"5%"}
             >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name">
+              <CartesianGrid strokeDasharray='5 5' />
+              <XAxis dataKey='name'>
                 <Label
-                  value="Biểu đồ tiêm chủng theo độ tuổi"
+                  value='Biểu đồ tiêm chủng theo độ tuổi'
                   offset={0}
-                  position="bottom"
+                  position='bottom'
                   style={{ fontSize: 20, fontWeight: "600", margin: 20 }}
                 />
               </XAxis>
@@ -161,7 +158,7 @@ export const ChartForAge = ({ provinceId, startDate, endDate }) => {
                 }}
               />
               <Legend
-                verticalAlign="top"
+                verticalAlign='top'
                 height={50}
                 formatter={(value, entry, index) => {
                   if (value === "less_18") {
@@ -176,9 +173,9 @@ export const ChartForAge = ({ provinceId, startDate, endDate }) => {
                   return value;
                 }}
               />
-              <Bar dataKey="less_18" fill="#8884d8" />
-              <Bar dataKey="greater_18" fill="#82ca9d" />
-              <Bar dataKey="greater_60" fill="#ffc658" />
+              <Bar dataKey='less_18' fill='#8884d8' />
+              <Bar dataKey='greater_18' fill='#82ca9d' />
+              <Bar dataKey='greater_60' fill='#ffc658' />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -190,11 +187,11 @@ export const ChartForAge = ({ provinceId, startDate, endDate }) => {
 export const BarChartForInjectionUnit = ({ data, label, key_data }) => {
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
   return (
-    <div className=" row ">
-      <div className="col">
+    <div className=' row '>
+      <div className='col'>
         <div
           style={{ width: "100%", height: "550px" }}
-          className="d-flex justify-content-center align-items-center "
+          className='d-flex justify-content-center align-items-center '
         >
           <ResponsiveContainer>
             <BarChart
@@ -204,9 +201,11 @@ export const BarChartForInjectionUnit = ({ data, label, key_data }) => {
                 right: 0,
                 bottom: 20,
               }}
+              maxBarSize={50}
+              barCategoryGap={"5%"}
             >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
+              <CartesianGrid strokeDasharray='3 3' />
+              <XAxis dataKey='name' />
               <YAxis />
               <Tooltip
                 formatter={(value, name, props) => {
@@ -224,7 +223,7 @@ export const BarChartForInjectionUnit = ({ data, label, key_data }) => {
                 }}
               />
               <Legend
-                verticalAlign="bottom"
+                verticalAlign='bottom'
                 height={40}
                 formatter={(value, entry, index) => {
                   if (value === "da_dang_ky") {
@@ -246,7 +245,7 @@ export const BarChartForInjectionUnit = ({ data, label, key_data }) => {
                   <Bar
                     dataKey={item}
                     fill={COLORS[index + (1 % COLORS.length)]}
-                    stackId="a"
+                    stackId='a'
                     key={index}
                   />
                 );
@@ -294,20 +293,20 @@ export const PieChartForInjectionUnit = ({ label, key_data, data }) => {
       <text
         x={x}
         y={y}
-        fill="white"
+        fill='white'
         textAnchor={x > cx ? "start" : "end"}
-        dominantBaseline="central"
+        dominantBaseline='central'
       >
         {`${(percent * 100).toFixed(0)}%`}
       </text>
     );
   };
   return (
-    <div className="row ">
-      <div className="col">
+    <div className='row '>
+      <div className='col'>
         <div
           style={{ width: "90%", height: "550px" }}
-          className="d-flex justify-content-center align-items-center "
+          className='d-flex justify-content-center align-items-center '
         >
           <ResponsiveContainer>
             <PieChart>
@@ -326,7 +325,7 @@ export const PieChartForInjectionUnit = ({ label, key_data, data }) => {
                 ))}
               </Pie>
               <Tooltip />
-              <Legend verticalAlign="bottom" height={40} />
+              <Legend verticalAlign='bottom' height={40} />
             </PieChart>
           </ResponsiveContainer>
         </div>
