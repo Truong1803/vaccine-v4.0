@@ -352,7 +352,7 @@ const ScheduleInjectionCtrl = {
       const newRegister = await new InjectionRegister({
         userId: newUser._id,
         healthOrganizationId: req.user.id,
-        dose: newUser.doseInformation.length,
+        dose: newUser.doseInformation.length + 1,
         injectionDate,
         vaccineId: parseInt(vaccineId),
       });

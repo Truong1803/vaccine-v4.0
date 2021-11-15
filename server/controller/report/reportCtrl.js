@@ -1,5 +1,6 @@
 const InjectionRegister = require("../../model/injection_register");
 const InjectionRegisterOrgan = require("../../model/organ_injection_register");
+const ScheduleInjection = require("../../model/schedule_injection");
 const Users = require("../../model/user");
 const mongoose = require("mongoose");
 const HealthOrganization = require("../../model/healthOrganization");
@@ -9,6 +10,7 @@ const reportCtrl = {
   getTopData: async (req, res) => {
     try {
       const number_user_injection = await InjectionRegister.countDocuments({});
+      const sche = await ScheduleInjection.countDocuments({});
       const organ_injection = await InjectionRegisterOrgan.find();
       const user = await Users.find();
       let countInjected = 0;
@@ -29,7 +31,8 @@ const reportCtrl = {
       organ_injection.forEach((item) => {
         countInjection = countInjection + Object.keys(item.userPhone).length;
       });
-      countInjection = countInjection + number_user_injection + countInjected;
+      countInjection =
+        countInjection + number_user_injection + countInjected + sche;
       const data = {
         number_injection: countInjection,
         number_injected: countInjected,
