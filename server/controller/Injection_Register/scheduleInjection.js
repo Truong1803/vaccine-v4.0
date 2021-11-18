@@ -244,7 +244,7 @@ const ScheduleInjectionCtrl = {
         await newData.save();
         const user = await Users.findById({ _id: newData.userId });
 
-        // sms.sendSMS(user.phonenumber);
+        sms.sendSMS(user.phonenumber);
         const history = await InjectionRegister.findOneAndDelete({
           userId: newData.userId,
         });
